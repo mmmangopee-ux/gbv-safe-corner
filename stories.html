@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Share Your Story - GBV Safe Corner</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #f8f8f8; line-height: 1.6; }
+        .header { background: #8B0000; color: white; padding: 30px; text-align: center; border-radius: 15px; margin-bottom: 20px; }
+        .nav-links { text-align: center; margin: 20px 0; padding: 15px; background: white; border-radius: 10px; }
+        .nav-links a { margin: 0 15px; text-decoration: none; color: #8B0000; font-weight: bold; }
+        .content-section { background: white; padding: 30px; border-radius: 15px; margin: 25px 0; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .story-form { background: #f9f9f9; padding: 25px; border-radius: 10px; margin: 20px 0; }
+        .story-card { background: #f9f9f9; padding: 20px; margin: 15px 0; border-radius: 10px; border-left: 5px solid #8B0000; }
+        .advice-section { background: #FFF3CD; padding: 15px; margin: 10px 0; border-radius: 8px; }
+        .form-group { margin: 15px 0; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        textarea, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: Arial; }
+        textarea { height: 120px; }
+        .submit-btn { background: #8B0000; color: white; padding: 12px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>GBV Safe Corner</h1>
+        <p>Share Your Story • Find Support</p>
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="report.html">Report Anonymously</a>
+        <a href="support.html">Support Directory</a>
+        <a href="stories.html">Share Your Story</a>
+        <a href="library.html">GBV Resources</a>
+        <a href="community.html">Community Support</a>
+        <a href="events.html">Events & Marches</a>
+        <a href="about.html">About Our Mission</a>
+    </div>
+
+    <div class="content-section">
+        <h2>💬 Share Your Story Anonymously</h2>
+        <p>Sharing your experience can be healing, and your story might help others feel less alone.</p>
+
+        <div class="story-form">
+            <form action="https://docs.google.com/forms/d/e/1Zf3rqvWILeDjJxtoxqcszr0w8Li4ThDbzqtQ0NQVi_k/formResponse" method="POST" target="_blank">
+                <div class="form-group">
+                    <label>Share your story, experience, or message of hope:</label>
+                    <textarea name="entry.1753030617" placeholder="Share what you feel comfortable with... your experience, your feelings, what helped you, or what you wish someone had told you." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>What kind of support are you looking for? (Optional)</label>
+                    <select name="entry.1753030618">
+                        <option value="">Select if you'd like support</option>
+                        <option value="Just sharing - no advice needed">Just sharing - no advice needed</option>
+                        <option value="Advice from others who understand">Advice from others who understand</option>
+                        <option value="Professional resource suggestions">Professional resource suggestions</option>
+                        <option value="Encouragement and support">Encouragement and support</option>
+                        <option value="Safety planning advice">Safety planning advice</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>This story is primarily about: (Optional)</label>
+                    <select name="entry.1753030619">
+                        <option value="">Select the purpose</option>
+                        <option value="Healing and recovery">Healing and recovery</option>
+                        <option value="Warning others">Warning others</option>
+                        <option value="Seeking justice">Seeking justice</option>
+                        <option value="Breaking the silence">Breaking the silence</option>
+                        <option value="Offering hope">Offering hope</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">Share Anonymously ✅</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>🌟 Community Stories</h2>
+        <p><em>Real stories will appear here as people share them.</em></p>
+        
+        <div class="story-card">
+            <p><strong>Anonymous Survivor:</strong> "It took me years to speak up. I felt so alone. But finding community made me realize I'm not the only one. Healing is possible."</p>
+            <div class="advice-section">
+                <p><strong>Community Support:</strong> "You are so brave for sharing. Thank you for reminding us we're not alone."</p>
+            </div>
+        </div>
+
+        <div class="story-card">
+            <p><strong>Anonymous:</strong> "I didn't know where to turn. The shame felt overwhelming. But reaching out for help was the first step toward taking my power back."</p>
+            <div class="advice-section">
+                <p><strong>Community Support:</strong> "The shame belongs to the perpetrator, never the survivor. Thank you for your courage."</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
