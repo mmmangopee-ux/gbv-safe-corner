@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Support Directory - GBV Safe Corner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f8f8;
+            line-height: 1.6;
+        }
+        .header {
+            background: #8B0000;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        .nav-links {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+        }
+        .nav-links a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #8B0000;
+            font-weight: bold;
+        }
+        .content-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .verification-badge {
+            background: #4CAF50;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .organization-card {
+            background: #f9f9f9;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-left: 5px solid #8B0000;
+        }
+        .service-tag {
+            background: #8B0000;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+        .contact-button {
+            background: #8B0000;
+            color: white;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 5px 5px 5px 0;
+            font-size: 14px;
+        }
+        .filter-buttons {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .filter-btn {
+            background: white;
+            color: #8B0000;
+            padding: 8px 15px;
+            border: 2px solid #8B0000;
+            border-radius: 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .filter-btn.active {
+            background: #8B0000;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Header -->
+    <div class="header">
+        <h1>GBV Safe Corner</h1>
+        <p>Verified Support Directory</p>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="report.html">Report Anonymously</a>
+        <a href="support.html">Support Directory</a>
+        <a href="stories.html">Share Your Story</a>
+        <a href="library.html">GBV Resources</a>
+        <a href="community.html">Community Support</a>
+        <a href="events.html">Events & Marches</a>
+        <a href="about.html">About Our Mission</a>
+    </div>
+
+    <!-- Emergency Contacts -->
+    <div class="content-section">
+        <h2>🆘 24/7 Emergency Contacts</h2>
+        <p><strong>GBV Command Centre:</strong> 0800 428 428</p>
+        <p><strong>Police Emergency:</strong> 10111</p>
+        <p><strong>Lifeline Counseling:</strong> 0861 322 322</p>
+        <p><strong>Suicide Crisis Line:</strong> 0800 567 567</p>
+    </div>
+
+    <!-- Verified Organizations -->
+    <div class="content-section">
+        <h2>✅ Verified Support Organizations</h2>
+        <p>All organizations listed below have been verified for your safety and trust.</p>
+
+        <!-- Filter Buttons -->
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterOrganizations('all')">All Services</button>
+            <button class="filter-btn" onclick="filterOrganizations('counseling')">Counseling</button>
+            <button class="filter-btn" onclick="filterOrganizations('legal')">Legal Aid</button>
+            <button class="filter-btn" onclick="filterOrganizations('shelter')">Shelters</button>
+            <button class="filter-btn" onclick="filterOrganizations('support')">Support Groups</button>
+        </div>
+
+        <!-- Organization 1 -->
+        <div class="organization-card" data-category="counseling,support">
+            <h3>TEARS Foundation <span class="verification-badge">VERIFIED</span></h3>
+            <p><strong>Services:</strong> 
+                <span class="service-tag">Counseling</span>
+                <span class="service-tag">Crisis Intervention</span>
+                <span class="service-tag">Support Groups</span>
+            </p>
+            <p><strong>Contact:</strong> 010 590 5920</p>
+            <p><strong>Website:</strong> tears.co.za</p>
+            <a href="https://tears.co.za" class="contact-button" target="_blank">Visit Website</a>
+        </div>
+
+        <!-- Organization 2 -->
+        <div class="organization-card" data-category="legal,counseling,shelter">
+            <h3>People Opposing Women Abuse (POWA) <span class="verification-badge">VERIFIED</span></h3>
+            <p><strong>Services:</strong> 
+                <span class="service-tag">Legal Aid</span>
+                <span class="service-tag">Counseling</span>
+                <span class="service-tag">Shelter</span>
+                <span class="service-tag">Support Groups</span>
+            </p>
+            <p><strong>Contact:</strong> 011 642 4345</p>
+            <p><strong>Website:</strong> powa.co.za</p>
+            <a href="https://www.powa.co.za" class="contact-button" target="_blank">Visit Website</a>
+        </div>
+
+        <!-- Organization 3 -->
+        <div class="organization-card" data-category="legal">
+            <h3>Legal Aid South Africa <span class="verification-badge">VERIFIED</span></h3>
+            <p><strong>Services:</strong> 
+                <span class="service-tag">Legal Aid</span>
+                <span class="service-tag">Court Support</span>
+            </p>
+            <p><strong>Contact:</strong> 0800 110 110 (Toll-free)</p>
+            <p><strong>Website:</strong> legal-aid.co.za</p>
+            <a href="https://legal-aid.co.za" class="contact-button" target="_blank">Visit Website</a>
+        </div>
+
+        <!-- Organization 4 -->
+        <div class="organization-card" data-category="counseling,support">
+            <h3>Lifeline <span class="verification-badge">VERIFIED</span></h3>
+            <p><strong>Services:</strong> 
+                <span class="service-tag">Crisis Counseling</span>
+                <span class="service-tag">Support Groups</span>
+                <span class="service-tag">Telephone Support</span>
+            </p>
+            <p><strong>Contact:</strong> 0861 322 322</p>
+            <p><strong>Website:</strong> lifelinesa.co.za</p>
+            <a href="https://lifelinesa.co.za" class="contact-button" target="_blank">Visit Website</a>
+        </div>
+    </div>
+
+    <!-- Apply for Verification -->
+    <div class="content-section">
+        <h2>🏢 Are you an organization that helps GBV survivors?</h2>
+        <p>Apply to be listed in our verified directory and reach those who need your help.</p>
+        <a href="#" class="contact-button" onclick="alert('Verification form coming soon! We are building the application system.')">Apply for Verification</a>
+    </div>
+
+    <!-- Safety Notice -->
+    <div class="content-section">
+        <h2>🛡️ Your Safety Matters</h2>
+        <p>We verify all organizations to ensure they are legitimate and provide quality services. However, always trust your instincts and report any concerns to us immediately.</p>
+    </div>
+
+    <script>
+        function filterOrganizations(category) {
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Filter organizations
+            const organizations = document.querySelectorAll('.organization-card');
+            organizations.forEach(org => {
+                if (category === 'all' || org.getAttribute('data-category').includes(category)) {
+                    org.style.display = 'block';
+                } else {
+                    org.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
