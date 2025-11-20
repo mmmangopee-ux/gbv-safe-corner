@@ -523,7 +523,7 @@
             const progress = {};
             
             checkboxes.forEach((cb, index) => {
-                progress[`item_${index}`] = cb.checked;
+                progress[`item_${index}`] = cb.checked; 
             });
             
             localStorage.setItem('safetyPlanProgress', JSON.stringify(progress));
