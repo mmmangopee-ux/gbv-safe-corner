@@ -2,7 +2,15 @@
 <html>
 <head>
     <title>Admin Login - GBV Safe Corner</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#6A0DAD">
+    
+    <!-- ANALYTICS INTEGRATED -->
+    <script src="analytics.js"></script>
+    
     <style>
+        * { box-sizing: border-box; }
         body { 
             font-family: Arial, sans-serif; 
             max-width: 400px; 
@@ -83,6 +91,37 @@
             margin: 15px 0;
             display: none;
         }
+        
+        /* Enhanced Emergency Exit */
+        .emergency-exit {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10000;
+        }
+        .emergency-exit-btn {
+            background: #FF6B6B;
+            color: white;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(255,0,0,0.4);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .emergency-exit-btn:hover {
+            background: #ff5252;
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(255,0,0,0.5);
+        }
+        
+        /* Accessibility */
+        :focus {
+            outline: 3px solid #6A0DAD;
+            outline-offset: 2px;
+        }
     </style>
 </head>
 <body>
@@ -119,6 +158,51 @@
     </div>
 
     <script>
+        // Enhanced Security & Privacy
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.pathname);
+        }
+        
+        // Enhanced Emergency Exit
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create emergency exit button
+            const emergencyExit = document.createElement('div');
+            emergencyExit.className = 'emergency-exit';
+            emergencyExit.innerHTML = `
+                <button onclick="emergencyRedirect()" 
+                        title="Quickly leaves this site and clears data"
+                        class="emergency-exit-btn">
+                    🚨 Quick Exit
+                </button>
+            `;
+            document.body.appendChild(emergencyExit);
+
+            // Enhanced emergency redirect
+            window.emergencyRedirect = function() {
+                // Clear sensitive data
+                localStorage.removeItem('safetyPlanProgress');
+                sessionStorage.clear();
+                document.querySelectorAll('input, textarea').forEach(element => {
+                    element.value = '';
+                });
+                // Redirect to safe page
+                window.location.href = 'https://www.google.com/search?q=weather';
+            };
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' || (e.ctrlKey && e.key === 'q')) {
+                    emergencyRedirect();
+                }
+            });
+            
+            // ANALYTICS TRACKING - INTEGRATED
+            if (typeof analytics !== 'undefined') {
+                analytics.trackPageView('login.html');
+                analytics.trackFeatureUse('login_page_loaded');
+            }
+        });
+
         const ADMIN_CREDENTIALS = {
             username: 'admin',
             password: 'gbv2024safe'
@@ -142,12 +226,22 @@
                 localStorage.setItem('adminLoggedIn', 'true');
                 localStorage.setItem('loginTime', new Date().getTime());
                 
+                // ANALYTICS TRACKING - INTEGRATED
+                if (typeof analytics !== 'undefined') {
+                    analytics.trackFeatureUse('admin_login_success');
+                }
+                
                 setTimeout(() => {
                     window.location.href = 'admin.html';
                 }, 1000);
             } else {
                 errorDiv.textContent = 'Invalid username or password';
                 errorDiv.style.display = 'block';
+                
+                // ANALYTICS TRACKING - INTEGRATED
+                if (typeof analytics !== 'undefined') {
+                    analytics.trackFeatureUse('admin_login_failed');
+                }
             }
         });
 
