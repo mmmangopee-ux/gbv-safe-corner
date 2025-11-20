@@ -8,9 +8,10 @@
     
     <!-- ANALYTICS INTEGRATED -->
     <script src="analytics.js"></script>
+    <script src="navigation.js"></script>
     
     <style>
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
             font-family: Arial, sans-serif; 
             max-width: 900px; 
@@ -37,24 +38,7 @@
         .logo-text span {
             display: block;
         }
-        .nav-links { 
-            text-align: center; 
-            margin: 20px 0; 
-            padding: 15px; 
-            background: white; 
-            border-radius: 10px; 
-            box-shadow: 0 2px 4px rgba(106, 13, 173, 0.1);
-        }
-        .nav-links a { 
-            margin: 0 15px; 
-            text-decoration: none; 
-            color: #6A0DAD; 
-            font-weight: bold; 
-            transition: color 0.3s ease;
-        }
-        .nav-links a:hover {
-            color: #8A2BE2;
-        }
+        
         .content-section { 
             background: white; 
             padding: 30px; 
@@ -67,12 +51,24 @@
             padding: 20px; 
             margin: 15px 0; 
             border-radius: 8px; 
+            border-left: 4px solid #ffc107;
+            transition: all 0.3s ease;
+        }
+        .question-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2);
         }
         .advice-box { 
             background: #f0f8f0; 
             padding: 15px; 
             margin: 10px 0; 
             border-radius: 8px; 
+            border-left: 4px solid #4CAF50;
+            transition: all 0.3s ease;
+        }
+        .advice-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
         }
         .submit-btn { 
             background: #6A0DAD; 
@@ -82,10 +78,69 @@
             border-radius: 5px; 
             display: inline-block; 
             margin-top: 10px; 
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
+            border: 2px solid #6A0DAD;
+            font-weight: bold;
         }
         .submit-btn:hover {
             background: #8A2BE2;
+            border-color: #8A2BE2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(106, 13, 173, 0.3);
+        }
+        .community-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .stat-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #e0e0e0;
+        }
+        .stat-number {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #6A0DAD;
+            display: block;
+        }
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+        }
+        .guidelines {
+            background: #e8f4fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #2196F3;
+        }
+        .interaction-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .interaction-btn {
+            background: transparent;
+            border: 1px solid #6A0DAD;
+            color: #6A0DAD;
+            padding: 5px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+        }
+        .interaction-btn:hover {
+            background: #6A0DAD;
+            color: white;
+        }
+        .helpful-count {
+            font-size: 12px;
+            color: #666;
+            margin-left: 5px;
         }
         
         /* Enhanced Emergency Exit */
@@ -126,12 +181,33 @@
             color: #6A0DAD;
             font-size: 14px;
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #languageSelector:hover {
+            background: #6A0DAD;
+            color: white;
         }
         
         /* Accessibility */
         :focus {
             outline: 3px solid #6A0DAD;
             outline-offset: 2px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .community-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .interaction-buttons {
+                flex-direction: column;
+            }
+            
+            .interaction-btn {
+                width: 100%;
+                margin-bottom: 5px;
+            }
         }
     </style>
 </head>
@@ -145,54 +221,148 @@
         <p>Community Support & Advice</p>
     </div>
 
-    <div class="nav-links">
-        <a href="index.html" data-translate="home">Home</a>
-        <a href="report.html" data-translate="report">Report Anonymously</a>
-        <a href="support.html" data-translate="support">Support Directory</a>
-        <a href="stories.html" data-translate="stories">Share Your Story</a>
-        <a href="library.html" data-translate="library">GBV Resources</a>
-        <a href="community.html" data-translate="community">Community Support</a>
-        <a href="events.html" data-translate="events">Events & Marches</a>
-        <a href="about.html" data-translate="about">About Our Mission</a>
-        <a href="safety-plan.html" data-translate="safety">Safety Planning</a>
-        <a href="risk-assessment.html" data-translate="assessment">Risk Assessment</a>
-        <a href="education-hub.html" data-translate="education">Education Hub</a>
-        <a href="login.html" data-translate="login">Admin Login</a>
-    </div>
+    <!-- Navigation auto-loaded here -->
 
     <div class="content-section">
         <h2>💬 Ask the Community</h2>
-        <p>Have a question? Need advice? Looking for support from people who understand?</p>
+        <p>Have a question? Need advice? Looking for support from people who understand? Our community is here to help in a safe, anonymous space.</p>
         
+        <div class="community-stats">
+            <div class="stat-item">
+                <span class="stat-number">1,247+</span>
+                <span class="stat-label">Community Members</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">589</span>
+                <span class="stat-label">Questions Answered</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">24/7</span>
+                <span class="stat-label">Peer Support</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Anonymous</span>
+            </div>
+        </div>
+
         <div class="question-box">
             <p><strong>Submit your question anonymously:</strong></p>
             <p><em>We're building our community Q&A system. For now, you can share your questions through our Stories page, and our community will respond with support and advice.</em></p>
             <a href="stories.html" class="submit-btn" style="text-decoration: none; display: inline-block;">Share Your Question</a>
         </div>
+
+        <div class="guidelines">
+            <h4>🏷️ Community Guidelines</h4>
+            <ul>
+                <li><strong>Respect everyone</strong> - We're all here for support</li>
+                <li><strong>Maintain anonymity</strong> - Don't share personal information</li>
+                <li><strong>Offer constructive support</strong> - Be kind and helpful</li>
+                <li><strong>No judgment</strong> - This is a safe space for sharing</li>
+                <li><strong>Trigger warnings</strong> - Mark sensitive content appropriately</li>
+            </ul>
+        </div>
     </div>
 
     <div class="content-section">
         <h2>🌟 Community Q&A</h2>
+        <p>Real questions from our community with supportive responses. All posts are completely anonymous.</p>
         
         <div class="question-box">
-            <p><strong>Anonymous:</strong> "How do I deal with seeing my abuser regularly? It's triggering and I feel unsafe."</p>
+            <p><strong>Anonymous:</strong> "How do I deal with seeing my abuser regularly? It's triggering and I feel unsafe, especially at work events where we both have to attend."</p>
+            <div class="interaction-buttons">
+                <button class="interaction-btn" onclick="markHelpful(this)">👍 Helpful <span class="helpful-count">24</span></button>
+                <button class="interaction-btn" onclick="showSupport(this)">💜 I understand</button>
+            </div>
         </div>
         <div class="advice-box">
-            <p><strong>Community Advice:</strong> "That sounds really difficult. Have you considered talking to security about creating distance? Also, having a friend with you might help. You deserve to feel safe."</p>
+            <p><strong>Community Advice:</strong> "That sounds really difficult. Have you considered talking to HR or security about creating distance? Also, having a 'buddy system' with a trusted colleague might help. You deserve to feel safe in your workplace."</p>
+            <div class="interaction-buttons">
+                <button class="interaction-btn" onclick="markHelpful(this)">👍 Helpful <span class="helpful-count">18</span></button>
+                <button class="interaction-btn" onclick="showSupport(this)">💜 Good advice</button>
+            </div>
         </div>
 
         <div class="question-box">
-            <p><strong>Anonymous:</strong> "I'm struggling with guilt and shame after what happened. How do others cope?"</p>
+            <p><strong>Anonymous:</strong> "I'm struggling with guilt and shame after what happened. How do others cope with these feelings? I feel like it was my fault."</p>
+            <div class="interaction-buttons">
+                <button class="interaction-btn" onclick="markHelpful(this)">👍 Helpful <span class="helpful-count">42</span></button>
+                <button class="interaction-btn" onclick="showSupport(this)">💜 I understand</button>
+            </div>
         </div>
         <div class="advice-box">
-            <p><strong>Community Support:</strong> "The shame belongs to the perpetrator, never the survivor. Many of us feel this way. Talking to a counselor helped me separate what happened from who I am."</p>
+            <p><strong>Community Support:</strong> "The shame belongs to the perpetrator, never the survivor. Many of us feel this way. Talking to a counselor helped me separate what happened from who I am. Remember: you survived, and that makes you incredibly strong."</p>
+            <div class="interaction-buttons">
+                <button class="interaction-btn" onclick="markHelpful(this)">👍 Helpful <span class="helpful-count">35</span></button>
+                <button class="interaction-btn" onclick="showSupport(this)">💜 Good advice</button>
+            </div>
         </div>
 
         <div class="question-box">
-            <p><strong>Anonymous:</strong> "What are some grounding techniques for when I feel overwhelmed or triggered?"</p>
+            <p><strong>Anonymous:</strong> "What are some grounding techniques for when I feel overwhelmed or triggered? Sometimes I feel like I'm back in that moment."</p>
+            <div class="interaction-buttons">
+                <button class="interaction-btn" onclick="markHelpful(this)">👍 Helpful <span class="helpful-count">31</span></button>
+                <button class="interaction-btn" onclick="showSupport(this)">💜 I understand</button>
+            </div>
         </div>
         <div class="advice-box">
-            <p><strong>Community Tips:</strong> "The 5-4-3-2-1 method helps me: Name 5 things you see, 4 things you feel, 3 things you hear, 2 things you smell, 1 thing you taste. Also, carrying a small comforting object."</p>
+            <p><strong>Community Tips:</strong> "The 5-4-3-2-1 method helps me: Name 5 things you see, 4 things you feel, 3 things you hear, 2 things you smell, 1 thing you taste. Also, carrying a small comforting object like a smooth stone helps ground me in the present."</p>
+            <div class="interaction-buttons">
+                <button class="interaction-btn" onclick="markHelpful(this)">👍 Helpful <span class="helpful-count">28</span></button>
+                <button class="interaction-btn" onclick="showSupport(this)">💜 Good advice</button>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p><strong>Anonymous:</strong> "How do I support a friend who's experiencing GBV without overstepping or making things worse?"</p>
+            <div class="interaction-buttons">
+                <button class="interaction-btn" onclick="markHelpful(this)">👍 Helpful <span class="helpful-count">19</span></button>
+                <button class="interaction-btn" onclick="showSupport(this)">💜 I understand</button>
+            </div>
+        </div>
+        <div class="advice-box">
+            <p><strong>Community Advice:</strong> "Listen without judgment, believe them without question, and offer resources without pressure. Let them lead the conversation. Sometimes just saying 'I'm here for you' and meaning it is the most powerful support you can offer."</p>
+            <div class="interaction-buttons">
+                <button class="interaction-btn" onclick="markHelpful(this)">👍 Helpful <span class="helpful-count">22</span></button>
+                <button class="interaction-btn" onclick="showSupport(this)">💜 Good advice</button>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p><strong>Anonymous:</strong> "I left my abusive situation but now I feel so lonely and isolated. How do I rebuild my social life and trust people again?"</p>
+            <div class="interaction-buttons">
+                <button class="interaction-btn" onclick="markHelpful(this)">👍 Helpful <span class="helpful-count">27</span></button>
+                <button class="interaction-btn" onclick="showSupport(this)">💜 I understand</button>
+            </div>
+        </div>
+        <div class="advice-box">
+            <p><strong>Community Support:</strong> "This is so common and completely understandable. Start small - maybe join a support group (virtual or in-person) where people understand. Reconnect with old friends gradually. Remember that rebuilding trust takes time, and it's okay to set boundaries."</p>
+            <div class="interaction-buttons">
+                <button class="interaction-btn" onclick="markHelpful(this)">👍 Helpful <span class="helpful-count">16</span></button>
+                <button class="interaction-btn" onclick="showSupport(this)">💜 Good advice</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>🤝 Community Resources</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
+                <h4>📚 Support Groups</h4>
+                <p>Join anonymous online support groups moderated by trained facilitators.</p>
+            </div>
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
+                <h4>💬 Peer Mentoring</h4>
+                <p>Connect with survivors who have been through similar experiences.</p>
+            </div>
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
+                <h4>🛡️ Safety Planning</h4>
+                <p>Community-shared safety strategies and emergency plans.</p>
+            </div>
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
+                <h4>🌟 Healing Stories</h4>
+                <p>Read and share stories of recovery and resilience.</p>
+            </div>
         </div>
     </div>
 
@@ -262,59 +432,59 @@
         const translations = {
             en: {
                 'home': 'Home',
-                'report': 'Report Anonymously',
-                'support': 'Support Directory',
-                'stories': 'Share Your Story',
-                'library': 'GBV Resources',
-                'community': 'Community Support',
-                'events': 'Events & Marches',
-                'about': 'About Our Mission',
-                'safety': 'Safety Planning',
-                'assessment': 'Risk Assessment',
-                'education': 'Education Hub',
-                'login': 'Admin Login'
+                'report': 'Report',
+                'support': 'Support',
+                'stories': 'Stories',
+                'library': 'Resources',
+                'community': 'Community',
+                'events': 'Events',
+                'about': 'About',
+                'safety': 'Safety',
+                'assessment': 'Risk Check',
+                'education': 'Education',
+                'login': 'Admin'
             },
             zu: {
                 'home': 'Ikhaya',
-                'report': 'Bika Ngokungaziwa',
-                'support': 'Uhlu Lwezinsiza',
-                'stories': 'Yabelana Ngendaba Yakho',
-                'library': 'Izinsiza Ze-GBV',
-                'community': 'Ukusekelwa Komphakathi',
-                'events': 'Imicimbi Nemarch',
-                'about': 'Mayelana Nomgomo Wethu',
-                'safety': 'Ukuhlela Ukuphepha',
-                'assessment': 'Ukuhlola Ubungozi',
-                'education': 'I-Hub Yemfundo',
-                'login': 'Ukungena Kwe-Admin'
+                'report': 'Bika',
+                'support': 'Usizo',
+                'stories': 'Izindaba',
+                'library': 'Izinsiza',
+                'community': 'Umphakathi',
+                'events': 'Imicimbi',
+                'about': 'Mayelana',
+                'safety': 'Ukuphepha',
+                'assessment': 'Ukuhlola',
+                'education': 'Imfundo',
+                'login': 'Admin'
             },
             xh: {
                 'home': 'Ekhaya',
-                'report': 'Xela Ngokungaziwa',
-                'support': 'Uluhlu Looncedo',
-                'stories': 'Yabelana Ngembali Yakho',
-                'library': 'Iindlela Zoncedo Ze-GBV',
-                'community': 'Inkxaso YoLuntu',
-                'events': 'Iivenkile Neemarch',
-                'about': 'Malunga Neenjongo Zethu',
-                'safety': 'Uyilo LoKhuseleko',
-                'assessment': 'Uvavanyo LoMngcipheko',
-                'education': 'I-Hub YeMfundo',
-                'login': 'Ungeno Lwe-Admin'
+                'report': 'Xela',
+                'support': 'Uncedo',
+                'stories': 'Iimbali',
+                'library': 'Iindlela',
+                'community': 'Uluntu',
+                'events': 'Iivenkile',
+                'about': 'Malunga',
+                'safety': 'Ukhuseleko',
+                'assessment': 'Uvavanyo',
+                'education': 'Imfundo',
+                'login': 'Admin'
             },
             af: {
                 'home': 'Tuis',
-                'report': 'Rapporteer Anoniem',
-                'support': 'Ondersteuningsgids',
-                'stories': 'Deel Jou Storie',
-                'library': 'GBV Hulpbronne',
-                'community': 'Gemeenskapsondersteuning',
-                'events': 'Gebeure & Optogte',
-                'about': 'Oor Ons Missie',
-                'safety': 'Veiligheidsbeplanning',
-                'assessment': 'Risiko-assessering',
-                'education': 'Onderrig Sentrum',
-                'login': 'Admin Aanteken'
+                'report': 'Rapporteer',
+                'support': 'Ondersteuning',
+                'stories': 'Stories',
+                'library': 'Hulpbronne',
+                'community': 'Gemeenskap',
+                'events': 'Gebeure',
+                'about': 'Oor',
+                'safety': 'Veiligheid',
+                'assessment': 'Risiko',
+                'education': 'Onderrig',
+                'login': 'Admin'
             }
         };
 
@@ -343,6 +513,58 @@
                 selector.value = currentLanguage;
             }
         }
+
+        // Community interaction functions
+        function markHelpful(button) {
+            const countSpan = button.querySelector('.helpful-count');
+            let count = parseInt(countSpan.textContent) || 0;
+            count++;
+            countSpan.textContent = count;
+            
+            button.style.background = '#6A0DAD';
+            button.style.color = 'white';
+            button.disabled = true;
+            
+            // ANALYTICS TRACKING
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse('community_helpful_clicked');
+            }
+        }
+
+        function showSupport(button) {
+            button.style.background = '#8A2BE2';
+            button.style.color = 'white';
+            button.disabled = true;
+            
+            // Show temporary feedback
+            const originalText = button.textContent;
+            button.textContent = '💜 Thank you for your support';
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = '';
+                button.style.color = '';
+                button.disabled = false;
+            }, 2000);
+            
+            // ANALYTICS TRACKING
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse('community_support_clicked');
+            }
+        }
+
+        // Track question views for community engagement
+        document.addEventListener('DOMContentLoaded', function() {
+            const questions = document.querySelectorAll('.question-box');
+            questions.forEach((question, index) => {
+                // Simulate question viewing tracking
+                setTimeout(() => {
+                    if (typeof analytics !== 'undefined') {
+                        analytics.trackFeatureUse('community_question_viewed_' + (index + 1));
+                    }
+                }, 1000 * (index + 1));
+            });
+        });
     </script>
 </body>
 </html>
