@@ -3,19 +3,99 @@
 <head>
     <title>Community Support - GBV Safe Corner</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #f8f8f8; line-height: 1.6; }
-        .header { background: #8B0000; color: white; padding: 30px; text-align: center; border-radius: 15px; margin-bottom: 20px; }
-        .nav-links { text-align: center; margin: 20px 0; padding: 15px; background: white; border-radius: 10px; }
-        .nav-links a { margin: 0 15px; text-decoration: none; color: #8B0000; font-weight: bold; }
-        .content-section { background: white; padding: 30px; border-radius: 15px; margin: 25px 0; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .question-box { background: #FFF3CD; padding: 20px; margin: 15px 0; border-radius: 8px; }
-        .advice-box { background: #f0f8f0; padding: 15px; margin: 10px 0; border-radius: 8px; }
-        .submit-btn { background: #8B0000; color: white; padding: 12px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-top: 10px; }
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 900px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            background-color: #f8f8f8; 
+            line-height: 1.6; 
+        }
+        .header { 
+            background: linear-gradient(135deg, #6A0DAD, #8A2BE2);
+            color: white; 
+            padding: 30px; 
+            text-align: center; 
+            border-radius: 15px; 
+            margin-bottom: 20px; 
+        }
+        .logo-text {
+            font-size: 2em;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+        .logo-text span {
+            display: block;
+        }
+        .nav-links { 
+            text-align: center; 
+            margin: 20px 0; 
+            padding: 15px; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 2px 4px rgba(106, 13, 173, 0.1);
+        }
+        .nav-links a { 
+            margin: 0 15px; 
+            text-decoration: none; 
+            color: #6A0DAD; 
+            font-weight: bold; 
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: #8A2BE2;
+        }
+        .content-section { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 15px; 
+            margin: 25px 0; 
+            box-shadow: 0 4px 8px rgba(106, 13, 173, 0.1);
+        }
+        .question-box { 
+            background: #FFF3CD; 
+            padding: 20px; 
+            margin: 15px 0; 
+            border-radius: 8px; 
+            border-left: 4px solid #6A0DAD;
+        }
+        .advice-box { 
+            background: #f0f8f0; 
+            padding: 15px; 
+            margin: 10px 0; 
+            border-radius: 8px; 
+            border-left: 4px solid #4CAF50;
+        }
+        .submit-btn { 
+            background: #6A0DAD; 
+            color: white; 
+            padding: 12px 30px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            margin-top: 10px; 
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s ease;
+        }
+        .submit-btn:hover {
+            background: #8A2BE2;
+        }
+        .purple-accent {
+            color: #6A0DAD;
+        }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>GBV Safe Corner</h1>
+        <div class="logo-text">
+            <span>GBV</span>
+            <span>SAFE</span>
+            <span>CORNER</span>
+        </div>
         <p>Community Support & Advice</p>
     </div>
 
@@ -28,21 +108,22 @@
         <a href="community.html">Community Support</a>
         <a href="events.html">Events & Marches</a>
         <a href="about.html">About Our Mission</a>
+        <a href="login.html">Admin Login</a>
     </div>
 
     <div class="content-section">
-        <h2>💬 Ask the Community</h2>
+        <h2 class="purple-accent">💬 Ask the Community</h2>
         <p>Have a question? Need advice? Looking for support from people who understand?</p>
         
         <div class="question-box">
             <p><strong>Submit your question anonymously:</strong></p>
             <p><em>We're building our community Q&A system. For now, you can share your questions through our Stories page, and our community will respond with support and advice.</em></p>
-            <a href="stories.html" class="submit-btn" style="text-decoration: none; display: inline-block;">Share Your Question</a>
+            <a href="stories.html" class="submit-btn">Share Your Question</a>
         </div>
     </div>
 
     <div class="content-section">
-        <h2>🌟 Community Q&A</h2>
+        <h2 class="purple-accent">🌟 Community Q&A</h2>
         
         <div class="question-box">
             <p><strong>Anonymous:</strong> "How do I deal with seeing my abuser regularly? It's triggering and I feel unsafe."</p>
