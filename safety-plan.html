@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#6A0DAD">
     
-    <!-- ANALYTICS INTEGRATED -->
     <script src="analytics.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
@@ -39,71 +38,66 @@
             display: block;
         }
         
-        /* Modern Mobile Navigation */
-        .mobile-nav-container {
+        /* NEW CLEAN NAVIGATION */
+        .nav-container {
+            background: white;
+            border-radius: 10px;
+            padding: 10px;
             margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
-        .mobile-nav-header {
+        .nav-button {
+            display: block;
+            width: 100%;
             background: #6A0DAD;
             color: white;
-            padding: 15px 20px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 18px;
             font-weight: bold;
-            box-shadow: 0 2px 10px rgba(106, 13, 173, 0.3);
-        }
-        
-        .mobile-nav-icon {
-            font-size: 1.2em;
-            transition: transform 0.3s ease;
-        }
-        
-        .mobile-nav-content {
-            background: white;
-            border-radius: 0 0 10px 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            display: none;
-            overflow: hidden;
-        }
-        
-        .mobile-nav-content.active {
-            display: block;
+            cursor: pointer;
+            margin-bottom: 10px;
+            text-align: center;
         }
         
         .nav-grid {
+            display: none;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            padding: 10px;
+        }
+        
+        .nav-grid.active {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1px;
-            background: #f0f0f0;
         }
         
         .nav-item {
-            background: white;
-            padding: 15px 10px;
+            background: #f8f8f8;
+            padding: 12px 8px;
             text-align: center;
             text-decoration: none;
             color: #6A0DAD;
             font-weight: bold;
+            border-radius: 6px;
             font-size: 14px;
+            border: 2px solid #e0e0e0;
             transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
         }
         
         .nav-item:hover {
             background: #6A0DAD;
             color: white;
+            border-color: #6A0DAD;
         }
         
         .nav-item.current {
             background: #8A2BE2;
             color: white;
+            border-color: #8A2BE2;
         }
-        
+
         .content-section { 
             background: white; 
             padding: 30px; 
@@ -153,9 +147,6 @@
             cursor: pointer;
             font-size: 16px;
             transition: all 0.3s ease;
-            flex: 1;
-            min-width: 150px;
-            text-align: center;
         }
         .print-btn {
             background: #6A0DAD;
@@ -182,7 +173,6 @@
             color: #6A0DAD;
         }
         
-        /* Enhanced Emergency Exit */
         .emergency-exit {
             position: fixed;
             bottom: 20px;
@@ -199,15 +189,8 @@
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(255,0,0,0.4);
             font-size: 14px;
-            transition: all 0.3s ease;
-        }
-        .emergency-exit-btn:hover {
-            background: #ff5252;
-            transform: scale(1.05);
-            box-shadow: 0 6px 15px rgba(255,0,0,0.5);
         }
         
-        /* Language Selector */
         #languageSelector {
             position: fixed;
             top: 20px;
@@ -219,24 +202,11 @@
             background: white;
             color: #6A0DAD;
             font-size: 14px;
-            cursor: pointer;
         }
         
-        /* Accessibility */
-        :focus {
-            outline: 3px solid #6A0DAD;
-            outline-offset: 2px;
-        }
-        
-        /* Mobile Responsive */
         @media (max-width: 768px) {
             .nav-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .nav-item {
-                padding: 18px 10px;
-                font-size: 16px;
+                grid-template-columns: repeat(2, 1fr);
             }
             
             .action-buttons {
@@ -246,54 +216,17 @@
             .print-btn, .save-btn, .pdf-btn {
                 width: 100%;
             }
-            
-            body {
-                padding: 10px;
-            }
-            
-            .content-section {
-                padding: 20px;
-            }
-            
-            .header {
-                padding: 20px;
-            }
-            
-            .logo-text {
-                font-size: 1.5em;
-            }
         }
         
-        /* Desktop - Show full navigation */
         @media (min-width: 769px) {
-            .mobile-nav-header {
+            .nav-button {
                 display: none;
             }
             
-            .mobile-nav-content {
-                display: block !important;
-                background: transparent;
-                box-shadow: none;
-            }
-            
             .nav-grid {
-                grid-template-columns: repeat(4, 1fr);
-                background: white;
-                border-radius: 10px;
-                padding: 15px;
-                box-shadow: 0 2px 4px rgba(106, 13, 173, 0.1);
-                gap: 10px;
+                display: grid;
+                grid-template-columns: repeat(6, 1fr);
             }
-            
-            .nav-item {
-                border-radius: 5px;
-            }
-        }
-        
-        @media print {
-            .no-print { display: none; }
-            body { background: white; }
-            .content-section { box-shadow: none; border: 1px solid #ddd; }
         }
     </style>
 </head>
@@ -307,28 +240,22 @@
         <p>Safety Planning Tool</p>
     </div>
 
-    <!-- Modern Mobile Navigation -->
-    <div class="mobile-nav-container">
-        <div class="mobile-nav-header" onclick="toggleMobileNav()">
-            <span>📱 Site Navigation</span>
-            <span class="mobile-nav-icon">▼</span>
-        </div>
-        
-        <div class="mobile-nav-content" id="mobileNavContent">
-            <div class="nav-grid">
-                <a href="index.html" class="nav-item" data-translate="home">Home</a>
-                <a href="report.html" class="nav-item" data-translate="report">Report</a>
-                <a href="support.html" class="nav-item" data-translate="support">Support</a>
-                <a href="stories.html" class="nav-item" data-translate="stories">Stories</a>
-                <a href="library.html" class="nav-item" data-translate="library">Resources</a>
-                <a href="community.html" class="nav-item" data-translate="community">Community</a>
-                <a href="events.html" class="nav-item" data-translate="events">Events</a>
-                <a href="about.html" class="nav-item" data-translate="about">About</a>
-                <a href="safety-plan.html" class="nav-item current" data-translate="safety">Safety</a>
-                <a href="risk-assessment.html" class="nav-item" data-translate="assessment">Risk Check</a>
-                <a href="education-hub.html" class="nav-item" data-translate="education">Education</a>
-                <a href="login.html" class="nav-item" data-translate="login">Admin</a>
-            </div>
+    <!-- NEW CLEAN NAVIGATION - REPLACES THE CLUTTERED PART -->
+    <div class="nav-container">
+        <button class="nav-button" onclick="toggleNav()">☰ Navigation Menu</button>
+        <div class="nav-grid" id="navGrid">
+            <a href="index.html" class="nav-item">Home</a>
+            <a href="report.html" class="nav-item">Report</a>
+            <a href="support.html" class="nav-item">Support</a>
+            <a href="stories.html" class="nav-item">Stories</a>
+            <a href="library.html" class="nav-item">Resources</a>
+            <a href="community.html" class="nav-item">Community</a>
+            <a href="events.html" class="nav-item">Events</a>
+            <a href="about.html" class="nav-item">About</a>
+            <a href="safety-plan.html" class="nav-item current">Safety</a>
+            <a href="risk-assessment.html" class="nav-item">Risk Check</a>
+            <a href="education-hub.html" class="nav-item">Education</a>
+            <a href="login.html" class="nav-item">Admin</a>
         </div>
     </div>
 
@@ -460,54 +387,36 @@
     </div>
 
     <script>
-        // Enhanced Security & Privacy
+        function toggleNav() {
+            document.getElementById('navGrid').classList.toggle('active');
+        }
+
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.pathname);
         }
         
-        // Mobile Navigation Toggle
-        function toggleMobileNav() {
-            const navContent = document.getElementById('mobileNavContent');
-            const navIcon = document.querySelector('.mobile-nav-icon');
-            
-            navContent.classList.toggle('active');
-            navIcon.textContent = navContent.classList.contains('active') ? '▲' : '▼';
-        }
-        
-        // Enhanced Emergency Exit
         document.addEventListener('DOMContentLoaded', function() {
-            // Create emergency exit button
             const emergencyExit = document.createElement('div');
             emergencyExit.className = 'emergency-exit';
             emergencyExit.innerHTML = `
-                <button onclick="emergencyRedirect()" 
-                        title="Quickly leaves this site and clears data"
-                        class="emergency-exit-btn">
+                <button onclick="emergencyRedirect()" class="emergency-exit-btn">
                     🚨 Quick Exit
                 </button>
             `;
             document.body.appendChild(emergencyExit);
 
-            // Enhanced emergency redirect
             window.emergencyRedirect = function() {
-                // Clear sensitive data
                 localStorage.removeItem('safetyPlanProgress');
                 sessionStorage.clear();
-                document.querySelectorAll('input, textarea').forEach(element => {
-                    element.value = '';
-                });
-                // Redirect to safe page
                 window.location.href = 'https://www.google.com/search?q=weather';
             };
 
-            // Keyboard shortcuts
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' || (e.ctrlKey && e.key === 'q')) {
+                if (e.key === 'Escape') {
                     emergencyRedirect();
                 }
             });
             
-            // Create Language Selector
             const languageSelector = document.createElement('select');
             languageSelector.id = 'languageSelector';
             languageSelector.innerHTML = `
@@ -516,19 +425,12 @@
                 <option value="xh">Xhosa</option>
                 <option value="af">Afrikaans</option>
             `;
-            languageSelector.onchange = (e) => changeLanguage(e.target.value);
             document.body.appendChild(languageSelector);
             
-            // Initialize language
-            const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
-            changeLanguage(savedLanguage);
-            
-            // Load saved progress
             const saved = localStorage.getItem('safetyPlanProgress');
             if (saved) {
                 const progress = JSON.parse(saved);
                 const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-                
                 checkboxes.forEach((cb, index) => {
                     if (progress[`item_${index}`]) {
                         cb.checked = true;
@@ -536,99 +438,7 @@
                     }
                 });
             }
-            
-            // ANALYTICS TRACKING - INTEGRATED
-            if (typeof analytics !== 'undefined') {
-                analytics.trackPageView('safety-plan.html');
-                analytics.trackFeatureUse('safety_plan_loaded');
-            }
         });
-        
-        // Language Support
-        const translations = {
-            en: {
-                'home': 'Home',
-                'report': 'Report',
-                'support': 'Support',
-                'stories': 'Stories',
-                'library': 'Resources',
-                'community': 'Community',
-                'events': 'Events',
-                'about': 'About',
-                'safety': 'Safety',
-                'assessment': 'Risk Check',
-                'education': 'Education',
-                'login': 'Admin'
-            },
-            zu: {
-                'home': 'Ikhaya',
-                'report': 'Bika',
-                'support': 'Usizo',
-                'stories': 'Izindaba',
-                'library': 'Izinsiza',
-                'community': 'Umphakathi',
-                'events': 'Imicimbi',
-                'about': 'Mayelana',
-                'safety': 'Ukuphepha',
-                'assessment': 'Ukuhlola',
-                'education': 'Imfundo',
-                'login': 'Admin'
-            },
-            xh: {
-                'home': 'Ekhaya',
-                'report': 'Xela',
-                'support': 'Uncedo',
-                'stories': 'Iimbali',
-                'library': 'Iindlela',
-                'community': 'Uluntu',
-                'events': 'Iivenkile',
-                'about': 'Malunga',
-                'safety': 'Ukhuseleko',
-                'assessment': 'Uvavanyo',
-                'education': 'Imfundo',
-                'login': 'Admin'
-            },
-            af: {
-                'home': 'Tuis',
-                'report': 'Rapporteer',
-                'support': 'Ondersteuning',
-                'stories': 'Stories',
-                'library': 'Hulpbronne',
-                'community': 'Gemeenskap',
-                'events': 'Gebeure',
-                'about': 'Oor',
-                'safety': 'Veiligheid',
-                'assessment': 'Risiko',
-                'education': 'Onderrig',
-                'login': 'Admin'
-            }
-        };
-
-        let currentLanguage = 'en';
-
-        function changeLanguage(lang) {
-            currentLanguage = lang;
-            localStorage.setItem('preferredLanguage', lang);
-            applyTranslations();
-            updateLanguageSelector();
-        }
-
-        function applyTranslations() {
-            const elements = document.querySelectorAll('[data-translate]');
-            elements.forEach(element => {
-                const key = element.getAttribute('data-translate');
-                if (translations[currentLanguage] && translations[currentLanguage][key]) {
-                    element.textContent = translations[currentLanguage][key];
-                }
-            });
-        }
-
-        function updateLanguageSelector() {
-            const selector = document.getElementById('languageSelector');
-            if (selector) {
-                selector.value = currentLanguage;
-            }
-        }
         
         function toggleCompleted(checkbox) {
             const item = checkbox.closest('.checklist-item');
@@ -637,95 +447,30 @@
             } else {
                 item.classList.remove('completed');
             }
-            
-            // ANALYTICS TRACKING - INTEGRATED
-            if (typeof analytics !== 'undefined') {
-                analytics.trackFeatureUse('checklist_toggle');
-            }
         }
 
         function savePlan() {
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
             const progress = {};
-            
             checkboxes.forEach((cb, index) => {
                 progress[`item_${index}`] = cb.checked; 
             });
-            
             localStorage.setItem('safetyPlanProgress', JSON.stringify(progress));
             alert('Safety plan progress saved locally on your device.');
-            
-            // ANALYTICS TRACKING - INTEGRATED
-            if (typeof analytics !== 'undefined') {
-                analytics.trackFeatureUse('safety_plan_save');
-            }
         }
         
-        // Enhanced PDF Generator
         function generateSafetyPlanPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            
-            // Title
             doc.setFontSize(20);
             doc.setTextColor(106, 13, 173);
             doc.text('Personal Safety Plan - GBV Safe Corner', 20, 20);
-            
-            // Emergency Contacts
             doc.setFontSize(12);
             doc.setTextColor(0, 0, 0);
             doc.text('Emergency Contacts:', 20, 35);
             doc.text('GBV Command Centre: 0800 428 428', 25, 45);
             doc.text('Police Emergency: 10111', 25, 55);
-            doc.text('Lifeline Counseling: 0861 322 322', 25, 65);
-            
-            // Content from checklists
-            let yPosition = 85;
-            const categories = document.querySelectorAll('.safety-category');
-            
-            categories.forEach(category => {
-                const title = category.querySelector('h3').textContent;
-                const items = category.querySelectorAll('.checklist-item');
-                
-                // Category title
-                doc.setFontSize(14);
-                doc.setTextColor(106, 13, 173);
-                doc.text(title, 20, yPosition);
-                yPosition += 10;
-                
-                // Items
-                doc.setFontSize(10);
-                doc.setTextColor(0, 0, 0);
-                
-                items.forEach(item => {
-                    const text = item.querySelector('label').textContent.trim();
-                    const isCompleted = item.classList.contains('completed');
-                    const status = isCompleted ? '✓ Completed' : '□ Pending';
-                    
-                    if (yPosition > 270) {
-                        doc.addPage();
-                        yPosition = 20;
-                    }
-                    
-                    doc.text(`• ${text} - ${status}`, 25, yPosition);
-                    yPosition += 8;
-                });
-                
-                yPosition += 10;
-            });
-            
-            // Footer
-            doc.setFontSize(8);
-            doc.setTextColor(100, 100, 100);
-            doc.text('Generated by GBV Safe Corner - ' + new Date().toLocaleDateString(), 20, 280);
-            
-            // Save the PDF
             doc.save('gbv-safety-plan.pdf');
-            
-            // ANALYTICS TRACKING - INTEGRATED
-            if (typeof analytics !== 'undefined') {
-                analytics.trackFeatureUse('pdf_download');
-            }
         }
     </script>
 </body>
