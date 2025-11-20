@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Risk Assessment - GBV Safe Corner</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 900px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            background-color: #f8f8f8; 
+            line-height: 1.6; 
+        }
+        .header { 
+            background: linear-gradient(135deg, #6A0DAD, #8A2BE2);
+            color: white; 
+            padding: 30px; 
+            text-align: center; 
+            border-radius: 15px; 
+            margin-bottom: 20px; 
+        }
+        .logo-text {
+            font-size: 2em;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+        .logo-text span {
+            display: block;
+        }
+        .nav-links { 
+            text-align: center; 
+            margin: 20px 0; 
+            padding: 15px; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 2px 4px rgba(106, 13, 173, 0.1);
+        }
+        .nav-links a { 
+            margin: 0 15px; 
+            text-decoration: none; 
+            color: #6A0DAD; 
+            font-weight: bold; 
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: #8A2BE2;
+        }
+        .content-section { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 15px; 
+            margin: 25px 0; 
+            box-shadow: 0 4px 8px rgba(106, 13, 173, 0.1);
+        }
+        .question-group {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+        }
+        .question {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #6A0DAD;
+        }
+        .options {
+            margin: 10px 0;
+        }
+        .option {
+            margin: 8px 0;
+            padding: 10px;
+            background: #f8f8f8;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .option:hover {
+            background: #e8e8e8;
+        }
+        .option.selected {
+            background: #6A0DAD;
+            color: white;
+        }
+        .submit-btn {
+            background: #6A0DAD;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            margin: 20px 0;
+            width: 100%;
+        }
+        .result {
+            display: none;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .result.low { background: #e8f5e8; border: 2px solid #4CAF50; }
+        .result.medium { background: #fff3cd; border: 2px solid #ffc107; }
+        .result.high { background: #f8d7da; border: 2px solid #dc3545; }
+        .emergency { background: #dc3545; color: white; padding: 15px; border-radius: 8px; margin: 15px 0; }
+        .purple-accent {
+            color: #6A0DAD;
+        }
+    </style>
+    <script src="emergency-exit.js"></script>
+    <script src="privacy-protection.js"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="logo-text">
+            <span>GBV</span>
+            <span>SAFE</span>
+            <span>CORNER</span>
+        </div>
+        <p>Risk Assessment Tool</p>
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="report.html">Report Anonymously</a>
+        <a href="support.html">Support Directory</a>
+        <a href="stories.html">Share Your Story</a>
+        <a href="library.html">GBV Resources</a>
+        <a href="community.html">Community Support</a>
+        <a href="events.html">Events & Marches</a>
+        <a href="about.html">About Our Mission</a>
+        <a href="safety-plan.html">Safety Planning</a>
+        <a href="risk-assessment.html">Risk Assessment</a>
+        <a href="login.html">Admin Login</a>
+    </div>
+
+    <div class="content-section">
+        <h2 class="purple-accent">🔍 Safety Risk Assessment</h2>
+        <p>This anonymous assessment helps identify potential risks in your situation. Your answers are not stored.</p>
+        
+        <form id="riskAssessment">
+            <div class="question-group">
+                <h3 class="purple-accent">Behavior Patterns</h3>
+                
+                <div class="question">
+                    <p><strong>1. Has the person ever threatened to harm you or your family?</strong></p>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this)">No, never</div>
+                        <div class="option" onclick="selectOption(this)">Yes, but not recently</div>
+                        <div class="option" onclick="selectOption(this)">Yes, recently</div>
+                        <div class="option" onclick="selectOption(this)">Yes, with specific plans</div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <p><strong>2. Does the person have access to weapons?</strong></p>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this)">No</div>
+                        <div class="option" onclick="selectOption(this)">Yes, but not firearms</div>
+                        <div class="option" onclick="selectOption(this)">Yes, including firearms</div>
+                        <div class="option" onclick="selectOption(this)">Yes, and has threatened to use them</div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <p><strong>3. Has the physical violence increased in frequency or severity?</strong></p>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this)">No physical violence</div>
+                        <div class="option" onclick="selectOption(this)">Occasional, not increasing</div>
+                        <div class="option" onclick="selectOption(this)">Yes, becoming more frequent</div>
+                        <div class="option" onclick="selectOption(this)">Yes, much more severe recently</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <h3 class="purple-accent">Control & Isolation</h3>
+                
+                <div class="question">
+                    <p><strong>4. Does the person control your daily activities?</strong></p>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this)">No</div>
+                        <div class="option" onclick="selectOption(this)">Sometimes monitors activities</div>
+                        <div class="option" onclick="selectOption(this)">Frequently controls movements</div>
+                        <div class="option" onclick="selectOption(this)">Complete control over daily life</div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <p><strong>5. Are you isolated from friends and family?</strong></p>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this)">No, have regular contact</div>
+                        <div class="option" onclick="selectOption(this)">Some restrictions on contact</div>
+                        <div class="option" onclick="selectOption(this)">Limited contact allowed</div>
+                        <div class="option" onclick="selectOption(this)">Completely isolated</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <h3 class="purple-accent">Recent Changes</h3>
+                
+                <div class="question">
+                    <p><strong>6. Have you recently separated or tried to leave?</strong></p>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this)">No</div>
+                        <div class="option" onclick="selectOption(this)">Considering leaving</div>
+                        <div class="option" onclick="selectOption(this)">Recently separated</div>
+                        <div class="option" onclick="selectOption(this)">Left but being stalked/harassed</div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <p><strong>7. Is the person unemployed or facing major stress?</strong></p>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this)">No major stresses</div>
+                        <div class="option" onclick="selectOption(this)">Some work/financial stress</div>
+                        <div class="option" onclick="selectOption(this)">Recent job loss or major stress</div>
+                        <div class="option" onclick="selectOption(this)">Multiple major stressors</div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="submit-btn" onclick="calculateRisk()">Get Risk Assessment</button>
+        </form>
+
+        <div id="resultLow" class="result low">
+            <h3>🟢 Lower Risk Level</h3>
+            <p>Your situation appears to have lower immediate risk, but remain vigilant.</p>
+            <p><strong>Recommended Actions:</strong></p>
+            <ul style="text-align: left; display: inline-block;">
+                <li>Continue with safety planning</li>
+                <li>Maintain contact with support network</li>
+                <li>Document any incidents</li>
+                <li>Know emergency contacts</li>
+            </ul>
+        </div>
+
+        <div id="resultMedium" class="result medium">
+            <h3>🟡 Medium Risk Level</h3>
+            <p>Your situation shows concerning patterns that need attention.</p>
+            <p><strong>Recommended Actions:</strong></p>
+            <ul style="text-align: left; display: inline-block;">
+                <li>Implement safety plan immediately</li>
+                <li>Contact support services</li>
+                <li>Increase communication with trusted contacts</li>
+                <li>Consider legal protection options</li>
+            </ul>
+        </div>
+
+        <div id="resultHigh" class="result high">
+            <h3>🔴 High Risk Level</h3>
+            <p>Your situation indicates significant risk factors that require immediate attention.</p>
+            <div class="emergency">
+                <h4>🚨 IMMEDIATE ACTION RECOMMENDED</h4>
+                <p>Contact emergency services or GBV helpline immediately</p>
+                <p><strong>GBV Command Centre: 0800 428 428</strong></p>
+                <p><strong>Police Emergency: 10111</strong></p>
+            </div>
+            <p><strong>Additional Actions:</strong></p>
+            <ul style="text-align: left; display: inline-block;">
+                <li>Activate emergency safety plan</li>
+                <li>Go to a safe location immediately</li>
+                <li>Contact trusted support persons</li>
+                <li>Consider seeking shelter</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        const maxScore = 28; // 7 questions × 4 points max each
+
+        function selectOption(element) {
+            // Remove selection from siblings
+            const siblings = element.parentElement.children;
+            for (let sibling of siblings) {
+                sibling.classList.remove('selected');
+            }
+            // Add selection to clicked element
+            element.classList.add('selected');
+        }
+
+        function calculateRisk() {
+            score = 0;
+            const selectedOptions = document.querySelectorAll('.option.selected');
+            
+            selectedOptions.forEach(option => {
+                const options = Array.from(option.parentElement.children);
+                const index = options.indexOf(option);
+                score += index; // 0-3 points per question
+            });
+
+            // Hide all results first
+            document.querySelectorAll('.result').forEach(result => {
+                result.style.display = 'none';
+            });
+
+            // Show appropriate result
+            const percentage = (score / maxScore) * 100;
+            
+            if (percentage < 30) {
+                document.getElementById('resultLow').style.display = 'block';
+            } else if (percentage < 60) {
+                document.getElementById('resultMedium').style.display = 'block';
+            } else {
+                document.getElementById('resultHigh').style.display = 'block';
+            }
+
+            // Scroll to results
+            document.querySelector('.result').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Clear selections on page refresh
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('selected');
+            });
+        });
+    </script>
+</body>
+</html>
