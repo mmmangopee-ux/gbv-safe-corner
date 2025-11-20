@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin - GBV Safe Corner</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; background-color: #f8f8f8; }
+        .header { background: #8B0000; color: white; padding: 20px; text-align: center; border-radius: 10px; margin-bottom: 20px; }
+        .admin-section { background: white; padding: 20px; border-radius: 10px; margin: 20px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .data-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        .data-table th, .data-table td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        .data-table th { background: #8B0000; color: white; }
+        .data-table tr:nth-child(even) { background: #f9f9f9; }
+        .tab-buttons { display: flex; margin-bottom: 20px; }
+        .tab-btn { padding: 10px 20px; background: #ddd; border: none; cursor: pointer; margin-right: 5px; }
+        .tab-btn.active { background: #8B0000; color: white; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
+    <script src="supabase-config.js"></script>
+</head>
+<body>
+    <div class="header">
+        <h1>GBV Safe Corner - Admin Panel</h1>
+        <p>View Submitted Data</p>
+    </div>
+
+    <div class="tab-buttons">
+        <button class="tab-btn active" onclick="showTab('reports')">Reports</button>
+        <button class="tab-btn" onclick="showTab('stories')">Stories</button>
+        <button class="tab-btn" onclick="showTab('events')">Events</button>
+    </div>
+
+    <div id="reports" class="tab-content active">
+        <div class="admin-section">
+            <h2>Anonymous Reports</h2>
+            <button onclick="loadReports()">Refresh Reports</button>
+            <div id="reportsData"></div>
+        </div>
+    </div>
+
+    <div id="stories" class="tab-content">
+        <div class="admin-section">
+            <h2>Survivor Stories</h2>
+            <button onclick="loadStories()">Refresh Stories</button>
+            <div id="storiesData"></div>
+        </div>
+    </div>
+
+    <div id="events" class="tab-content">
+        <div class="admin-section">
+            <h2>Event Submissions</h2>
+            <button onclick="loadEvents()">Refresh Events</button>
+            <div id="eventsData"></div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        async function loadReports() {
+            try {
+                const reports = await fetchFromSupabase('gbv_reports', {
+                    query: { order: 'created_at.desc' }
+                });
+                
+                let html = `<table class="data-table">
+                    <tr>
+                        <th>Date</th>
+                        <th>Incident Type</th>
+                        <th>Location</th>
+                        <th>Description</th>
+                        <th>Needs Support</th>
+                    </tr>`;
+                
+                reports.forEach(report => {
+                    html += `<tr>
+                        <td>${new Date(report.created_at).toLocaleDateString()}</td>
+                        <td>${report.incident_type || 'N/A'}</td>
+                        <td>${report.location || 'Not specified'}</td>
+                        <td>${report.description || 'No description'}</td>
+                        <td>${report.needs_support ? 'Yes' : 'No'}</td>
+                    </tr>`;
+                });
+                
+                html += '</table>';
+                document.getElementById('reportsData').innerHTML = html;
+            } catch (error) {
+                document.getElementById('reportsData').innerHTML = '<p>Error loading reports</p>';
+            }
+        }
+
+        async function loadStories() {
+            try {
+                const stories = await fetchFromSupabase('survivor_stories', {
+                    query: { order: 'created_at.desc' }
+                });
+                
+                let html = `<table class="data-table">
+                    <tr>
+                        <th>Date</th>
+                        <th>Title</th>
+                        <th>Story Preview</th>
+                        <th>Allow Comments</th>
+                    </tr>`;
+                
+                stories.forEach(story => {
+                    const preview = story.story_content ? 
+                        (story.story_content.substring(0, 100) + '...') : 'No content';
+                    
+                    html += `<tr>
+                        <td>${new Date(story.created_at).toLocaleDateString()}</td>
+                        <td>${story.story_title || 'Untitled'}</td>
+                        <td>${preview}</td>
+                        <td>${story.allow_comments ? 'Yes' : 'No'}</td>
+                    </tr>`;
+                });
+                
+                html += '</table>';
+                document.getElementById('storiesData').innerHTML = html;
+            } catch (error) {
+                document.getElementById('storiesData').innerHTML = '<p>Error loading stories</p>';
+            }
+        }
+
+        async function loadEvents() {
+            try {
+                const events = await fetchFromSupabase('gbv_events', {
+                    query: { order: 'created_at.desc' }
+                });
+                
+                let html = `<table class="data-table">
+                    <tr>
+                        <th>Date Submitted</th>
+                        <th>Event Name</th>
+                        <th>Event Type</th>
+                        <th>Event Date</th>
+                        <th>Location</th>
+                        <th>Organizer Contact</th>
+                    </tr>`;
+                
+                events.forEach(event => {
+                    html += `<tr>
+                        <td>${new Date(event.created_at).toLocaleDateString()}</td>
+                        <td>${event.event_name}</td>
+                        <td>${event.event_type}</td>
+                        <td>${event.event_date ? new Date(event.event_date).toLocaleDateString() : 'Not set'}</td>
+                        <td>${event.location}</td>
+                        <td>${event.organizer_contact}</td>
+                    </tr>`;
+                });
+                
+                html += '</table>';
+                document.getElementById('eventsData').innerHTML = html;
+            } catch (error) {
+                document.getElementById('eventsData').innerHTML = '<p>Error loading events</p>';
+            }
+        }
+
+        // Load initial data
+        loadReports();
+    </script>
+</body>
+</html>
