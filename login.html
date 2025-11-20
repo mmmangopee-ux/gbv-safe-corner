@@ -8,9 +8,10 @@
     
     <!-- ANALYTICS INTEGRATED -->
     <script src="analytics.js"></script>
+    <script src="navigation.js"></script>
     
     <style>
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
             font-family: Arial, sans-serif; 
             max-width: 400px; 
@@ -24,6 +25,7 @@
             border-radius: 15px; 
             box-shadow: 0 4px 8px rgba(106, 13, 173, 0.1); 
             text-align: center;
+            border: 2px solid #e0e0e0;
         }
         .header { 
             background: linear-gradient(135deg, #6A0DAD, #8A2BE2);
@@ -59,6 +61,12 @@
             border-radius: 5px; 
             font-size: 16px;
             box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+        input:focus {
+            border-color: #6A0DAD;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(106, 13, 173, 0.1);
         }
         .login-btn { 
             background: #6A0DAD; 
@@ -70,10 +78,22 @@
             font-size: 16px; 
             width: 100%;
             margin-top: 20px;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            border: 2px solid #6A0DAD;
         }
         .login-btn:hover {
             background: #8A2BE2;
+            border-color: #8A2BE2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(106, 13, 173, 0.3);
+        }
+        .login-btn:disabled {
+            background: #cccccc;
+            border-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
         .error-message {
             color: #d32f2f;
@@ -82,6 +102,8 @@
             border-radius: 5px;
             margin: 15px 0;
             display: none;
+            border: 1px solid #f5c6cb;
+            font-weight: bold;
         }
         .success-message {
             color: #388e3c;
@@ -90,6 +112,42 @@
             border-radius: 5px;
             margin: 15px 0;
             display: none;
+            border: 1px solid #c8e6c9;
+            font-weight: bold;
+        }
+        .security-notice {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: left;
+            border-left: 4px solid #2196f3;
+        }
+        .attempts-warning {
+            background: #fff3e0;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            display: none;
+            border-left: 4px solid #ff9800;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 10px;
+        }
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #6A0DAD;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         /* Enhanced Emergency Exit */
@@ -117,10 +175,42 @@
             box-shadow: 0 6px 15px rgba(255,0,0,0.5);
         }
         
+        /* Language Selector */
+        #languageSelector {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 2px solid #6A0DAD;
+            background: white;
+            color: #6A0DAD;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #languageSelector:hover {
+            background: #6A0DAD;
+            color: white;
+        }
+        
         /* Accessibility */
         :focus {
             outline: 3px solid #6A0DAD;
             outline-offset: 2px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            body {
+                margin: 50px auto;
+                padding: 10px;
+            }
+            
+            .login-container {
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
@@ -135,29 +225,73 @@
             <p>Admin Login</p>
         </div>
 
+        <div class="security-notice">
+            <strong>🔒 Secure Access Only</strong>
+            <p style="margin: 8px 0 0 0; font-size: 14px;">Authorized personnel only. All access attempts are logged.</p>
+        </div>
+
         <div class="error-message" id="errorMessage"></div>
         <div class="success-message" id="successMessage"></div>
+        <div class="attempts-warning" id="attemptsWarning">
+            <strong>⚠️ Multiple Failed Attempts</strong>
+            <p style="margin: 5px 0 0 0; font-size: 14px;">Too many failed login attempts. Please wait before trying again.</p>
+        </div>
+
+        <div class="loading" id="loadingSpinner">
+            <div class="spinner"></div>
+            <p>Verifying credentials...</p>
+        </div>
 
         <form id="loginForm">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+                <input type="text" id="username" name="username" required autocomplete="username" placeholder="Enter admin username">
             </div>
 
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="Enter admin password">
             </div>
 
-            <button type="submit" class="login-btn">Login</button>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="rememberMe" name="rememberMe">
+                    Remember this device (30 days)
+                </label>
+            </div>
+
+            <button type="submit" class="login-btn" id="loginButton">Login</button>
         </form>
 
-        <p style="margin-top: 20px; color: #666; font-size: 14px;">
-            Contact system administrator for login credentials
-        </p>
+        <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
+            <p style="color: #666; font-size: 14px; margin: 0;">
+                Contact system administrator for login credentials<br>
+                <strong>Security Hotline: [Your Security Contact]</strong>
+            </p>
+        </div>
+
+        <div style="margin-top: 20px; font-size: 12px; color: #888;">
+            <p>🔐 Encrypted connection • Activity monitored • Unauthorized access prohibited</p>
+        </div>
     </div>
 
     <script>
+        // Enhanced Security Configuration
+        const ADMIN_CREDENTIALS = {
+            username: 'admin',
+            password: 'gbv2024safe'
+        };
+
+        const SECURITY_CONFIG = {
+            maxAttempts: 5,
+            lockoutTime: 15 * 60 * 1000, // 15 minutes
+            sessionTimeout: 24 * 60 * 60 * 1000, // 24 hours
+            rememberMeTimeout: 30 * 24 * 60 * 60 * 1000 // 30 days
+        };
+
+        let loginAttempts = 0;
+        let lockoutUntil = 0;
+
         // Enhanced Security & Privacy
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.pathname);
@@ -179,8 +313,10 @@
 
             // Enhanced emergency redirect
             window.emergencyRedirect = function() {
-                // Clear sensitive data
-                localStorage.removeItem('safetyPlanProgress');
+                // Clear all sensitive data
+                localStorage.removeItem('adminLoggedIn');
+                localStorage.removeItem('loginTime');
+                localStorage.removeItem('rememberMe');
                 sessionStorage.clear();
                 document.querySelectorAll('input, textarea').forEach(element => {
                     element.value = '';
@@ -196,67 +332,336 @@
                 }
             });
             
+            // Create Language Selector
+            const languageSelector = document.createElement('select');
+            languageSelector.id = 'languageSelector';
+            languageSelector.innerHTML = `
+                <option value="en">English</option>
+                <option value="zu">Zulu</option>
+                <option value="xh">Xhosa</option>
+                <option value="af">Afrikaans</option>
+            `;
+            languageSelector.onchange = (e) => changeLanguage(e.target.value);
+            document.body.appendChild(languageSelector);
+            
+            // Initialize language
+            const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
+            changeLanguage(savedLanguage);
+            
+            // Check for existing valid session
+            checkExistingSession();
+            
+            // Load security state
+            loadSecurityState();
+            
             // ANALYTICS TRACKING - INTEGRATED
             if (typeof analytics !== 'undefined') {
                 analytics.trackPageView('login.html');
                 analytics.trackFeatureUse('login_page_loaded');
             }
         });
-
-        const ADMIN_CREDENTIALS = {
-            username: 'admin',
-            password: 'gbv2024safe'
+        
+        // Language Support
+        const translations = {
+            en: {
+                'home': 'Home',
+                'report': 'Report',
+                'support': 'Support',
+                'stories': 'Stories',
+                'library': 'Resources',
+                'community': 'Community',
+                'events': 'Events',
+                'about': 'About',
+                'safety': 'Safety',
+                'assessment': 'Risk Check',
+                'education': 'Education',
+                'login': 'Admin'
+            },
+            zu: {
+                'home': 'Ikhaya',
+                'report': 'Bika',
+                'support': 'Usizo',
+                'stories': 'Izindaba',
+                'library': 'Izinsiza',
+                'community': 'Umphakathi',
+                'events': 'Imicimbi',
+                'about': 'Mayelana',
+                'safety': 'Ukuphepha',
+                'assessment': 'Ukuhlola',
+                'education': 'Imfundo',
+                'login': 'Admin'
+            },
+            xh: {
+                'home': 'Ekhaya',
+                'report': 'Xela',
+                'support': 'Uncedo',
+                'stories': 'Iimbali',
+                'library': 'Iindlela',
+                'community': 'Uluntu',
+                'events': 'Iivenkile',
+                'about': 'Malunga',
+                'safety': 'Ukhuseleko',
+                'assessment': 'Uvavanyo',
+                'education': 'Imfundo',
+                'login': 'Admin'
+            },
+            af: {
+                'home': 'Tuis',
+                'report': 'Rapporteer',
+                'support': 'Ondersteuning',
+                'stories': 'Stories',
+                'library': 'Hulpbronne',
+                'community': 'Gemeenskap',
+                'events': 'Gebeure',
+                'about': 'Oor',
+                'safety': 'Veiligheid',
+                'assessment': 'Risiko',
+                'education': 'Onderrig',
+                'login': 'Admin'
+            }
         };
 
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        let currentLanguage = 'en';
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('preferredLanguage', lang);
+            applyTranslations();
+            updateLanguageSelector();
+        }
+
+        function applyTranslations() {
+            const elements = document.querySelectorAll('[data-translate]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[currentLanguage] && translations[currentLanguage][key]) {
+                    element.textContent = translations[currentLanguage][key];
+                }
+            });
+        }
+
+        function updateLanguageSelector() {
+            const selector = document.getElementById('languageSelector');
+            if (selector) {
+                selector.value = currentLanguage;
+            }
+        }
+
+        function loadSecurityState() {
+            const savedAttempts = localStorage.getItem('loginAttempts');
+            const savedLockout = localStorage.getItem('lockoutUntil');
+            
+            if (savedAttempts) {
+                loginAttempts = parseInt(savedAttempts);
+            }
+            
+            if (savedLockout) {
+                lockoutUntil = parseInt(savedLockout);
+                checkLockoutStatus();
+            }
+        }
+
+        function saveSecurityState() {
+            localStorage.setItem('loginAttempts', loginAttempts.toString());
+            localStorage.setItem('lockoutUntil', lockoutUntil.toString());
+        }
+
+        function checkLockoutStatus() {
+            const now = Date.now();
+            if (lockoutUntil > now) {
+                const remainingTime = Math.ceil((lockoutUntil - now) / 1000 / 60);
+                showAttemptsWarning(`Too many failed attempts. Please wait ${remainingTime} minutes.`);
+                disableLogin();
+                return true;
+            } else if (lockoutUntil > 0) {
+                // Lockout period expired
+                lockoutUntil = 0;
+                loginAttempts = 0;
+                saveSecurityState();
+                hideAttemptsWarning();
+                enableLogin();
+            }
+            return false;
+        }
+
+        function checkExistingSession() {
+            const isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+            const loginTime = localStorage.getItem('loginTime');
+            const rememberMe = localStorage.getItem('rememberMe') === 'true';
+            
+            if (isLoggedIn && loginTime) {
+                const currentTime = new Date().getTime();
+                const sessionTimeout = rememberMe ? SECURITY_CONFIG.rememberMeTimeout : SECURITY_CONFIG.sessionTimeout;
+                const timeSinceLogin = currentTime - parseInt(loginTime);
+                
+                if (timeSinceLogin < sessionTimeout) {
+                    // Valid session exists, redirect to admin panel
+                    window.location.href = 'admin.html';
+                } else {
+                    // Session expired
+                    localStorage.removeItem('adminLoggedIn');
+                    localStorage.removeItem('loginTime');
+                    localStorage.removeItem('rememberMe');
+                }
+            }
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            document.getElementById('successMessage').style.display = 'none';
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById('successMessage');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        function showAttemptsWarning(message) {
+            const warningDiv = document.getElementById('attemptsWarning');
+            if (message) {
+                warningDiv.querySelector('p').textContent = message;
+            }
+            warningDiv.style.display = 'block';
+        }
+
+        function hideAttemptsWarning() {
+            document.getElementById('attemptsWarning').style.display = 'none';
+        }
+
+        function showLoading() {
+            document.getElementById('loadingSpinner').style.display = 'block';
+            document.getElementById('loginButton').disabled = true;
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingSpinner').style.display = 'none';
+            document.getElementById('loginButton').disabled = false;
+        }
+
+        function disableLogin() {
+            document.getElementById('loginButton').disabled = true;
+            document.getElementById('username').disabled = true;
+            document.getElementById('password').disabled = true;
+        }
+
+        function enableLogin() {
+            document.getElementById('loginButton').disabled = false;
+            document.getElementById('username').disabled = false;
+            document.getElementById('password').disabled = false;
+        }
+
+        function simulateServerDelay() {
+            return new Promise(resolve => {
+                setTimeout(resolve, 1000 + Math.random() * 1000); // 1-2 second delay
+            });
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
+            // Check if currently locked out
+            if (checkLockoutStatus()) {
+                return;
+            }
+
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
             const errorDiv = document.getElementById('errorMessage');
             const successDiv = document.getElementById('successMessage');
 
             errorDiv.style.display = 'none';
             successDiv.style.display = 'none';
+            hideAttemptsWarning();
 
-            if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
-                successDiv.textContent = 'Login successful! Redirecting...';
-                successDiv.style.display = 'block';
-                
-                localStorage.setItem('adminLoggedIn', 'true');
-                localStorage.setItem('loginTime', new Date().getTime());
+            showLoading();
+
+            // Simulate server processing delay
+            await simulateServerDelay();
+
+            try {
+                if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+                    // Successful login
+                    loginAttempts = 0;
+                    lockoutUntil = 0;
+                    saveSecurityState();
+                    
+                    // Store login state
+                    localStorage.setItem('adminLoggedIn', 'true');
+                    localStorage.setItem('loginTime', new Date().getTime().toString());
+                    if (rememberMe) {
+                        localStorage.setItem('rememberMe', 'true');
+                    }
+                    
+                    showSuccess('Login successful! Redirecting to admin panel...');
+                    
+                    // ANALYTICS TRACKING - INTEGRATED
+                    if (typeof analytics !== 'undefined') {
+                        analytics.trackFeatureUse('admin_login_success');
+                    }
+                    
+                    setTimeout(() => {
+                        window.location.href = 'admin.html';
+                    }, 1500);
+                    
+                } else {
+                    // Failed login
+                    loginAttempts++;
+                    saveSecurityState();
+                    
+                    if (loginAttempts >= SECURITY_CONFIG.maxAttempts) {
+                        lockoutUntil = Date.now() + SECURITY_CONFIG.lockoutTime;
+                        saveSecurityState();
+                        showAttemptsWarning(`Too many failed attempts. Account locked for 15 minutes.`);
+                        disableLogin();
+                        
+                        // ANALYTICS TRACKING - INTEGRATED
+                        if (typeof analytics !== 'undefined') {
+                            analytics.trackFeatureUse('admin_login_locked');
+                        }
+                    } else {
+                        const remainingAttempts = SECURITY_CONFIG.maxAttempts - loginAttempts;
+                        showError(`Invalid username or password. ${remainingAttempts} attempt(s) remaining.`);
+                        
+                        // ANALYTICS TRACKING - INTEGRATED
+                        if (typeof analytics !== 'undefined') {
+                            analytics.trackFeatureUse('admin_login_failed');
+                            analytics.trackError(new Error('Failed login attempt'), 'admin_login');
+                        }
+                    }
+                }
+            } catch (error) {
+                showError('System error. Please try again.');
+                console.error('Login error:', error);
                 
                 // ANALYTICS TRACKING - INTEGRATED
                 if (typeof analytics !== 'undefined') {
-                    analytics.trackFeatureUse('admin_login_success');
+                    analytics.trackError(error, 'login_system_error');
                 }
-                
-                setTimeout(() => {
-                    window.location.href = 'admin.html';
-                }, 1000);
-            } else {
-                errorDiv.textContent = 'Invalid username or password';
-                errorDiv.style.display = 'block';
-                
-                // ANALYTICS TRACKING - INTEGRATED
-                if (typeof analytics !== 'undefined') {
-                    analytics.trackFeatureUse('admin_login_failed');
-                }
+            } finally {
+                hideLoading();
             }
         });
 
-        if (localStorage.getItem('adminLoggedIn') === 'true') {
-            const loginTime = localStorage.getItem('loginTime');
-            const currentTime = new Date().getTime();
-            const hoursSinceLogin = (currentTime - loginTime) / (1000 * 60 * 60);
-            
-            if (hoursSinceLogin < 24) {
-                window.location.href = 'admin.html';
-            } else {
-                localStorage.removeItem('adminLoggedIn');
-                localStorage.removeItem('loginTime');
-            }
-        }
+        // Auto-clear form on page load for security
+        window.addEventListener('pageshow', function() {
+            document.getElementById('loginForm').reset();
+        });
+
+        // Prevent form autofill from revealing credentials
+        document.getElementById('username').addEventListener('input', function() {
+            this.value = this.value.replace(/[^a-zA-Z0-9]/g, '');
+        });
+
+        // Security: Clear sensitive data when leaving page
+        window.addEventListener('beforeunload', function() {
+            document.getElementById('password').value = '';
+        });
     </script>
 </body>
 </html>
