@@ -8,9 +8,10 @@
     
     <!-- ANALYTICS INTEGRATED -->
     <script src="analytics.js"></script>
+    <script src="navigation.js"></script>
     
     <style>
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
             font-family: Arial, sans-serif; 
             max-width: 900px; 
@@ -37,24 +38,7 @@
         .logo-text span {
             display: block;
         }
-        .nav-links { 
-            text-align: center; 
-            margin: 20px 0; 
-            padding: 15px; 
-            background: white; 
-            border-radius: 10px; 
-            box-shadow: 0 2px 4px rgba(106, 13, 173, 0.1);
-        }
-        .nav-links a { 
-            margin: 0 15px; 
-            text-decoration: none; 
-            color: #6A0DAD; 
-            font-weight: bold; 
-            transition: color 0.3s ease;
-        }
-        .nav-links a:hover {
-            color: #8A2BE2;
-        }
+        
         .content-section { 
             background: white; 
             padding: 30px; 
@@ -77,6 +61,11 @@
             margin: 15px 0; 
             border-radius: 10px; 
             border-left: 5px solid #6A0DAD; 
+            transition: all 0.3s ease;
+        }
+        .organization-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(106, 13, 173, 0.15);
         }
         .service-tag { 
             background: #6A0DAD; 
@@ -85,6 +74,8 @@
             border-radius: 5px; 
             font-size: 12px; 
             margin-right: 5px; 
+            display: inline-block;
+            margin-bottom: 5px;
         }
         .contact-button { 
             background: #6A0DAD; 
@@ -95,14 +86,21 @@
             display: inline-block; 
             margin: 5px 5px 5px 0; 
             font-size: 14px; 
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
+            border: 2px solid #6A0DAD;
         }
         .contact-button:hover {
             background: #8A2BE2;
+            border-color: #8A2BE2;
+            transform: translateY(-1px);
         }
         .filter-buttons { 
             text-align: center; 
             margin: 20px 0; 
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
         }
         .filter-btn { 
             background: white; 
@@ -110,9 +108,9 @@
             padding: 8px 15px; 
             border: 2px solid #6A0DAD; 
             border-radius: 20px; 
-            margin: 5px; 
             cursor: pointer; 
             transition: all 0.3s ease;
+            font-weight: bold;
         }
         .filter-btn.active { 
             background: #6A0DAD; 
@@ -121,6 +119,33 @@
         .filter-btn:hover {
             background: #6A0DAD;
             color: white;
+            transform: translateY(-1px);
+        }
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        .search-box:focus {
+            border-color: #6A0DAD;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(106, 13, 173, 0.1);
+        }
+        .emergency-contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .emergency-contact {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
         }
         
         /* Enhanced Emergency Exit */
@@ -161,12 +186,36 @@
             color: #6A0DAD;
             font-size: 14px;
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #languageSelector:hover {
+            background: #6A0DAD;
+            color: white;
         }
         
         /* Accessibility */
         :focus {
             outline: 3px solid #6A0DAD;
             outline-offset: 2px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .filter-buttons {
+                flex-direction: column;
+            }
+            
+            .filter-btn {
+                width: 100%;
+            }
+            
+            .emergency-contact-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .organization-card {
+                padding: 15px;
+            }
         }
     </style>
 </head>
@@ -180,98 +229,157 @@
         <p>Verified Support Directory</p>
     </div>
 
-    <div class="nav-links">
-        <a href="index.html" data-translate="home">Home</a>
-        <a href="report.html" data-translate="report">Report Anonymously</a>
-        <a href="support.html" data-translate="support">Support Directory</a>
-        <a href="stories.html" data-translate="stories">Share Your Story</a>
-        <a href="library.html" data-translate="library">GBV Resources</a>
-        <a href="community.html" data-translate="community">Community Support</a>
-        <a href="events.html" data-translate="events">Events & Marches</a>
-        <a href="about.html" data-translate="about">About Our Mission</a>
-        <a href="safety-plan.html" data-translate="safety">Safety Planning</a>
-        <a href="risk-assessment.html" data-translate="assessment">Risk Assessment</a>
-        <a href="education-hub.html" data-translate="education">Education Hub</a>
-        <a href="login.html" data-translate="login">Admin Login</a>
-    </div>
+    <!-- Navigation auto-loaded here -->
 
     <div class="content-section">
         <h2>🆘 24/7 Emergency Contacts</h2>
-        <p><strong>GBV Command Centre:</strong> 0800 428 428</p>
-        <p><strong>Police Emergency:</strong> 10111</p>
-        <p><strong>Lifeline Counseling:</strong> 0861 322 322</p>
-        <p><strong>Suicide Crisis Line:</strong> 0800 567 567</p>
+        <div class="emergency-contact-grid">
+            <div class="emergency-contact">
+                <strong>GBV Command Centre</strong><br>
+                0800 428 428<br>
+                <small>Free • 24/7 • Multilingual</small>
+            </div>
+            <div class="emergency-contact">
+                <strong>Police Emergency</strong><br>
+                10111<br>
+                <small>Immediate response</small>
+            </div>
+            <div class="emergency-contact">
+                <strong>Lifeline Counseling</strong><br>
+                0861 322 322<br>
+                <small>Emotional support</small>
+            </div>
+            <div class="emergency-contact">
+                <strong>Suicide Crisis</strong><br>
+                0800 567 567<br>
+                <small>Crisis intervention</small>
+            </div>
+        </div>
     </div>
 
     <div class="content-section">
         <h2>✅ Verified Support Organizations</h2>
-        <p>All organizations listed below have been verified for your safety and trust.</p>
+        <p>All organizations listed below have been verified for your safety and trust. They provide confidential, professional support.</p>
+
+        <input type="text" class="search-box" id="searchOrganizations" placeholder="🔍 Search for organizations, services, or locations...">
 
         <div class="filter-buttons">
             <button class="filter-btn active" onclick="filterOrganizations('all')">All Services</button>
             <button class="filter-btn" onclick="filterOrganizations('counseling')">Counseling</button>
             <button class="filter-btn" onclick="filterOrganizations('legal')">Legal Aid</button>
             <button class="filter-btn" onclick="filterOrganizations('shelter')">Shelters</button>
+            <button class="filter-btn" onclick="filterOrganizations('medical')">Medical</button>
             <button class="filter-btn" onclick="filterOrganizations('support')">Support Groups</button>
         </div>
 
-        <div class="organization-card" data-category="counseling,support">
+        <div class="organization-card" data-category="counseling,support,medical" data-search="tears foundation counseling crisis intervention support groups medical">
             <h3>TEARS Foundation <span class="verification-badge">VERIFIED</span></h3>
             <p><strong>Services:</strong> 
-                <span class="service-tag">Counseling</span>
                 <span class="service-tag">Crisis Intervention</span>
+                <span class="service-tag">Counseling</span>
+                <span class="service-tag">Medical Support</span>
                 <span class="service-tag">Support Groups</span>
+                <span class="service-tag">24/7 Helpline</span>
             </p>
-            <p><strong>Contact:</strong> 010 590 5920</p>
+            <p><strong>Contact:</strong> 010 590 5920 • SMS: *134*7355#</p>
             <p><strong>Website:</strong> tears.co.za</p>
-            <a href="https://tears.co.za" class="contact-button" target="_blank">Visit Website</a>
-            <a href="tel:0105905920" class="contact-button">Call Now</a>
+            <p><strong>Areas:</strong> Nationwide • Free services</p>
+            <a href="https://tears.co.za" class="contact-button" target="_blank" onclick="trackSupportClick('TEARS Website')">Visit Website</a>
+            <a href="tel:0105905920" class="contact-button" onclick="trackSupportClick('TEARS Call')">Call Now</a>
+            <a href="sms:*134*7355#" class="contact-button" onclick="trackSupportClick('TEARS SMS')">SMS for Help</a>
         </div>
 
-        <div class="organization-card" data-category="legal,counseling,shelter">
+        <div class="organization-card" data-category="legal,counseling,shelter,support" data-search="powa people opposing women abuse legal aid shelter counseling">
             <h3>People Opposing Women Abuse (POWA) <span class="verification-badge">VERIFIED</span></h3>
             <p><strong>Services:</strong> 
                 <span class="service-tag">Legal Aid</span>
                 <span class="service-tag">Counseling</span>
                 <span class="service-tag">Shelter</span>
                 <span class="service-tag">Support Groups</span>
+                <span class="service-tag">Advocacy</span>
             </p>
-            <p><strong>Contact:</strong> 011 642 4345</p>
+            <p><strong>Contact:</strong> 011 642 4345 • Email: info@powa.co.za</p>
             <p><strong>Website:</strong> powa.co.za</p>
-            <a href="https://www.powa.co.za" class="contact-button" target="_blank">Visit Website</a>
-            <a href="tel:0116424345" class="contact-button">Call Now</a>
+            <p><strong>Areas:</strong> Gauteng, Limpopo, Free State</p>
+            <a href="https://www.powa.co.za" class="contact-button" target="_blank" onclick="trackSupportClick('POWA Website')">Visit Website</a>
+            <a href="tel:0116424345" class="contact-button" onclick="trackSupportClick('POWA Call')">Call Now</a>
         </div>
 
-        <div class="organization-card" data-category="legal">
+        <div class="organization-card" data-category="legal" data-search="legal aid south africa court support free legal services">
             <h3>Legal Aid South Africa <span class="verification-badge">VERIFIED</span></h3>
             <p><strong>Services:</strong> 
                 <span class="service-tag">Legal Aid</span>
                 <span class="service-tag">Court Support</span>
+                <span class="service-tag">Protection Orders</span>
+                <span class="service-tag">Legal Advice</span>
             </p>
-            <p><strong>Contact:</strong> 0800 110 110 (Toll-free)</p>
+            <p><strong>Contact:</strong> 0800 110 110 (Toll-free) • 012 401 9200</p>
             <p><strong>Website:</strong> legal-aid.co.za</p>
-            <a href="https://legal-aid.co.za" class="contact-button" target="_blank">Visit Website</a>
-            <a href="tel:0800110110" class="contact-button">Call Now</a>
+            <p><strong>Areas:</strong> Nationwide • Free legal services</p>
+            <a href="https://legal-aid.co.za" class="contact-button" target="_blank" onclick="trackSupportClick('Legal Aid Website')">Visit Website</a>
+            <a href="tel:0800110110" class="contact-button" onclick="trackSupportClick('Legal Aid Call')">Call Now</a>
         </div>
 
-        <div class="organization-card" data-category="counseling,support">
-            <h3>Lifeline <span class="verification-badge">VERIFIED</span></h3>
+        <div class="organization-card" data-category="counseling,support" data-search="lifeline counseling crisis support emotional help">
+            <h3>Lifeline South Africa <span class="verification-badge">VERIFIED</span></h3>
             <p><strong>Services:</strong> 
                 <span class="service-tag">Crisis Counseling</span>
                 <span class="service-tag">Support Groups</span>
                 <span class="service-tag">Telephone Support</span>
+                <span class="service-tag">Emotional First Aid</span>
             </p>
-            <p><strong>Contact:</strong> 0861 322 322</p>
+            <p><strong>Contact:</strong> 0861 322 322 • 011 715 2000</p>
             <p><strong>Website:</strong> lifelinesa.co.za</p>
-            <a href="https://lifelinesa.co.za" class="contact-button" target="_blank">Visit Website</a>
-            <a href="tel:0861322322" class="contact-button">Call Now</a>
+            <p><strong>Areas:</strong> Nationwide • 24/7 support</p>
+            <a href="https://lifelinesa.co.za" class="contact-button" target="_blank" onclick="trackSupportClick('Lifeline Website')">Visit Website</a>
+            <a href="tel:0861322322" class="contact-button" onclick="trackSupportClick('Lifeline Call')">Call Now</a>
+        </div>
+
+        <div class="organization-card" data-category="shelter,counseling,legal" data-search="shelter safe house temporary accommodation">
+            <h3>Saartjie Baartman Centre <span class="verification-badge">VERIFIED</span></h3>
+            <p><strong>Services:</strong> 
+                <span class="service-tag">Shelter</span>
+                <span class="service-tag">Counseling</span>
+                <span class="service-tag">Legal Aid</span>
+                <span class="service-tag">Job Skills</span>
+                <span class="service-tag">Childcare</span>
+            </p>
+            <p><strong>Contact:</strong> 021 633 5287</p>
+            <p><strong>Location:</strong> Cape Town, Western Cape</p>
+            <p><strong>Services:</strong> Comprehensive women and children support</p>
+            <a href="tel:0216335287" class="contact-button" onclick="trackSupportClick('Saartjie Call')">Call Now</a>
+        </div>
+
+        <div class="organization-card" data-category="medical,counseling" data-search="medical health care trauma counseling">
+            <h3>Thuthuzela Care Centres <span class="verification-badge">VERIFIED</span></h3>
+            <p><strong>Services:</strong> 
+                <span class="service-tag">Medical Care</span>
+                <span class="service-tag">Trauma Counseling</span>
+                <span class="service-tag">Forensic Services</span>
+                <span class="service-tag">Post-Exposure Prophylaxis</span>
+            </p>
+            <p><strong>Contact:</strong> Located at public hospitals nationwide</p>
+            <p><strong>Areas:</strong> Nationwide • 24/7 medical care</p>
+            <p><strong>Note:</strong> One-stop facilities at public hospitals</p>
         </div>
     </div>
 
     <div class="content-section">
         <h2>🏢 Are you an organization that helps GBV survivors?</h2>
-        <p>Apply to be listed in our verified directory and reach those who need your help.</p>
-        <a href="#" class="contact-button" onclick="alert('Contact us at: [Your Email] to apply for verification')">Apply for Verification</a>
+        <p>Apply to be listed in our verified directory and reach those who need your help. We verify all organizations to ensure user safety.</p>
+        <a href="#" class="contact-button" onclick="showVerificationForm()">Apply for Verification</a>
+        
+        <div id="verificationForm" style="display: none; margin-top: 20px; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+            <h4>Organization Verification Application</h4>
+            <p>Please email the following information to <strong>verify@gbvsafecorner.org</strong>:</p>
+            <ul>
+                <li>Organization name and registration number</li>
+                <li>Contact details and website</li>
+                <li>Services offered</li>
+                <li>Geographic areas served</li>
+                <li>Proof of registration and accreditation</li>
+            </ul>
+        </div>
     </div>
 
     <script>
@@ -329,6 +437,11 @@
             const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
             changeLanguage(savedLanguage);
             
+            // Initialize search functionality
+            document.getElementById('searchOrganizations').addEventListener('input', function() {
+                filterOrganizations('search');
+            });
+            
             // ANALYTICS TRACKING - INTEGRATED
             if (typeof analytics !== 'undefined') {
                 analytics.trackPageView('support.html');
@@ -340,59 +453,59 @@
         const translations = {
             en: {
                 'home': 'Home',
-                'report': 'Report Anonymously',
-                'support': 'Support Directory',
-                'stories': 'Share Your Story',
-                'library': 'GBV Resources',
-                'community': 'Community Support',
-                'events': 'Events & Marches',
-                'about': 'About Our Mission',
-                'safety': 'Safety Planning',
-                'assessment': 'Risk Assessment',
-                'education': 'Education Hub',
-                'login': 'Admin Login'
+                'report': 'Report',
+                'support': 'Support',
+                'stories': 'Stories',
+                'library': 'Resources',
+                'community': 'Community',
+                'events': 'Events',
+                'about': 'About',
+                'safety': 'Safety',
+                'assessment': 'Risk Check',
+                'education': 'Education',
+                'login': 'Admin'
             },
             zu: {
                 'home': 'Ikhaya',
-                'report': 'Bika Ngokungaziwa',
-                'support': 'Uhlu Lwezinsiza',
-                'stories': 'Yabelana Ngendaba Yakho',
-                'library': 'Izinsiza Ze-GBV',
-                'community': 'Ukusekelwa Komphakathi',
-                'events': 'Imicimbi Nemarch',
-                'about': 'Mayelana Nomgomo Wethu',
-                'safety': 'Ukuhlela Ukuphepha',
-                'assessment': 'Ukuhlola Ubungozi',
-                'education': 'I-Hub Yemfundo',
-                'login': 'Ukungena Kwe-Admin'
+                'report': 'Bika',
+                'support': 'Usizo',
+                'stories': 'Izindaba',
+                'library': 'Izinsiza',
+                'community': 'Umphakathi',
+                'events': 'Imicimbi',
+                'about': 'Mayelana',
+                'safety': 'Ukuphepha',
+                'assessment': 'Ukuhlola',
+                'education': 'Imfundo',
+                'login': 'Admin'
             },
             xh: {
                 'home': 'Ekhaya',
-                'report': 'Xela Ngokungaziwa',
-                'support': 'Uluhlu Looncedo',
-                'stories': 'Yabelana Ngembali Yakho',
-                'library': 'Iindlela Zoncedo Ze-GBV',
-                'community': 'Inkxaso YoLuntu',
-                'events': 'Iivenkile Neemarch',
-                'about': 'Malunga Neenjongo Zethu',
-                'safety': 'Uyilo LoKhuseleko',
-                'assessment': 'Uvavanyo LoMngcipheko',
-                'education': 'I-Hub YeMfundo',
-                'login': 'Ungeno Lwe-Admin'
+                'report': 'Xela',
+                'support': 'Uncedo',
+                'stories': 'Iimbali',
+                'library': 'Iindlela',
+                'community': 'Uluntu',
+                'events': 'Iivenkile',
+                'about': 'Malunga',
+                'safety': 'Ukhuseleko',
+                'assessment': 'Uvavanyo',
+                'education': 'Imfundo',
+                'login': 'Admin'
             },
             af: {
                 'home': 'Tuis',
-                'report': 'Rapporteer Anoniem',
-                'support': 'Ondersteuningsgids',
-                'stories': 'Deel Jou Storie',
-                'library': 'GBV Hulpbronne',
-                'community': 'Gemeenskapsondersteuning',
-                'events': 'Gebeure & Optogte',
-                'about': 'Oor Ons Missie',
-                'safety': 'Veiligheidsbeplanning',
-                'assessment': 'Risiko-assessering',
-                'education': 'Onderrig Sentrum',
-                'login': 'Admin Aanteken'
+                'report': 'Rapporteer',
+                'support': 'Ondersteuning',
+                'stories': 'Stories',
+                'library': 'Hulpbronne',
+                'community': 'Gemeenskap',
+                'events': 'Gebeure',
+                'about': 'Oor',
+                'safety': 'Veiligheid',
+                'assessment': 'Risiko',
+                'education': 'Onderrig',
+                'login': 'Admin'
             }
         };
 
@@ -423,23 +536,56 @@
         }
 
         function filterOrganizations(category) {
+            // Update active filter button
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-            event.target.classList.add('active');
+            if (category !== 'search') {
+                event.target.classList.add('active');
+            }
             
+            const searchTerm = document.getElementById('searchOrganizations').value.toLowerCase();
             const organizations = document.querySelectorAll('.organization-card');
+            
             organizations.forEach(org => {
-                if (category === 'all' || org.getAttribute('data-category').includes(category)) {
+                if (category === 'all') {
                     org.style.display = 'block';
+                } else if (category === 'search') {
+                    const searchData = org.getAttribute('data-search').toLowerCase();
+                    if (searchTerm === '' || searchData.includes(searchTerm)) {
+                        org.style.display = 'block';
+                    } else {
+                        org.style.display = 'none';
+                    }
                 } else {
-                    org.style.display = 'none';
+                    const orgCategories = org.getAttribute('data-category');
+                    if (orgCategories.includes(category)) {
+                        org.style.display = 'block';
+                    } else {
+                        org.style.display = 'none';
+                    }
                 }
             });
             
-            // ANALYTICS TRACKING - INTEGRATED
+            // ANALYTICS TRACKING
             if (typeof analytics !== 'undefined') {
                 analytics.trackFeatureUse('support_filter_' + category);
+            }
+        }
+
+        function trackSupportClick(organization) {
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse('support_contact_clicked');
+                analytics.trackFeatureUse('support_org_' + organization.replace(/\s+/g, '_'));
+            }
+        }
+
+        function showVerificationForm() {
+            const form = document.getElementById('verificationForm');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse('verification_form_toggled');
             }
         }
     </script>
