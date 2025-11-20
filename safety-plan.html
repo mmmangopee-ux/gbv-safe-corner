@@ -11,7 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
     <style>
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
             font-family: Arial, sans-serif; 
             max-width: 900px; 
@@ -214,20 +214,20 @@
             outline-offset: 2px;
         }
         
-        /* MOBILE RESPONSIVE STYLES */
-        @media (max-width: 768px) {
+        /* MOBILE RESPONSIVE STYLES - FORCE MOBILE MENU */
+        @media screen and (max-width: 768px) {
             .mobile-menu-btn {
-                display: block;
+                display: block !important;
             }
             .nav-links {
-                display: none;
+                display: none !important;
                 flex-direction: column;
                 text-align: center;
                 gap: 0;
                 padding: 10px;
             }
-            .nav-links.active {
-                display: flex;
+            .nav-links.mobile-active {
+                display: flex !important;
             }
             .nav-links a {
                 padding: 15px;
@@ -236,6 +236,7 @@
                 margin: 2px 0;
                 width: 100%;
                 text-align: center;
+                display: block;
             }
             .logo-text {
                 font-size: 1.5em;
@@ -250,7 +251,7 @@
             }
         }
         
-        @media (max-width: 480px) {
+        @media screen and (max-width: 480px) {
             body {
                 padding: 10px;
             }
@@ -285,7 +286,7 @@
 
     <!-- MOBILE-FRIENDLY NAVIGATION -->
     <div class="nav-container">
-        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰ Menu</button>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">☰ Menu</button>
         <div class="nav-links" id="mainNav">
             <a href="index.html" data-translate="home">Home</a>
             <a href="report.html" data-translate="report">Report</a>
@@ -435,24 +436,29 @@
             window.history.replaceState(null, null, window.location.pathname);
         }
         
-        // Mobile Menu Toggle
+        // Mobile Menu Functionality
         function toggleMobileMenu() {
             const nav = document.getElementById('mainNav');
-            nav.classList.toggle('active');
+            nav.classList.toggle('mobile-active');
         }
         
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const nav = document.getElementById('mainNav');
-            const menuBtn = document.querySelector('.mobile-menu-btn');
-            if (!nav.contains(event.target) && !menuBtn.contains(event.target)) {
-                nav.classList.remove('active');
-            }
-        });
-        
-        // Enhanced Emergency Exit
+        // Initialize mobile menu
         document.addEventListener('DOMContentLoaded', function() {
-            // Create emergency exit button
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const nav = document.getElementById('mainNav');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                nav.classList.toggle('mobile-active');
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!nav.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+                    nav.classList.remove('mobile-active');
+                }
+            });
+            
+            // Enhanced Emergency Exit
             const emergencyExit = document.createElement('div');
             emergencyExit.className = 'emergency-exit';
             emergencyExit.innerHTML = `
@@ -466,13 +472,11 @@
 
             // Enhanced emergency redirect
             window.emergencyRedirect = function() {
-                // Clear sensitive data
                 localStorage.removeItem('safetyPlanProgress');
                 sessionStorage.clear();
                 document.querySelectorAll('input, textarea').forEach(element => {
                     element.value = '';
                 });
-                // Redirect to safe page
                 window.location.href = 'https://www.google.com/search?q=weather';
             };
 
@@ -614,7 +618,6 @@
                 item.classList.remove('completed');
             }
             
-            // ANALYTICS TRACKING - INTEGRATED
             if (typeof analytics !== 'undefined') {
                 analytics.trackFeatureUse('checklist_toggle');
             }
@@ -631,23 +634,19 @@
             localStorage.setItem('safetyPlanProgress', JSON.stringify(progress));
             alert('Safety plan progress saved locally on your device.');
             
-            // ANALYTICS TRACKING - INTEGRATED
             if (typeof analytics !== 'undefined') {
                 analytics.trackFeatureUse('safety_plan_save');
             }
         }
         
-        // Enhanced PDF Generator
         function generateSafetyPlanPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
-            // Title
             doc.setFontSize(20);
             doc.setTextColor(106, 13, 173);
             doc.text('Personal Safety Plan - GBV Safe Corner', 20, 20);
             
-            // Emergency Contacts
             doc.setFontSize(12);
             doc.setTextColor(0, 0, 0);
             doc.text('Emergency Contacts:', 20, 35);
@@ -655,7 +654,6 @@
             doc.text('Police Emergency: 10111', 25, 55);
             doc.text('Lifeline Counseling: 0861 322 322', 25, 65);
             
-            // Content from checklists
             let yPosition = 85;
             const categories = document.querySelectorAll('.safety-category');
             
@@ -663,13 +661,11 @@
                 const title = category.querySelector('h3').textContent;
                 const items = category.querySelectorAll('.checklist-item');
                 
-                // Category title
                 doc.setFontSize(14);
                 doc.setTextColor(106, 13, 173);
                 doc.text(title, 20, yPosition);
                 yPosition += 10;
                 
-                // Items
                 doc.setFontSize(10);
                 doc.setTextColor(0, 0, 0);
                 
@@ -690,15 +686,12 @@
                 yPosition += 10;
             });
             
-            // Footer
             doc.setFontSize(8);
             doc.setTextColor(100, 100, 100);
             doc.text('Generated by GBV Safe Corner - ' + new Date().toLocaleDateString(), 20, 280);
             
-            // Save the PDF
             doc.save('gbv-safety-plan.pdf');
             
-            // ANALYTICS TRACKING - INTEGRATED
             if (typeof analytics !== 'undefined') {
                 analytics.trackFeatureUse('pdf_download');
             }
