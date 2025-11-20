@@ -3,7 +3,11 @@
 <head>
     <title>Report Anonymously - GBV Safe Corner</title>
     <style>
-        /* Keep existing styles, add these: */
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #f8f8f8; line-height: 1.6; }
+        .header { background: #8B0000; color: white; padding: 30px; text-align: center; border-radius: 15px; margin-bottom: 20px; }
+        .nav-links { text-align: center; margin: 20px 0; padding: 15px; background: white; border-radius: 10px; }
+        .nav-links a { margin: 0 15px; text-decoration: none; color: #8B0000; font-weight: bold; }
+        .content-section { background: white; padding: 30px; border-radius: 15px; margin: 25px 0; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
         .form-group { margin: 15px 0; }
         label { display: block; margin-bottom: 5px; font-weight: bold; }
         textarea, select, input { 
@@ -33,6 +37,7 @@
             display: none;
         }
     </style>
+    <script src="supabase-config.js"></script>
 </head>
 <body>
     <div class="header">
@@ -41,7 +46,14 @@
     </div>
 
     <div class="nav-links">
-        <!-- Keep existing nav links -->
+        <a href="index.html">Home</a>
+        <a href="report.html">Report Anonymously</a>
+        <a href="support.html">Support Directory</a>
+        <a href="stories.html">Share Your Story</a>
+        <a href="library.html">GBV Resources</a>
+        <a href="community.html">Community Support</a>
+        <a href="events.html">Events & Marches</a>
+        <a href="about.html">About Our Mission</a>
     </div>
 
     <div class="content-section">
@@ -92,15 +104,6 @@
     </div>
 
     <script>
-        // Add this to your supabase-config.js file
-        const SUPABASE_URL = 'https://your-project-url.supabase.co';
-        const SUPABASE_ANON_KEY = 'your-anon-key';
-
-        // Simple IP hash function (doesn't reveal actual IP)
-        function getIpHash() {
-            return 'anonymous_' + Math.random().toString(36).substr(2, 9);
-        }
-
         document.getElementById('reportForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -115,16 +118,7 @@
             };
 
             try {
-                const response = await fetch(SUPABASE_URL + '/rest/v1/gbv_reports', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'apikey': SUPABASE_ANON_KEY,
-                        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-                        'Prefer': 'return=minimal'
-                    },
-                    body: JSON.stringify(reportData)
-                });
+                const response = await submitToSupabase('gbv_reports', reportData);
 
                 if (response.ok) {
                     document.getElementById('successMessage').style.display = 'block';
