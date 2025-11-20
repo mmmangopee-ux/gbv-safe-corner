@@ -99,6 +99,13 @@
         .purple-accent {
             color: #6A0DAD;
         }
+        .security-notice {
+            background: #e8f4fd;
+            border-left: 4px solid #6A0DAD;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -110,26 +117,33 @@
             <span>SAFE</span>
             <span>CORNER</span>
         </div>
-        <p>View Submitted Data</p>
+        <p>Secure Admin Panel - Private Data Access</p>
+    </div>
+
+    <div class="security-notice">
+        <strong>🔒 Security Notice:</strong> Reports are completely private and only visible in this admin panel. 
+        The public cannot access any report data.
     </div>
 
     <div class="tab-buttons">
-        <button class="tab-btn active" onclick="showTab('reports')">Reports</button>
-        <button class="tab-btn" onclick="showTab('stories')">Stories</button>
-        <button class="tab-btn" onclick="showTab('events')">Events</button>
+        <button class="tab-btn active" onclick="showTab('reports')">Private Reports</button>
+        <button class="tab-btn" onclick="showTab('stories')">Anonymous Stories</button>
+        <button class="tab-btn" onclick="showTab('events')">Public Events</button>
     </div>
 
     <div id="reports" class="tab-content active">
         <div class="admin-section">
-            <h2 class="purple-accent">Anonymous Reports</h2>
-            <button class="refresh-btn" onclick="loadReports()">Refresh Reports</button>
+            <h2 class="purple-accent">🔒 Private Reports (Admin Only)</h2>
+            <p><em>These reports are completely hidden from public view for survivor safety.</em></p>
+            <button class="refresh-btn" onclick="loadReports()">Refresh Private Reports</button>
             <div id="reportsData"></div>
         </div>
     </div>
 
     <div id="stories" class="tab-content">
         <div class="admin-section">
-            <h2 class="purple-accent">Survivor Stories</h2>
+            <h2 class="purple-accent">📖 Anonymous Stories</h2>
+            <p><em>Only stories marked for anonymous sharing are visible to the public.</em></p>
             <button class="refresh-btn" onclick="loadStories()">Refresh Stories</button>
             <div id="storiesData"></div>
         </div>
@@ -137,7 +151,8 @@
 
     <div id="events" class="tab-content">
         <div class="admin-section">
-            <h2 class="purple-accent">Event Submissions</h2>
+            <h2 class="purple-accent">📅 Public Events</h2>
+            <p><em>Only events marked as public are visible on the main website.</em></p>
             <button class="refresh-btn" onclick="loadEvents()">Refresh Events</button>
             <div id="eventsData"></div>
         </div>
@@ -191,30 +206,45 @@
                     method: 'GET',
                     headers: {
                         'apikey': SUPABASE_KEY,
-                        'Authorization': 'Bearer ' + SUPABASE_KEY
+                        'Authorization': 'Bearer ' + SUPABASE_KEY,
+                        'Content-Type': 'application/json'
                     }
                 });
                 
                 if (response.ok) {
                     return await response.json();
                 } else {
-                    throw new Error('Failed to fetch data');
+                    const errorText = await response.text();
+                    throw new Error(`HTTP ${response.status}: ${errorText}`);
                 }
             } catch (error) {
-                console.error('Error fetching from Supabase:', error);
+                console.error(`Error fetching from ${tableName}:`, error);
                 throw error;
             }
         }
 
         async function loadReports() {
             try {
+                document.getElementById('reportsData').innerHTML = '<p>Loading private reports...</p>';
+                
                 const reports = await fetchFromSupabase('gbv_reports', {
                     query: { order: 'created_at.desc' }
                 });
                 
+                if (reports.length === 0) {
+                    document.getElementById('reportsData').innerHTML = `
+                        <p>No private reports found.</p>
+                        <div class="security-notice">
+                            <strong>Note:</strong> Reports are completely private. The public cannot see any report data.
+                            Submit a test report through the website to verify the system is working.
+                        </div>
+                    `;
+                    return;
+                }
+                
                 let html = `<table class="data-table">
                     <tr>
-                        <th>Date</th>
+                        <th>Date Submitted</th>
                         <th>Incident Type</th>
                         <th>Location</th>
                         <th>Description</th>
@@ -223,23 +253,29 @@
                 
                 reports.forEach(report => {
                     html += `<tr>
-                        <td>${new Date(report.created_at).toLocaleDateString()}</td>
-                        <td>${report.incident_type || 'N/A'}</td>
+                        <td>${new Date(report.created_at).toLocaleString()}</td>
+                        <td>${report.incident_type || 'Not specified'}</td>
                         <td>${report.location || 'Not specified'}</td>
-                        <td>${report.description || 'No description'}</td>
-                        <td>${report.needs_support ? 'Yes' : 'No'}</td>
+                        <td>${report.description || 'No description provided'}</td>
+                        <td>${report.needs_support ? '✅ Yes' : 'No'}</td>
                     </tr>`;
                 });
                 
                 html += '</table>';
                 document.getElementById('reportsData').innerHTML = html;
             } catch (error) {
-                document.getElementById('reportsData').innerHTML = '<p>Error loading reports</p>';
+                document.getElementById('reportsData').innerHTML = `
+                    <p>Error loading private reports: ${error.message}</p>
+                    <div class="security-notice">
+                        <strong>Solution Needed:</strong> Run the RLS SQL commands in Supabase to enable private report access.
+                    </div>
+                `;
             }
         }
 
         async function loadStories() {
             try {
+                document.getElementById('storiesData').innerHTML = '<p>Loading stories...</p>';
                 const stories = await fetchFromSupabase('survivor_stories', {
                     query: { order: 'created_at.desc' }
                 });
@@ -249,6 +285,7 @@
                         <th>Date</th>
                         <th>Title</th>
                         <th>Story Preview</th>
+                        <th>Anonymous</th>
                         <th>Allow Comments</th>
                     </tr>`;
                 
@@ -260,19 +297,21 @@
                         <td>${new Date(story.created_at).toLocaleDateString()}</td>
                         <td>${story.story_title || 'Untitled'}</td>
                         <td>${preview}</td>
-                        <td>${story.allow_comments ? 'Yes' : 'No'}</td>
+                        <td>${story.share_anonymously ? '✅ Yes' : 'No'}</td>
+                        <td>${story.allow_comments ? '✅ Yes' : 'No'}</td>
                     </tr>`;
                 });
                 
                 html += '</table>';
-                document.getElementById('storiesData').innerHTML = html;
+                document.getElementById('storiesData').innerHTML = html || '<p>No stories found.</p>';
             } catch (error) {
-                document.getElementById('storiesData').innerHTML = '<p>Error loading stories</p>';
+                document.getElementById('storiesData').innerHTML = `<p>Error loading stories: ${error.message}</p>`;
             }
         }
 
         async function loadEvents() {
             try {
+                document.getElementById('eventsData').innerHTML = '<p>Loading events...</p>';
                 const events = await fetchFromSupabase('gbv_events', {
                     query: { order: 'created_at.desc' }
                 });
@@ -285,6 +324,7 @@
                         <th>Event Date</th>
                         <th>Location</th>
                         <th>Organizer Contact</th>
+                        <th>Public</th>
                     </tr>`;
                 
                 events.forEach(event => {
@@ -295,16 +335,18 @@
                         <td>${event.event_date ? new Date(event.event_date).toLocaleDateString() : 'Not set'}</td>
                         <td>${event.location}</td>
                         <td>${event.organizer_contact}</td>
+                        <td>${event.is_public ? '✅ Yes' : 'No'}</td>
                     </tr>`;
                 });
                 
                 html += '</table>';
-                document.getElementById('eventsData').innerHTML = html;
+                document.getElementById('eventsData').innerHTML = html || '<p>No events found.</p>';
             } catch (error) {
-                document.getElementById('eventsData').innerHTML = '<p>Error loading events</p>';
+                document.getElementById('eventsData').innerHTML = `<p>Error loading events: ${error.message}</p>`;
             }
         }
 
+        // Load initial data
         loadReports();
     </script>
 </body>
