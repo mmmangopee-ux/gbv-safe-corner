@@ -1,9 +1,41 @@
-<!-- Add this to your server configuration or .htaccess -->
-<meta http-equiv="Content-Security-Policy" content="
-  default-src 'self';
-  script-src 'self' 'unsafe-inline' https://sofzsursxpjmghhcphrh.supabase.co https://www.youtube.com;
-  style-src 'self' 'unsafe-inline';
-  img-src 'self' data: https:;
-  connect-src 'self' https://sofzsursxpjmghhcphrh.supabase.co;
-  frame-src https://www.youtube.com https://docs.google.com;
-">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Security Headers - GBV Safe Corner</title>
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self';
+        script-src 'self' 'unsafe-inline' https://sofzsursxpjmghhcphrh.supabase.co https://www.youtube.com https://cdnjs.cloudflare.com;
+        style-src 'self' 'unsafe-inline';
+        img-src 'self' data: https:;
+        connect-src 'self' https://sofzsursxpjmghhcphrh.supabase.co;
+        frame-src https://www.youtube.com https://docs.google.com;
+    ">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .header {
+            background: linear-gradient(135deg, #6A0DAD, #8A2BE2);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>GBV Safe Corner</h1>
+        <p>Security Headers Configuration</p>
+    </div>
+    
+    <p>Security headers are active on this site to protect user privacy and safety.</p>
+</body>
+</html>
