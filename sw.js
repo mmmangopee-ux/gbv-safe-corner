@@ -1,20 +1,22 @@
 const CACHE_NAME = 'gbv-safe-corner-v2';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/safety-plan.html',
-  '/risk-assessment.html',
-  '/education-hub.html',
-  '/support.html',
-  '/report.html',
-  '/stories.html',
-  '/library.html',
-  '/community.html',
-  '/events.html',
-  '/about.html',
-  '/login.html',
-  '/admin.html',
-  '/manifest.json'
+  '/gbv-safe-corner/',
+  '/gbv-safe-corner/index.html',
+  '/gbv-safe-corner/safety-plan.html',
+  '/gbv-safe-corner/risk-assessment.html',
+  '/gbv-safe-corner/education-hub.html',
+  '/gbv-safe-corner/support.html',
+  '/gbv-safe-corner/report.html',
+  '/gbv-safe-corner/stories.html',
+  '/gbv-safe-corner/library.html',
+  '/gbv-safe-corner/community.html',
+  '/gbv-safe-corner/events.html',
+  '/gbv-safe-corner/about.html',
+  '/gbv-safe-corner/login.html',
+  '/gbv-safe-corner/admin.html',
+  '/gbv-safe-corner/manifest.json',
+  '/gbv-safe-corner/supabase-config.js',
+  '/gbv-safe-corner/analytics.js'
 ];
 
 self.addEventListener('install', function(event) {
@@ -36,19 +38,5 @@ self.addEventListener('fetch', function(event) {
         return fetch(event.request);
       }
     )
-  );
-});
-
-self.addEventListener('activate', function(event) {
-  event.waitUntil(
-    caches.keys().then(function(cacheNames) {
-      return Promise.all(
-        cacheNames.map(function(cacheName) {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
   );
 });
