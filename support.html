@@ -3,23 +3,129 @@
 <head>
     <title>Support Directory - GBV Safe Corner</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #f8f8f8; line-height: 1.6; }
-        .header { background: #8B0000; color: white; padding: 30px; text-align: center; border-radius: 15px; margin-bottom: 20px; }
-        .nav-links { text-align: center; margin: 20px 0; padding: 15px; background: white; border-radius: 10px; }
-        .nav-links a { margin: 0 15px; text-decoration: none; color: #8B0000; font-weight: bold; }
-        .content-section { background: white; padding: 30px; border-radius: 15px; margin: 25px 0; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .verification-badge { background: #4CAF50; color: white; padding: 5px 10px; border-radius: 15px; font-size: 12px; font-weight: bold; margin-left: 10px; }
-        .organization-card { background: #f9f9f9; padding: 20px; margin: 15px 0; border-radius: 10px; border-left: 5px solid #8B0000; }
-        .service-tag { background: #8B0000; color: white; padding: 3px 8px; border-radius: 5px; font-size: 12px; margin-right: 5px; }
-        .contact-button { background: #8B0000; color: white; padding: 8px 15px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 5px 5px 5px 0; font-size: 14px; }
-        .filter-buttons { text-align: center; margin: 20px 0; }
-        .filter-btn { background: white; color: #8B0000; padding: 8px 15px; border: 2px solid #8B0000; border-radius: 20px; margin: 5px; cursor: pointer; }
-        .filter-btn.active { background: #8B0000; color: white; }
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 900px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            background-color: #f8f8f8; 
+            line-height: 1.6; 
+        }
+        .header { 
+            background: linear-gradient(135deg, #6A0DAD, #8A2BE2);
+            color: white; 
+            padding: 30px; 
+            text-align: center; 
+            border-radius: 15px; 
+            margin-bottom: 20px; 
+        }
+        .logo-text {
+            font-size: 2em;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+        .logo-text span {
+            display: block;
+        }
+        .nav-links { 
+            text-align: center; 
+            margin: 20px 0; 
+            padding: 15px; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 2px 4px rgba(106, 13, 173, 0.1);
+        }
+        .nav-links a { 
+            margin: 0 15px; 
+            text-decoration: none; 
+            color: #6A0DAD; 
+            font-weight: bold; 
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: #8A2BE2;
+        }
+        .content-section { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 15px; 
+            margin: 25px 0; 
+            box-shadow: 0 4px 8px rgba(106, 13, 173, 0.1);
+        }
+        .verification-badge { 
+            background: #4CAF50; 
+            color: white; 
+            padding: 5px 10px; 
+            border-radius: 15px; 
+            font-size: 12px; 
+            font-weight: bold; 
+            margin-left: 10px; 
+        }
+        .organization-card { 
+            background: #f9f9f9; 
+            padding: 20px; 
+            margin: 15px 0; 
+            border-radius: 10px; 
+            border-left: 5px solid #6A0DAD; 
+        }
+        .service-tag { 
+            background: #6A0DAD; 
+            color: white; 
+            padding: 3px 8px; 
+            border-radius: 5px; 
+            font-size: 12px; 
+            margin-right: 5px; 
+        }
+        .contact-button { 
+            background: #6A0DAD; 
+            color: white; 
+            padding: 8px 15px; 
+            text-decoration: none; 
+            border-radius: 5px; 
+            display: inline-block; 
+            margin: 5px 5px 5px 0; 
+            font-size: 14px; 
+            transition: background 0.3s ease;
+        }
+        .contact-button:hover {
+            background: #8A2BE2;
+        }
+        .filter-buttons { 
+            text-align: center; 
+            margin: 20px 0; 
+        }
+        .filter-btn { 
+            background: white; 
+            color: #6A0DAD; 
+            padding: 8px 15px; 
+            border: 2px solid #6A0DAD; 
+            border-radius: 20px; 
+            margin: 5px; 
+            cursor: pointer; 
+            transition: all 0.3s ease;
+        }
+        .filter-btn.active { 
+            background: #6A0DAD; 
+            color: white; 
+        }
+        .filter-btn:hover {
+            background: #6A0DAD;
+            color: white;
+        }
+        .purple-accent {
+            color: #6A0DAD;
+        }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>GBV Safe Corner</h1>
+        <div class="logo-text">
+            <span>GBV</span>
+            <span>SAFE</span>
+            <span>CORNER</span>
+        </div>
         <p>Verified Support Directory</p>
     </div>
 
@@ -32,10 +138,11 @@
         <a href="community.html">Community Support</a>
         <a href="events.html">Events & Marches</a>
         <a href="about.html">About Our Mission</a>
+        <a href="login.html">Admin Login</a>
     </div>
 
     <div class="content-section">
-        <h2>🆘 24/7 Emergency Contacts</h2>
+        <h2 class="purple-accent">🆘 24/7 Emergency Contacts</h2>
         <p><strong>GBV Command Centre:</strong> 0800 428 428</p>
         <p><strong>Police Emergency:</strong> 10111</p>
         <p><strong>Lifeline Counseling:</strong> 0861 322 322</p>
@@ -43,7 +150,7 @@
     </div>
 
     <div class="content-section">
-        <h2>✅ Verified Support Organizations</h2>
+        <h2 class="purple-accent">✅ Verified Support Organizations</h2>
         <p>All organizations listed below have been verified for your safety and trust.</p>
 
         <div class="filter-buttons">
@@ -55,7 +162,7 @@
         </div>
 
         <div class="organization-card" data-category="counseling,support">
-            <h3>TEARS Foundation <span class="verification-badge">VERIFIED</span></h3>
+            <h3 class="purple-accent">TEARS Foundation <span class="verification-badge">VERIFIED</span></h3>
             <p><strong>Services:</strong> 
                 <span class="service-tag">Counseling</span>
                 <span class="service-tag">Crisis Intervention</span>
@@ -68,7 +175,7 @@
         </div>
 
         <div class="organization-card" data-category="legal,counseling,shelter">
-            <h3>People Opposing Women Abuse (POWA) <span class="verification-badge">VERIFIED</span></h3>
+            <h3 class="purple-accent">People Opposing Women Abuse (POWA) <span class="verification-badge">VERIFIED</span></h3>
             <p><strong>Services:</strong> 
                 <span class="service-tag">Legal Aid</span>
                 <span class="service-tag">Counseling</span>
@@ -82,7 +189,7 @@
         </div>
 
         <div class="organization-card" data-category="legal">
-            <h3>Legal Aid South Africa <span class="verification-badge">VERIFIED</span></h3>
+            <h3 class="purple-accent">Legal Aid South Africa <span class="verification-badge">VERIFIED</span></h3>
             <p><strong>Services:</strong> 
                 <span class="service-tag">Legal Aid</span>
                 <span class="service-tag">Court Support</span>
@@ -94,7 +201,7 @@
         </div>
 
         <div class="organization-card" data-category="counseling,support">
-            <h3>Lifeline <span class="verification-badge">VERIFIED</span></h3>
+            <h3 class="purple-accent">Lifeline <span class="verification-badge">VERIFIED</span></h3>
             <p><strong>Services:</strong> 
                 <span class="service-tag">Crisis Counseling</span>
                 <span class="service-tag">Support Groups</span>
@@ -108,7 +215,7 @@
     </div>
 
     <div class="content-section">
-        <h2>🏢 Are you an organization that helps GBV survivors?</h2>
+        <h2 class="purple-accent">🏢 Are you an organization that helps GBV survivors?</h2>
         <p>Apply to be listed in our verified directory and reach those who need your help.</p>
         <a href="#" class="contact-button" onclick="alert('Contact us at: [Your Email] to apply for verification')">Apply for Verification</a>
     </div>
