@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Safety Planning - GBV Safe Corner</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 900px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            background-color: #f8f8f8; 
+            line-height: 1.6; 
+        }
+        .header { 
+            background: linear-gradient(135deg, #6A0DAD, #8A2BE2);
+            color: white; 
+            padding: 30px; 
+            text-align: center; 
+            border-radius: 15px; 
+            margin-bottom: 20px; 
+        }
+        .logo-text {
+            font-size: 2em;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+        .logo-text span {
+            display: block;
+        }
+        .nav-links { 
+            text-align: center; 
+            margin: 20px 0; 
+            padding: 15px; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 2px 4px rgba(106, 13, 173, 0.1);
+        }
+        .nav-links a { 
+            margin: 0 15px; 
+            text-decoration: none; 
+            color: #6A0DAD; 
+            font-weight: bold; 
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: #8A2BE2;
+        }
+        .content-section { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 15px; 
+            margin: 25px 0; 
+            box-shadow: 0 4px 8px rgba(106, 13, 173, 0.1);
+        }
+        .safety-category {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            border-left: 4px solid #6A0DAD;
+        }
+        .checklist-item {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+        .checklist-item label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: normal;
+        }
+        .checklist-item input[type="checkbox"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+        .checklist-item.completed {
+            background: #e8f5e8;
+            border-color: #4CAF50;
+        }
+        .print-btn {
+            background: #6A0DAD;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        .save-btn {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        .purple-accent {
+            color: #6A0DAD;
+        }
+        @media print {
+            .no-print { display: none; }
+            body { background: white; }
+            .content-section { box-shadow: none; border: 1px solid #ddd; }
+        }
+    </style>
+    <script src="emergency-exit.js"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="logo-text">
+            <span>GBV</span>
+            <span>SAFE</span>
+            <span>CORNER</span>
+        </div>
+        <p>Safety Planning Tool</p>
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="report.html">Report Anonymously</a>
+        <a href="support.html">Support Directory</a>
+        <a href="stories.html">Share Your Story</a>
+        <a href="library.html">GBV Resources</a>
+        <a href="community.html">Community Support</a>
+        <a href="events.html">Events & Marches</a>
+        <a href="about.html">About Our Mission</a>
+        <a href="safety-plan.html">Safety Planning</a>
+        <a href="login.html">Admin Login</a>
+    </div>
+
+    <div class="content-section">
+        <h2 class="purple-accent">🛡️ Personal Safety Plan</h2>
+        <p>Create a personalized safety plan. Your responses are not saved online - this is for your personal use only.</p>
+        
+        <div class="no-print">
+            <button class="print-btn" onclick="window.print()">🖨️ Print Safety Plan</button>
+            <button class="save-btn" onclick="savePlan()">💾 Save Progress</button>
+        </div>
+
+        <div class="safety-category">
+            <h3 class="purple-accent">🏠 Home Safety</h3>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Identify safe rooms with locks and phone access
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Plan escape routes from each room
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Keep phone charged and accessible
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Teach children how to call emergency services
+                </label>
+            </div>
+        </div>
+
+        <div class="safety-category">
+            <h3 class="purple-accent">📞 Emergency Contacts</h3>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Memorize 2-3 emergency numbers
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Identify safe neighbors who can help
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Save emergency contacts under code names
+                </label>
+            </div>
+        </div>
+
+        <div class="safety-category">
+            <h3 class="purple-accent">💼 Important Documents</h3>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Keep IDs, passports, and important documents in safe place
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Have copies of important documents with trusted person
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Save emergency money in hidden location
+                </label>
+            </div>
+        </div>
+
+        <div class="safety-category">
+            <h3 class="purple-accent">🔄 Daily Safety</h3>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Vary daily routines and travel routes
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Inform trusted people of your whereabouts
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Avoid isolated areas when alone
+                </label>
+            </div>
+        </div>
+
+        <div class="safety-category">
+            <h3 class="purple-accent">📱 Digital Safety</h3>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Use private browsing mode
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Clear browser history regularly
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Use strong, unique passwords
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleCompleted(checkbox) {
+            const item = checkbox.closest('.checklist-item');
+            if (checkbox.checked) {
+                item.classList.add('completed');
+            } else {
+                item.classList.remove('completed');
+            }
+        }
+
+        function savePlan() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const progress = {};
+            
+            checkboxes.forEach((cb, index) => {
+                progress[`item_${index}`] = cb.checked;
+            });
+            
+            localStorage.setItem('safetyPlanProgress', JSON.stringify(progress));
+            alert('Safety plan progress saved locally on your device.');
+        }
+
+        // Load saved progress
+        document.addEventListener('DOMContentLoaded', function() {
+            const saved = localStorage.getItem('safetyPlanProgress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                
+                checkboxes.forEach((cb, index) => {
+                    if (progress[`item_${index}`]) {
+                        cb.checked = true;
+                        cb.closest('.checklist-item').classList.add('completed');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
