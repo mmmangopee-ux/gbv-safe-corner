@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Community Support - GBV Safe Corner</title>
+    <title>Events & Marches - GBV Safe Corner</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#6A0DAD">
@@ -46,101 +46,108 @@
             margin: 25px 0; 
             box-shadow: 0 4px 8px rgba(106, 13, 173, 0.1);
         }
-        .question-box { 
-            background: #FFF3CD; 
+        .event-card { 
+            background: #f9f9f9; 
             padding: 20px; 
             margin: 15px 0; 
-            border-radius: 8px; 
-            border-left: 4px solid #ffc107;
+            border-radius: 10px; 
+            border-left: 5px solid #6A0DAD; 
             transition: all 0.3s ease;
         }
-        .question-box:hover {
+        .event-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2);
+            box-shadow: 0 4px 12px rgba(106, 13, 173, 0.15);
         }
-        .advice-box { 
-            background: #f0f8f0; 
-            padding: 15px; 
-            margin: 10px 0; 
-            border-radius: 8px; 
-            border-left: 4px solid #4CAF50;
-            transition: all 0.3s ease;
+        .organize-box { 
+            background: #E8F4FD; 
+            padding: 25px; 
+            border-radius: 10px; 
+            margin: 20px 0; 
+            text-align: center; 
+            border: 2px dashed #6A0DAD;
         }
-        .advice-box:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+        .event-form { 
+            background: #f9f9f9; 
+            padding: 25px; 
+            border-radius: 10px; 
+            margin: 20px 0; 
+        }
+        .form-group { 
+            margin: 15px 0; 
+        }
+        label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: bold; 
+        }
+        textarea, select, input { 
+            width: 100%; 
+            padding: 10px; 
+            border: 1px solid #ddd; 
+            border-radius: 5px; 
+            font-family: Arial; 
         }
         .submit-btn { 
             background: #6A0DAD; 
             color: white; 
             padding: 12px 30px; 
-            text-decoration: none; 
+            border: none; 
             border-radius: 5px; 
-            display: inline-block; 
-            margin-top: 10px; 
-            transition: all 0.3s ease;
+            cursor: pointer; 
+            font-size: 16px; 
+            transition: background 0.3s ease;
             border: 2px solid #6A0DAD;
-            font-weight: bold;
         }
         .submit-btn:hover {
             background: #8A2BE2;
             border-color: #8A2BE2;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(106, 13, 173, 0.3);
+            transform: translateY(-1px);
         }
-        .community-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin: 25px 0;
-        }
-        .stat-item {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            border: 2px solid #e0e0e0;
-        }
-        .stat-number {
-            font-size: 1.8em;
-            font-weight: bold;
-            color: #6A0DAD;
-            display: block;
-        }
-        .stat-label {
-            font-size: 0.9em;
-            color: #666;
-        }
-        .guidelines {
-            background: #e8f4fd;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border-left: 4px solid #2196F3;
-        }
-        .interaction-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        .interaction-btn {
-            background: transparent;
-            border: 1px solid #6A0DAD;
-            color: #6A0DAD;
-            padding: 5px 12px;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 12px;
-        }
-        .interaction-btn:hover {
+        .event-type-tag {
             background: #6A0DAD;
             color: white;
-        }
-        .helpful-count {
+            padding: 4px 8px;
+            border-radius: 15px;
             font-size: 12px;
-            color: #666;
-            margin-left: 5px;
+            margin-right: 8px;
+            display: inline-block;
+        }
+        .calendar-view {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        .calendar-event {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        .calendar-event:hover {
+            border-color: #6A0DAD;
+            transform: translateY(-2px);
+        }
+        .event-date {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #6A0DAD;
+            margin-bottom: 10px;
+        }
+        .rsvp-button {
+            background: #4CAF50;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+        .rsvp-button:hover {
+            background: #45a049;
+            transform: translateY(-1px);
         }
         
         /* Enhanced Emergency Exit */
@@ -196,18 +203,39 @@
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
-            .community-stats {
-                grid-template-columns: repeat(2, 1fr);
+            .calendar-view {
+                grid-template-columns: 1fr;
             }
             
-            .interaction-buttons {
-                flex-direction: column;
+            .event-form iframe {
+                height: 800px;
             }
-            
-            .interaction-btn {
-                width: 100%;
-                margin-bottom: 5px;
-            }
+        }
+
+        /* Filter buttons */
+        .event-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+        .filter-btn {
+            background: white;
+            color: #6A0DAD;
+            padding: 8px 15px;
+            border: 2px solid #6A0DAD;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .filter-btn.active {
+            background: #6A0DAD;
+            color: white;
+        }
+        .filter-btn:hover {
+            background: #6A0DAD;
+            color: white;
         }
     </style>
 </head>
@@ -218,150 +246,169 @@
             <span>SAFE</span>
             <span>CORNER</span>
         </div>
-        <p>Community Support & Advice</p>
+        <p>Events & Awareness Marches</p>
     </div>
 
     <!-- Navigation auto-loaded here -->
 
     <div class="content-section">
-        <h2>💬 Ask the Community</h2>
-        <p>Have a question? Need advice? Looking for support from people who understand? Our community is here to help in a safe, anonymous space.</p>
+        <h2>📅 Upcoming Events & Marches</h2>
+        <p>Join our community in raising awareness, showing solidarity, and creating change. Find events in your area or organize your own.</p>
+
+        <div class="event-filter">
+            <button class="filter-btn active" onclick="filterEvents('all')">All Events</button>
+            <button class="filter-btn" onclick="filterEvents('march')">Marches</button>
+            <button class="filter-btn" onclick="filterEvents('workshop')">Workshops</button>
+            <button class="filter-btn" onclick="filterEvents('vigil')">Vigils</button>
+            <button class="filter-btn" onclick="filterEvents('virtual')">Virtual Events</button>
+        </div>
+
+        <div class="calendar-view">
+            <div class="calendar-event" data-category="march">
+                <div class="event-date">🎗️ March 8, 2024 - International Women's Day</div>
+                <h3>National GBV Awareness March</h3>
+                <p><strong>Location:</strong> Major cities nationwide</p>
+                <p><strong>Time:</strong> 10:00 AM - 2:00 PM</p>
+                <p><strong>Description:</strong> Join thousands across the country in a peaceful march to demand an end to gender-based violence and show solidarity with survivors.</p>
+                <span class="event-type-tag">March</span>
+                <span class="event-type-tag">Awareness</span>
+                <span class="event-type-tag">National</span>
+                <br>
+                <button class="rsvp-button" onclick="rsvpToEvent('International Womens Day March')">RSVP Interest</button>
+            </div>
+
+            <div class="calendar-event" data-category="workshop">
+                <div class="event-date">🛡️ April 15, 2024 - Safety Planning Workshop</div>
+                <h3>Digital Safety & Privacy Workshop</h3>
+                <p><strong>Location:</strong> Virtual (Online)</p>
+                <p><strong>Time:</strong> 6:00 PM - 8:00 PM</p>
+                <p><strong>Description:</strong> Learn how to protect your digital privacy, secure your devices, and stay safe online. Essential for anyone concerned about digital safety.</p>
+                <span class="event-type-tag">Workshop</span>
+                <span class="event-type-tag">Virtual</span>
+                <span class="event-type-tag">Safety</span>
+                <br>
+                <button class="rsvp-button" onclick="rsvpToEvent('Digital Safety Workshop')">RSVP Interest</button>
+            </div>
+
+            <div class="calendar-event" data-category="vigil">
+                <div class="event-date">💜 May 25, 2024 - Memorial Vigil</div>
+                <h3>Remembering Lost Lives Vigil</h3>
+                <p><strong>Location:</strong> Constitutional Hill, Johannesburg</p>
+                <p><strong>Time:</strong> 5:30 PM - 7:00 PM</p>
+                <p><strong>Description:</strong> A peaceful candlelight vigil to remember those lost to gender-based violence and honor survivors. Bring a candle and wear purple.</p>
+                <span class="event-type-tag">Vigil</span>
+                <span class="event-type-tag">Memorial</span>
+                <span class="event-type-tag">Community</span>
+                <br>
+                <button class="rsvp-button" onclick="rsvpToEvent('Memorial Vigil')">RSVP Interest</button>
+            </div>
+
+            <div class="calendar-event" data-category="workshop virtual">
+                <div class="event-date">🎓 June 10, 2024 - Support Training</div>
+                <h3>How to Support Survivors Workshop</h3>
+                <p><strong>Location:</strong> Virtual & In-person (Cape Town)</p>
+                <p><strong>Time:</strong> 2:00 PM - 4:00 PM</p>
+                <p><strong>Description:</strong> Learn practical skills for supporting friends, family, or community members affected by GBV. Essential for allies and supporters.</p>
+                <span class="event-type-tag">Workshop</span>
+                <span class="event-type-tag">Training</span>
+                <span class="event-type-tag">Support</span>
+                <br>
+                <button class="rsvp-button" onclick="rsvpToEvent('Support Training Workshop')">RSVP Interest</button>
+            </div>
+
+            <div class="calendar-event" data-category="march">
+                <div class="event-date">✊ July 20, 2024 - Youth March</div>
+                <h3>Youth Against GBV March</h3>
+                <p><strong>Location:</strong> Durban City Center</p>
+                <p><strong>Time:</strong> 1:00 PM - 4:00 PM</p>
+                <p><strong>Description:</strong> A youth-led march demanding safer campuses, schools, and communities. All ages welcome to support the next generation of activists.</p>
+                <span class="event-type-tag">March</span>
+                <span class="event-type-tag">Youth</span>
+                <span class="event-type-tag">Activism</span>
+                <br>
+                <button class="rsvp-button" onclick="rsvpToEvent('Youth March')">RSVP Interest</button>
+            </div>
+
+            <div class="calendar-event" data-category="virtual">
+                <div class="event-date">🌐 August 5, 2024 - Online Forum</div>
+                <h3>Survivor Support Circle (Virtual)</h3>
+                <p><strong>Location:</strong> Online - Secure Platform</p>
+                <p><strong>Time:</strong> 7:00 PM - 8:30 PM</p>
+                <p><strong>Description:</strong> A safe, moderated online space for survivors to connect, share experiences, and find community support. Completely anonymous participation.</p>
+                <span class="event-type-tag">Virtual</span>
+                <span class="event-type-tag">Support Group</span>
+                <span class="event-type-tag">Safe Space</span>
+                <br>
+                <button class="rsvp-button" onclick="rsvpToEvent('Virtual Support Circle')">RSVP Interest</button>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <h3>📱 Stay Updated</h3>
+            <p>Get event reminders and updates by joining our community announcements.</p>
+            <button class="submit-btn" onclick="joinEventUpdates()">Join Event Updates</button>
+        </div>
+    </div>
+
+    <div class="organize-box">
+        <h3>📢 Organize an Event in Your Community</h3>
+        <p>Want to host a march, vigil, workshop, or awareness event? We'll help you promote it and connect with your local community.</p>
         
-        <div class="community-stats">
-            <div class="stat-item">
-                <span class="stat-number">1,247+</span>
-                <span class="stat-label">Community Members</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">589</span>
-                <span class="stat-label">Questions Answered</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">24/7</span>
-                <span class="stat-label">Peer Support</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">100%</span>
-                <span class="stat-label">Anonymous</span>
-            </div>
+        <div class="event-form">
+            <h4>Submit Your Event for Promotion</h4>
+            <p>Fill out the form below to have your GBV awareness event featured on our platform:</p>
+            
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe7gRYD0fu4JlouNpfpbMwXjIiAEb8SPF3SbhMdrJHbXWedeA/viewform?embedded=true" 
+                    width="100%" 
+                    height="1200" 
+                    frameborder="0" 
+                    marginheight="0" 
+                    marginwidth="0"
+                    onload="trackEventFormLoad()">
+                Loading…
+            </iframe>
         </div>
 
-        <div class="question-box">
-            <p><strong>Submit your question anonymously:</strong></p>
-            <p><em>We're building our community Q&A system. For now, you can share your questions through our Stories page, and our community will respond with support and advice.</em></p>
-            <a href="stories.html" class="submit-btn" style="text-decoration: none; display: inline-block;">Share Your Question</a>
-        </div>
-
-        <div class="guidelines">
-            <h4>🏷️ Community Guidelines</h4>
-            <ul>
-                <li><strong>Respect everyone</strong> - We're all here for support</li>
-                <li><strong>Maintain anonymity</strong> - Don't share personal information</li>
-                <li><strong>Offer constructive support</strong> - Be kind and helpful</li>
-                <li><strong>No judgment</strong> - This is a safe space for sharing</li>
-                <li><strong>Trigger warnings</strong> - Mark sensitive content appropriately</li>
-            </ul>
+        <div style="margin-top: 20px; padding: 20px; background: white; border-radius: 8px;">
+            <h4>Event Organization Resources</h4>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; text-align: left;">
+                <div>
+                    <h5>🛡️ Safety Planning</h5>
+                    <p>Guidelines for safe event organization</p>
+                </div>
+                <div>
+                    <h5>📋 Permits & Permissions</h5>
+                    <p>Local government requirements</p>
+                </div>
+                <div>
+                    <h5>📢 Promotion Tips</h5>
+                    <p>How to spread the word effectively</p>
+                </div>
+                <div>
+                    <h5>🤝 Volunteer Coordination</h5>
+                    <p>Managing event volunteers</p>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="content-section">
-        <h2>🌟 Community Q&A</h2>
-        <p>Real questions from our community with supportive responses. All posts are completely anonymous.</p>
-        
-        <div class="question-box">
-            <p><strong>Anonymous:</strong> "How do I deal with seeing my abuser regularly? It's triggering and I feel unsafe, especially at work events where we both have to attend."</p>
-            <div class="interaction-buttons">
-                <button class="interaction-btn" onclick="markHelpful(this)">👍 Helpful <span class="helpful-count">24</span></button>
-                <button class="interaction-btn" onclick="showSupport(this)">💜 I understand</button>
+        <h2>🎗️ Annual Awareness Campaigns</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 25px 0;">
+            <div style="padding: 20px; background: #f0f8f0; border-radius: 8px;">
+                <h4>16 Days of Activism</h4>
+                <p><strong>Nov 25 - Dec 10</strong></p>
+                <p>International campaign against GBV with events worldwide</p>
             </div>
-        </div>
-        <div class="advice-box">
-            <p><strong>Community Advice:</strong> "That sounds really difficult. Have you considered talking to HR or security about creating distance? Also, having a 'buddy system' with a trusted colleague might help. You deserve to feel safe in your workplace."</p>
-            <div class="interaction-buttons">
-                <button class="interaction-btn" onclick="markHelpful(this)">👍 Helpful <span class="helpful-count">18</span></button>
-                <button class="interaction-btn" onclick="showSupport(this)">💜 Good advice</button>
+            <div style="padding: 20px; background: #fff0f0; border-radius: 8px;">
+                <h4>Women's Month</h4>
+                <p><strong>August</strong></p>
+                <p>Month-long celebration and awareness activities</p>
             </div>
-        </div>
-
-        <div class="question-box">
-            <p><strong>Anonymous:</strong> "I'm struggling with guilt and shame after what happened. How do others cope with these feelings? I feel like it was my fault."</p>
-            <div class="interaction-buttons">
-                <button class="interaction-btn" onclick="markHelpful(this)">👍 Helpful <span class="helpful-count">42</span></button>
-                <button class="interaction-btn" onclick="showSupport(this)">💜 I understand</button>
-            </div>
-        </div>
-        <div class="advice-box">
-            <p><strong>Community Support:</strong> "The shame belongs to the perpetrator, never the survivor. Many of us feel this way. Talking to a counselor helped me separate what happened from who I am. Remember: you survived, and that makes you incredibly strong."</p>
-            <div class="interaction-buttons">
-                <button class="interaction-btn" onclick="markHelpful(this)">👍 Helpful <span class="helpful-count">35</span></button>
-                <button class="interaction-btn" onclick="showSupport(this)">💜 Good advice</button>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p><strong>Anonymous:</strong> "What are some grounding techniques for when I feel overwhelmed or triggered? Sometimes I feel like I'm back in that moment."</p>
-            <div class="interaction-buttons">
-                <button class="interaction-btn" onclick="markHelpful(this)">👍 Helpful <span class="helpful-count">31</span></button>
-                <button class="interaction-btn" onclick="showSupport(this)">💜 I understand</button>
-            </div>
-        </div>
-        <div class="advice-box">
-            <p><strong>Community Tips:</strong> "The 5-4-3-2-1 method helps me: Name 5 things you see, 4 things you feel, 3 things you hear, 2 things you smell, 1 thing you taste. Also, carrying a small comforting object like a smooth stone helps ground me in the present."</p>
-            <div class="interaction-buttons">
-                <button class="interaction-btn" onclick="markHelpful(this)">👍 Helpful <span class="helpful-count">28</span></button>
-                <button class="interaction-btn" onclick="showSupport(this)">💜 Good advice</button>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p><strong>Anonymous:</strong> "How do I support a friend who's experiencing GBV without overstepping or making things worse?"</p>
-            <div class="interaction-buttons">
-                <button class="interaction-btn" onclick="markHelpful(this)">👍 Helpful <span class="helpful-count">19</span></button>
-                <button class="interaction-btn" onclick="showSupport(this)">💜 I understand</button>
-            </div>
-        </div>
-        <div class="advice-box">
-            <p><strong>Community Advice:</strong> "Listen without judgment, believe them without question, and offer resources without pressure. Let them lead the conversation. Sometimes just saying 'I'm here for you' and meaning it is the most powerful support you can offer."</p>
-            <div class="interaction-buttons">
-                <button class="interaction-btn" onclick="markHelpful(this)">👍 Helpful <span class="helpful-count">22</span></button>
-                <button class="interaction-btn" onclick="showSupport(this)">💜 Good advice</button>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p><strong>Anonymous:</strong> "I left my abusive situation but now I feel so lonely and isolated. How do I rebuild my social life and trust people again?"</p>
-            <div class="interaction-buttons">
-                <button class="interaction-btn" onclick="markHelpful(this)">👍 Helpful <span class="helpful-count">27</span></button>
-                <button class="interaction-btn" onclick="showSupport(this)">💜 I understand</button>
-            </div>
-        </div>
-        <div class="advice-box">
-            <p><strong>Community Support:</strong> "This is so common and completely understandable. Start small - maybe join a support group (virtual or in-person) where people understand. Reconnect with old friends gradually. Remember that rebuilding trust takes time, and it's okay to set boundaries."</p>
-            <div class="interaction-buttons">
-                <button class="interaction-btn" onclick="markHelpful(this)">👍 Helpful <span class="helpful-count">16</span></button>
-                <button class="interaction-btn" onclick="showSupport(this)">💜 Good advice</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="content-section">
-        <h2>🤝 Community Resources</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
-            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
-                <h4>📚 Support Groups</h4>
-                <p>Join anonymous online support groups moderated by trained facilitators.</p>
-            </div>
-            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
-                <h4>💬 Peer Mentoring</h4>
-                <p>Connect with survivors who have been through similar experiences.</p>
-            </div>
-            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
-                <h4>🛡️ Safety Planning</h4>
-                <p>Community-shared safety strategies and emergency plans.</p>
-            </div>
-            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
-                <h4>🌟 Healing Stories</h4>
-                <p>Read and share stories of recovery and resilience.</p>
+            <div style="padding: 20px; background: #f0f0ff; border-radius: 8px;">
+                <h4>GBV Awareness Month</h4>
+                <p><strong>February</strong></p>
+                <p>National focus on GBV prevention and support</p>
             </div>
         </div>
     </div>
@@ -421,10 +468,13 @@
             const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
             changeLanguage(savedLanguage);
             
+            // Load saved RSVPs
+            loadSavedRSVPs();
+            
             // ANALYTICS TRACKING - INTEGRATED
             if (typeof analytics !== 'undefined') {
-                analytics.trackPageView('community.html');
-                analytics.trackFeatureUse('community_loaded');
+                analytics.trackPageView('events.html');
+                analytics.trackFeatureUse('events_page_loaded');
             }
         });
         
@@ -514,56 +564,93 @@
             }
         }
 
-        // Community interaction functions
-        function markHelpful(button) {
-            const countSpan = button.querySelector('.helpful-count');
-            let count = parseInt(countSpan.textContent) || 0;
-            count++;
-            countSpan.textContent = count;
-            
-            button.style.background = '#6A0DAD';
-            button.style.color = 'white';
-            button.disabled = true;
-            
-            // ANALYTICS TRACKING
-            if (typeof analytics !== 'undefined') {
-                analytics.trackFeatureUse('community_helpful_clicked');
-            }
-        }
-
-        function showSupport(button) {
-            button.style.background = '#8A2BE2';
-            button.style.color = 'white';
-            button.disabled = true;
-            
-            // Show temporary feedback
-            const originalText = button.textContent;
-            button.textContent = '💜 Thank you for your support';
-            
-            setTimeout(() => {
-                button.textContent = originalText;
-                button.style.background = '';
-                button.style.color = '';
-                button.disabled = false;
-            }, 2000);
-            
-            // ANALYTICS TRACKING
-            if (typeof analytics !== 'undefined') {
-                analytics.trackFeatureUse('community_support_clicked');
-            }
-        }
-
-        // Track question views for community engagement
-        document.addEventListener('DOMContentLoaded', function() {
-            const questions = document.querySelectorAll('.question-box');
-            questions.forEach((question, index) => {
-                // Simulate question viewing tracking
-                setTimeout(() => {
-                    if (typeof analytics !== 'undefined') {
-                        analytics.trackFeatureUse('community_question_viewed_' + (index + 1));
-                    }
-                }, 1000 * (index + 1));
+        function filterEvents(category) {
+            // Update active filter button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
             });
+            event.target.classList.add('active');
+            
+            const events = document.querySelectorAll('.calendar-event');
+            
+            events.forEach(event => {
+                if (category === 'all') {
+                    event.style.display = 'block';
+                } else {
+                    const eventCategories = event.getAttribute('data-category');
+                    if (eventCategories.includes(category)) {
+                        event.style.display = 'block';
+                    } else {
+                        event.style.display = 'none';
+                    }
+                }
+            });
+            
+            // ANALYTICS TRACKING
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse('events_filter_' + category);
+            }
+        }
+
+        function rsvpToEvent(eventName) {
+            // Save RSVP locally
+            const rsvps = JSON.parse(localStorage.getItem('eventRSVPs') || '{}');
+            rsvps[eventName] = true;
+            localStorage.setItem('eventRSVPs', JSON.stringify(rsvps));
+            
+            // Update button
+            event.target.textContent = '✓ RSVP Confirmed';
+            event.target.style.background = '#6A0DAD';
+            event.target.disabled = true;
+            
+            // Show confirmation
+            alert('Thank you for your interest in "' + eventName + '". You will receive event details and reminders.');
+            
+            // ANALYTICS TRACKING
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse('event_rsvp');
+                analytics.trackFeatureUse('rsvp_' + eventName.replace(/\s+/g, '_'));
+            }
+        }
+
+        function loadSavedRSVPs() {
+            const rsvps = JSON.parse(localStorage.getItem('eventRSVPs') || '{}');
+            document.querySelectorAll('.calendar-event').forEach(eventElement => {
+                const eventName = eventElement.querySelector('h3').textContent;
+                if (rsvps[eventName]) {
+                    const button = eventElement.querySelector('.rsvp-button');
+                    button.textContent = '✓ RSVP Confirmed';
+                    button.style.background = '#6A0DAD';
+                    button.disabled = true;
+                }
+            });
+        }
+
+        function joinEventUpdates() {
+            // ANALYTICS TRACKING
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse('join_event_updates_clicked');
+            }
+            
+            alert('Thank you for your interest! You will now receive event updates and announcements.');
+            
+            // In a real implementation, this would connect to a newsletter service
+            localStorage.setItem('eventUpdatesSubscribed', 'true');
+        }
+
+        function trackEventFormLoad() {
+            // ANALYTICS TRACKING
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse('event_form_loaded');
+            }
+        }
+
+        // Add event count tracking
+        document.addEventListener('DOMContentLoaded', function() {
+            const eventCount = document.querySelectorAll('.calendar-event').length;
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse('total_events_displayed_' + eventCount);
+            }
         });
     </script>
 </body>
