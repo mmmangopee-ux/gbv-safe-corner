@@ -38,24 +38,54 @@
         .logo-text span {
             display: block;
         }
+        
+        /* MOBILE-FRIENDLY NAVIGATION */
+        .nav-container {
+            position: relative;
+            margin: 20px 0;
+        }
+        .mobile-menu-btn {
+            display: none;
+            background: #6A0DAD;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 10px;
+            transition: background 0.3s ease;
+        }
+        .mobile-menu-btn:hover {
+            background: #8A2BE2;
+        }
         .nav-links { 
-            text-align: center; 
-            margin: 20px 0; 
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
             padding: 15px; 
             background: white; 
             border-radius: 10px; 
             box-shadow: 0 2px 4px rgba(106, 13, 173, 0.1);
+            gap: 8px;
         }
         .nav-links a { 
-            margin: 0 15px; 
+            padding: 8px 12px;
             text-decoration: none; 
             color: #6A0DAD; 
             font-weight: bold; 
-            transition: color 0.3s ease;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            white-space: nowrap;
         }
         .nav-links a:hover {
             color: #8A2BE2;
+            background: #f8f8f8;
         }
+        
         .content-section { 
             background: white; 
             padding: 30px; 
@@ -183,6 +213,54 @@
             outline-offset: 2px;
         }
         
+        /* MOBILE RESPONSIVE STYLES */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                text-align: center;
+                gap: 5px;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .nav-links a {
+                padding: 12px 15px;
+                font-size: 16px;
+                border: 1px solid #f0f0f0;
+            }
+            .logo-text {
+                font-size: 1.5em;
+            }
+            .content-section {
+                padding: 20px;
+            }
+            .print-btn, .save-btn, .pdf-btn {
+                display: block;
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .header {
+                padding: 20px;
+            }
+            .logo-text {
+                font-size: 1.3em;
+            }
+            .nav-links a {
+                font-size: 14px;
+                padding: 10px 12px;
+            }
+        }
+        
         @media print {
             .no-print { display: none; }
             body { background: white; }
@@ -200,19 +278,23 @@
         <p>Safety Planning Tool</p>
     </div>
 
-    <div class="nav-links">
-        <a href="index.html" data-translate="home">Home</a>
-        <a href="report.html" data-translate="report">Report Anonymously</a>
-        <a href="support.html" data-translate="support">Support Directory</a>
-        <a href="stories.html" data-translate="stories">Share Your Story</a>
-        <a href="library.html" data-translate="library">GBV Resources</a>
-        <a href="community.html" data-translate="community">Community Support</a>
-        <a href="events.html" data-translate="events">Events & Marches</a>
-        <a href="about.html" data-translate="about">About Our Mission</a>
-        <a href="safety-plan.html" data-translate="safety">Safety Planning</a>
-        <a href="risk-assessment.html" data-translate="assessment">Risk Assessment</a>
-        <a href="education-hub.html" data-translate="education">Education Hub</a>
-        <a href="login.html" data-translate="login">Admin Login</a>
+    <!-- MOBILE-FRIENDLY NAVIGATION -->
+    <div class="nav-container">
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰ Menu</button>
+        <div class="nav-links" id="mainNav">
+            <a href="index.html" data-translate="home">Home</a>
+            <a href="report.html" data-translate="report">Report</a>
+            <a href="support.html" data-translate="support">Support</a>
+            <a href="stories.html" data-translate="stories">Stories</a>
+            <a href="library.html" data-translate="library">Resources</a>
+            <a href="community.html" data-translate="community">Community</a>
+            <a href="events.html" data-translate="events">Events</a>
+            <a href="about.html" data-translate="about">About</a>
+            <a href="safety-plan.html" data-translate="safety">Safety Plan</a>
+            <a href="risk-assessment.html" data-translate="assessment">Risk Assessment</a>
+            <a href="education-hub.html" data-translate="education">Education</a>
+            <a href="login.html" data-translate="login">Admin</a>
+        </div>
     </div>
 
     <div class="content-section">
@@ -348,6 +430,21 @@
             window.history.replaceState(null, null, window.location.pathname);
         }
         
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const nav = document.getElementById('mainNav');
+            nav.classList.toggle('active');
+        }
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const nav = document.getElementById('mainNav');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            if (!nav.contains(event.target) && !menuBtn.contains(event.target)) {
+                nav.classList.remove('active');
+            }
+        });
+        
         // Enhanced Emergency Exit
         document.addEventListener('DOMContentLoaded', function() {
             // Create emergency exit button
@@ -422,59 +519,59 @@
         const translations = {
             en: {
                 'home': 'Home',
-                'report': 'Report Anonymously',
-                'support': 'Support Directory',
-                'stories': 'Share Your Story',
-                'library': 'GBV Resources',
-                'community': 'Community Support',
-                'events': 'Events & Marches',
-                'about': 'About Our Mission',
-                'safety': 'Safety Planning',
+                'report': 'Report',
+                'support': 'Support',
+                'stories': 'Stories',
+                'library': 'Resources',
+                'community': 'Community',
+                'events': 'Events',
+                'about': 'About',
+                'safety': 'Safety Plan',
                 'assessment': 'Risk Assessment',
-                'education': 'Education Hub',
-                'login': 'Admin Login'
+                'education': 'Education',
+                'login': 'Admin'
             },
             zu: {
                 'home': 'Ikhaya',
-                'report': 'Bika Ngokungaziwa',
-                'support': 'Uhlu Lwezinsiza',
-                'stories': 'Yabelana Ngendaba Yakho',
-                'library': 'Izinsiza Ze-GBV',
-                'community': 'Ukusekelwa Komphakathi',
-                'events': 'Imicimbi Nemarch',
-                'about': 'Mayelana Nomgomo Wethu',
-                'safety': 'Ukuhlela Ukuphepha',
+                'report': 'Bika',
+                'support': 'Usizo',
+                'stories': 'Izindaba',
+                'library': 'Izinsiza',
+                'community': 'Umphakathi',
+                'events': 'Imicimbi',
+                'about': 'Mayelana',
+                'safety': 'Uhlelo Lokuphepha',
                 'assessment': 'Ukuhlola Ubungozi',
-                'education': 'I-Hub Yemfundo',
-                'login': 'Ukungena Kwe-Admin'
+                'education': 'Imfundo',
+                'login': 'Abaphathi'
             },
             xh: {
                 'home': 'Ekhaya',
-                'report': 'Xela Ngokungaziwa',
-                'support': 'Uluhlu Looncedo',
-                'stories': 'Yabelana Ngembali Yakho',
-                'library': 'Iindlela Zoncedo Ze-GBV',
-                'community': 'Inkxaso YoLuntu',
-                'events': 'Iivenkile Neemarch',
-                'about': 'Malunga Neenjongo Zethu',
-                'safety': 'Uyilo LoKhuseleko',
-                'assessment': 'Uvavanyo LoMngcipheko',
-                'education': 'I-Hub YeMfundo',
-                'login': 'Ungeno Lwe-Admin'
+                'report': 'Xela',
+                'support': 'Inkxaso',
+                'stories': 'Iindaba',
+                'library': 'Izibonelelo',
+                'community': 'Uluntu',
+                'events': 'Iivenkile',
+                'about': 'Malunga',
+                'safety': 'Uyilo Lokhuseleko',
+                'assessment': 'Uvavanyo',
+                'education': 'Imfundo',
+                'login': 'Abalawuli'
             },
             af: {
                 'home': 'Tuis',
-                'report': 'Rapporteer Anoniem',
-                'support': 'Ondersteuningsgids',
-                'stories': 'Deel Jou Storie',
-                'library': 'GBV Hulpbronne',
-                'community': 'Gemeenskapsondersteuning',
-                'events': 'Gebeure & Optogte',
-                'about': 'Oor Ons Missie',
-                'safety': 'Veiligheidsbeplanning',
-                'assessment': 'Risiko-assessering',
-                'education': 'Onderrig Sentrum',
-                'login': 'Admin Aanteken'
+                'report': 'Rapporteer',
+                'support': 'Ondersteuning',
+                'stories': 'Stories',
+                'library': 'Hulpbronne',
+                'community': 'Gemeenskap',
+                'events': 'Gebeure',
+                'about': 'Oor',
+                'safety': 'Veiligheidsplan',
+                'assessment': 'Risiko',
+                'education': 'Onderrig',
+                'login': 'Admin'
             }
         };
 
