@@ -9,9 +9,10 @@
     
     <!-- ANALYTICS INTEGRATED -->
     <script src="analytics.js"></script>
+    <script src="navigation.js"></script>
     
     <style>
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: Arial, sans-serif;
             max-width: 1000px;
@@ -28,6 +29,16 @@
             border-radius: 15px;
             margin-bottom: 30px;
         }
+        .logo-text {
+            font-size: 2em;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+        .logo-text span {
+            display: block;
+        }
         .emergency-banner {
             background: #FF6B6B;
             color: white;
@@ -36,6 +47,13 @@
             border-radius: 10px;
             margin: 20px 0;
             font-weight: bold;
+            box-shadow: 0 4px 12px rgba(255,0,0,0.3);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
         }
         .mission-box {
             background: white;
@@ -57,10 +75,13 @@
             border-radius: 12px;
             text-align: center;
             box-shadow: 0 4px 8px rgba(106, 13, 173, 0.1);
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
         }
         .action-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(106, 13, 173, 0.2);
+            border-color: #6A0DAD;
         }
         .action-button {
             background: #6A0DAD;
@@ -71,28 +92,13 @@
             display: inline-block;
             margin-top: 15px;
             font-weight: bold;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
+            border: 2px solid #6A0DAD;
         }
         .action-button:hover {
             background: #8A2BE2;
-        }
-        .nav-links {
-            text-align: center;
-            margin: 20px 0;
-            padding: 15px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(106, 13, 173, 0.1);
-        }
-        .nav-links a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: #6A0DAD;
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-        .nav-links a:hover {
-            color: #8A2BE2;
+            border-color: #8A2BE2;
+            transform: translateY(-2px);
         }
         .resources {
             background: white;
@@ -107,6 +113,29 @@
             padding: 20px;
             color: #666;
             border-top: 2px solid #ddd;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #6A0DAD;
+            display: block;
+        }
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
         }
         
         /* Enhanced Emergency Exit */
@@ -134,12 +163,6 @@
             box-shadow: 0 6px 15px rgba(255,0,0,0.5);
         }
         
-        /* Accessibility */
-        :focus {
-            outline: 3px solid #6A0DAD;
-            outline-offset: 2px;
-        }
-        
         /* Language Selector */
         #languageSelector {
             position: fixed;
@@ -153,18 +176,52 @@
             color: #6A0DAD;
             font-size: 14px;
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #languageSelector:hover {
+            background: #6A0DAD;
+            color: white;
+        }
+        
+        /* Accessibility */
+        :focus {
+            outline: 3px solid #6A0DAD;
+            outline-offset: 2px;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 20px;
+            }
+            
+            .logo-text {
+                font-size: 1.5em;
+            }
+            
+            .action-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            body {
+                padding: 10px;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Emergency Banner -->
     <div class="emergency-banner">
-        🚨 24/7 EMERGENCY: GBV COMMAND CENTRE 0800 428 428 • POLICE 10111 🚨
+        🚨 24/7 EMERGENCY: GBV COMMAND CENTRE 0800 428 428 • POLICE 10111 • LIFELINE 0861 322 322 🚨
     </div>
 
     <!-- Main Header -->
     <div class="header">
-        <div class="logo-text" style="font-size: 2em; font-weight: bold; line-height: 1.2; margin-bottom: 10px;">
+        <div class="logo-text">
             <span>GBV</span>
             <span>SAFE</span>
             <span>CORNER</span>
@@ -175,81 +232,128 @@
         </p>
     </div>
 
-    <!-- Navigation -->
-    <div class="nav-links">
-        <a href="index.html" data-translate="home">Home</a>
-        <a href="report.html" data-translate="report">Report Anonymously</a>
-        <a href="support.html" data-translate="support">Support Directory</a>
-        <a href="stories.html" data-translate="stories">Share Your Story</a>
-        <a href="library.html" data-translate="library">GBV Resources</a>
-        <a href="community.html" data-translate="community">Community Support</a>
-        <a href="events.html" data-translate="events">Events & Marches</a>
-        <a href="about.html" data-translate="about">About Our Mission</a>
-        <a href="safety-plan.html" data-translate="safety">Safety Planning</a>
-        <a href="risk-assessment.html" data-translate="assessment">Risk Assessment</a>
-        <a href="education-hub.html" data-translate="education">Education Hub</a>
-        <a href="login.html" data-translate="login">Admin Login</a>
-    </div>
+    <!-- Navigation auto-loaded here by navigation.js -->
 
     <!-- Mission Statement -->
     <div class="mission-box">
         <h2>Our Mission</h2>
-        <p>GBV Safe Corner provides a safe, anonymous space for anyone affected by gender-based violence. We connect you to verified help and supportive communities.</p>
+        <p>GBV Safe Corner provides a safe, anonymous space for anyone affected by gender-based violence. We connect you to verified help and supportive communities with complete privacy protection.</p>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-number">24/7</span>
+            <span class="stat-label">Emergency Support</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">Anonymous</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">Verified</span>
+            <span class="stat-label">Support Services</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">Safe</span>
+            <span class="stat-label">Community Space</span>
+        </div>
     </div>
 
     <!-- Action Grid -->
     <div class="action-grid">
         <div class="action-card">
             <h3>📝 Report Anonymously</h3>
-            <p>Safe, confidential reporting with complete privacy protection.</p>
+            <p>Safe, confidential reporting with complete privacy protection. No personal data collected.</p>
             <a href="report.html" class="action-button">Make a Report</a>
         </div>
 
         <div class="action-card">
             <h3>💬 Support Network</h3>
-            <p>Find verified counselors, shelters, and legal aid services.</p>
+            <p>Find verified counselors, shelters, legal aid, and support services in your area.</p>
             <a href="support.html" class="action-button">Find Help</a>
         </div>
 
         <div class="action-card">
             <h3>📢 Events & Campaigns</h3>
-            <p>Join marches, vigils, and awareness events in your community.</p>
+            <p>Join marches, vigils, awareness events, and support groups in your community.</p>
             <a href="events.html" class="action-button">See Events</a>
         </div>
 
         <div class="action-card">
             <h3>🛡️ Trusted Resources</h3>
-            <p>Access verified GBV information, rights, and survival guides.</p>
+            <p>Access verified GBV information, rights, survival guides, and educational materials.</p>
             <a href="library.html" class="action-button">Access Resources</a>
+        </div>
+
+        <div class="action-card">
+            <h3>🔍 Safety Planning</h3>
+            <p>Create personalized safety plans with printable checklists and emergency protocols.</p>
+            <a href="safety-plan.html" class="action-button">Safety Tools</a>
+        </div>
+
+        <div class="action-card">
+            <h3>🤝 Community Support</h3>
+            <p>Connect with others, share stories, and find peer support in a safe environment.</p>
+            <a href="community.html" class="action-button">Join Community</a>
         </div>
     </div>
 
     <!-- Emergency Resources -->
     <div class="resources">
         <h2>🆘 24/7 Emergency Contacts</h2>
-        <p><strong>GBV Command Centre:</strong> 0800 428 428 (Free) • Call *120*7355#</p>
-        <p><strong>Lifeline Counseling:</strong> 0861 322 322</p>
-        <p><strong>Suicide Crisis Line:</strong> 0800 567 567</p>
-        <p><strong>Police Emergency:</strong> 10111</p>
-        <p><strong>Childline:</strong> 0800 055 555</p>
-        <p><em>All services available in multiple languages</em></p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0;">
+            <div>
+                <p><strong>GBV Command Centre:</strong><br>0800 428 428 (Free)<br>Call *120*7355#</p>
+            </div>
+            <div>
+                <p><strong>Lifeline Counseling:</strong><br>0861 322 322<br>24/7 emotional support</p>
+            </div>
+            <div>
+                <p><strong>Suicide Crisis Line:</strong><br>0800 567 567<br>Immediate crisis support</p>
+            </div>
+            <div>
+                <p><strong>Police Emergency:</strong><br>10111<br>Emergency response</p>
+            </div>
+            <div>
+                <p><strong>Childline:</strong><br>0800 055 555<br>Child protection</p>
+            </div>
+            <div>
+                <p><strong>Stop Gender Violence:</strong><br>*120*7355#<br>USSD help line</p>
+            </div>
+        </div>
+        <p><em>All services available in multiple languages. Calls are confidential and free.</em></p>
     </div>
 
     <!-- How It Works -->
     <div class="mission-box">
         <h2>How It Works</h2>
-        <p>1. <strong>Report Safely:</strong> Anonymous reporting with privacy protection</p>
-        <p>2. <strong>Find Help:</strong> Connect with verified support services</p>
-        <p>3. <strong>Join Community:</strong> Share experiences and find support</p>
-        <p>4. <strong>Create Change:</strong> Participate in awareness and prevention</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; text-align: left; margin-top: 20px;">
+            <div>
+                <h4>1. Report Safely</h4>
+                <p>Anonymous reporting with privacy protection and no data tracking</p>
+            </div>
+            <div>
+                <h4>2. Find Help</h4>
+                <p>Connect with verified support services and professionals</p>
+            </div>
+            <div>
+                <h4>3. Join Community</h4>
+                <p>Share experiences and find support from others who understand</p>
+            </div>
+            <div>
+                <h4>4. Create Change</h4>
+                <p>Participate in awareness campaigns and prevention efforts</p>
+            </div>
+        </div>
     </div>
 
     <!-- Footer -->
     <div class="footer">
         <p><strong>GBV Safe Corner</strong> - Safe GBV Support Platform</p>
-        <p>Anonymous • Verified • Community-Driven</p>
+        <p>Anonymous • Verified • Community-Driven • Privacy-First</p>
         <p style="margin-top: 15px; font-size: 14px; color: #888;">
-            For anyone affected by gender-based violence
+            For anyone affected by gender-based violence. You are not alone.
         </p>
     </div>
 
@@ -311,6 +415,7 @@
             // ANALYTICS TRACKING - INTEGRATED
             if (typeof analytics !== 'undefined') {
                 analytics.trackPageView('index.html');
+                analytics.trackFeatureUse('homepage_loaded');
             }
         });
         
@@ -318,59 +423,59 @@
         const translations = {
             en: {
                 'home': 'Home',
-                'report': 'Report Anonymously',
-                'support': 'Support Directory',
-                'stories': 'Share Your Story',
-                'library': 'GBV Resources',
-                'community': 'Community Support',
-                'events': 'Events & Marches',
-                'about': 'About Our Mission',
-                'safety': 'Safety Planning',
-                'assessment': 'Risk Assessment',
-                'education': 'Education Hub',
-                'login': 'Admin Login'
+                'report': 'Report',
+                'support': 'Support',
+                'stories': 'Stories',
+                'library': 'Resources',
+                'community': 'Community',
+                'events': 'Events',
+                'about': 'About',
+                'safety': 'Safety',
+                'assessment': 'Risk Check',
+                'education': 'Education',
+                'login': 'Admin'
             },
             zu: {
                 'home': 'Ikhaya',
-                'report': 'Bika Ngokungaziwa',
-                'support': 'Uhlu Lwezinsiza',
-                'stories': 'Yabelana Ngendaba Yakho',
-                'library': 'Izinsiza Ze-GBV',
-                'community': 'Ukusekelwa Komphakathi',
-                'events': 'Imicimbi Nemarch',
-                'about': 'Mayelana Nomgomo Wethu',
-                'safety': 'Ukuhlela Ukuphepha',
-                'assessment': 'Ukuhlola Ubungozi',
-                'education': 'I-Hub Yemfundo',
-                'login': 'Ukungena Kwe-Admin'
+                'report': 'Bika',
+                'support': 'Usizo',
+                'stories': 'Izindaba',
+                'library': 'Izinsiza',
+                'community': 'Umphakathi',
+                'events': 'Imicimbi',
+                'about': 'Mayelana',
+                'safety': 'Ukuphepha',
+                'assessment': 'Ukuhlola',
+                'education': 'Imfundo',
+                'login': 'Admin'
             },
             xh: {
                 'home': 'Ekhaya',
-                'report': 'Xela Ngokungaziwa',
-                'support': 'Uluhlu Looncedo',
-                'stories': 'Yabelana Ngembali Yakho',
-                'library': 'Iindlela Zoncedo Ze-GBV',
-                'community': 'Inkxaso YoLuntu',
-                'events': 'Iivenkile Neemarch',
-                'about': 'Malunga Neenjongo Zethu',
-                'safety': 'Uyilo LoKhuseleko',
-                'assessment': 'Uvavanyo LoMngcipheko',
-                'education': 'I-Hub YeMfundo',
-                'login': 'Ungeno Lwe-Admin'
+                'report': 'Xela',
+                'support': 'Uncedo',
+                'stories': 'Iimbali',
+                'library': 'Iindlela',
+                'community': 'Uluntu',
+                'events': 'Iivenkile',
+                'about': 'Malunga',
+                'safety': 'Ukhuseleko',
+                'assessment': 'Uvavanyo',
+                'education': 'Imfundo',
+                'login': 'Admin'
             },
             af: {
                 'home': 'Tuis',
-                'report': 'Rapporteer Anoniem',
-                'support': 'Ondersteuningsgids',
-                'stories': 'Deel Jou Storie',
-                'library': 'GBV Hulpbronne',
-                'community': 'Gemeenskapsondersteuning',
-                'events': 'Gebeure & Optogte',
-                'about': 'Oor Ons Missie',
-                'safety': 'Veiligheidsbeplanning',
-                'assessment': 'Risiko-assessering',
-                'education': 'Onderrig Sentrum',
-                'login': 'Admin Aanteken'
+                'report': 'Rapporteer',
+                'support': 'Ondersteuning',
+                'stories': 'Stories',
+                'library': 'Hulpbronne',
+                'community': 'Gemeenskap',
+                'events': 'Gebeure',
+                'about': 'Oor',
+                'safety': 'Veiligheid',
+                'assessment': 'Risiko',
+                'education': 'Onderrig',
+                'login': 'Admin'
             }
         };
 
@@ -381,6 +486,11 @@
             localStorage.setItem('preferredLanguage', lang);
             applyTranslations();
             updateLanguageSelector();
+            
+            // ANALYTICS TRACKING
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse('language_changed_' + lang);
+            }
         }
 
         function applyTranslations() {
