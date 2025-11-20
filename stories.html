@@ -1,77 +1,127 @@
-<!-- Replace the content-section div with this: -->
-<div class="content-section">
-    <h2>💬 Share Your Story Anonymously</h2>
-    
-    <div class="success-message" id="successMessage">
-        Thank you for sharing your story. It has been submitted anonymously.
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Share Your Story - GBV Safe Corner</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #f8f8f8; line-height: 1.6; }
+        .header { background: #8B0000; color: white; padding: 30px; text-align: center; border-radius: 15px; margin-bottom: 20px; }
+        .nav-links { text-align: center; margin: 20px 0; padding: 15px; background: white; border-radius: 10px; }
+        .nav-links a { margin: 0 15px; text-decoration: none; color: #8B0000; font-weight: bold; }
+        .content-section { background: white; padding: 30px; border-radius: 15px; margin: 25px 0; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .form-group { margin: 15px 0; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        textarea, select, input { 
+            width: 100%; 
+            padding: 10px; 
+            border: 1px solid #ddd; 
+            border-radius: 5px; 
+            font-family: Arial; 
+            box-sizing: border-box;
+        }
+        .submit-btn { 
+            background: #8B0000; 
+            color: white; 
+            padding: 12px 30px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            width: 100%;
+        }
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            display: none;
+        }
+    </style>
+    <script src="supabase-config.js"></script>
+</head>
+<body>
+    <div class="header">
+        <h1>GBV Safe Corner</h1>
+        <p>Share Your Story</p>
     </div>
 
-    <form id="storyForm">
-        <div class="form-group">
-            <label for="storyTitle">Title (Optional)</label>
-            <input type="text" id="storyTitle" name="storyTitle" placeholder="A title for your story">
-        </div>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="report.html">Report Anonymously</a>
+        <a href="support.html">Support Directory</a>
+        <a href="stories.html">Share Your Story</a>
+        <a href="library.html">GBV Resources</a>
+        <a href="community.html">Community Support</a>
+        <a href="events.html">Events & Marches</a>
+        <a href="about.html">About Our Mission</a>
+    </div>
 
-        <div class="form-group">
-            <label for="storyContent">Your Story *</label>
-            <textarea id="storyContent" name="storyContent" rows="8" placeholder="Share your experience, journey, or message of hope..." required></textarea>
-        </div>
-
-        <div class="form-group">
-            <label>
-                <input type="checkbox" id="shareAnonymously" name="shareAnonymously" checked>
-                Share anonymously (recommended)
-            </label>
-        </div>
-
-        <div class="form-group">
-            <label>
-                <input type="checkbox" id="allowComments" name="allowComments">
-                Allow supportive comments from community
-            </label>
-        </div>
-
-        <button type="submit" class="submit-btn">Share Your Story</button>
-    </form>
-</div>
-
-<script>
-    document.getElementById('storyForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
+    <div class="content-section">
+        <h2>💬 Share Your Story Anonymously</h2>
         
-        const formData = new FormData(this);
-        const storyData = {
-            story_title: formData.get('storyTitle'),
-            story_content: formData.get('storyContent'),
-            share_anonymously: formData.get('shareAnonymously') === 'on',
-            allow_comments: formData.get('allowComments') === 'on',
-            ip_hash: getIpHash()
-        };
+        <div class="success-message" id="successMessage">
+            Thank you for sharing your story. It has been submitted anonymously.
+        </div>
 
-        try {
-            const response = await fetch(SUPABASE_URL + '/rest/v1/survivor_stories', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'apikey': SUPABASE_ANON_KEY,
-                    'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-                    'Prefer': 'return=minimal'
-                },
-                body: JSON.stringify(storyData)
-            });
+        <form id="storyForm">
+            <div class="form-group">
+                <label for="storyTitle">Title (Optional)</label>
+                <input type="text" id="storyTitle" name="storyTitle" placeholder="A title for your story">
+            </div>
 
-            if (response.ok) {
-                document.getElementById('successMessage').style.display = 'block';
-                document.getElementById('storyForm').reset();
-                setTimeout(() => {
-                    document.getElementById('successMessage').style.display = 'none';
-                }, 5000);
-            } else {
+            <div class="form-group">
+                <label for="storyContent">Your Story *</label>
+                <textarea id="storyContent" name="storyContent" rows="8" placeholder="Share your experience, journey, or message of hope..." required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="shareAnonymously" name="shareAnonymously" checked>
+                    Share anonymously (recommended)
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="allowComments" name="allowComments">
+                    Allow supportive comments from community
+                </label>
+            </div>
+
+            <button type="submit" class="submit-btn">Share Your Story</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('storyForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const storyData = {
+                story_title: formData.get('storyTitle'),
+                story_content: formData.get('storyContent'),
+                share_anonymously: formData.get('shareAnonymously') === 'on',
+                allow_comments: formData.get('allowComments') === 'on',
+                ip_hash: getIpHash()
+            };
+
+            try {
+                const response = await submitToSupabase('survivor_stories', storyData);
+
+                if (response.ok) {
+                    document.getElementById('successMessage').style.display = 'block';
+                    document.getElementById('storyForm').reset();
+                    setTimeout(() => {
+                        document.getElementById('successMessage').style.display = 'none';
+                    }, 5000);
+                } else {
+                    alert('Error submitting story. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
                 alert('Error submitting story. Please try again.');
             }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Error submitting story. Please try again.');
-        }
-    });
-</script>
+        });
+    </script>
+</body>
+</html>
