@@ -6,28 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#6A0DAD">
     <meta name="description" content="Anonymous GBV Support Platform providing resources, reporting, and community support">
-    <link rel="manifest" href="manifest.json">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "GBV Safe Corner",
-      "description": "Anonymous GBV Support Platform providing resources, reporting, and community support",
-      "url": "https://yourdomain.com",
-      "logo": "https://yourdomain.com/icon-192.png",
-      "areaServed": "South Africa",
-      "serviceType": "Crisis intervention",
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+27-800-428-428",
-        "contactType": "Crisis counseling",
-        "areaServed": "ZA"
-      }
-    }
-    </script>
+    <!-- ANALYTICS INTEGRATED -->
+    <script src="analytics.js"></script>
     
     <style>
         * { box-sizing: border-box; }
@@ -158,17 +139,6 @@
             outline: 3px solid #6A0DAD;
             outline-offset: 2px;
         }
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
         
         /* Language Selector */
         #languageSelector {
@@ -183,14 +153,6 @@
             color: #6A0DAD;
             font-size: 14px;
             cursor: pointer;
-        }
-        
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
         }
     </style>
 </head>
@@ -346,20 +308,9 @@
             const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
             changeLanguage(savedLanguage);
             
-            // Register Service Worker
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(function(registration) {
-                        console.log('SW registered: ', registration);
-                    })
-                    .catch(function(registrationError) {
-                        console.log('SW registration failed: ', registrationError);
-                    });
-            }
-            
-            // Track page view
+            // ANALYTICS TRACKING - INTEGRATED
             if (typeof analytics !== 'undefined') {
-                analytics.trackPageView('home');
+                analytics.trackPageView('index.html');
             }
         });
         
