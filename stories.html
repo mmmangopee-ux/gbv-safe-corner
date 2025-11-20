@@ -1,44 +1,77 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Share Your Story - GBV Safe Corner</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #f8f8f8; line-height: 1.6; }
-        .header { background: #8B0000; color: white; padding: 30px; text-align: center; border-radius: 15px; margin-bottom: 20px; }
-        .nav-links { text-align: center; margin: 20px 0; padding: 15px; background: white; border-radius: 10px; }
-        .nav-links a { margin: 0 15px; text-decoration: none; color: #8B0000; font-weight: bold; }
-        .content-section { background: white; padding: 30px; border-radius: 15px; margin: 25px 0; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .form-button { background: #8B0000; color: white; padding: 15px 40px; text-decoration: none; border-radius: 8px; font-size: 18px; display: inline-block; margin: 10px; }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>GBV Safe Corner</h1>
-        <p>Share Your Story</p>
+<!-- Replace the content-section div with this: -->
+<div class="content-section">
+    <h2>💬 Share Your Story Anonymously</h2>
+    
+    <div class="success-message" id="successMessage">
+        Thank you for sharing your story. It has been submitted anonymously.
     </div>
 
-    <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="report.html">Report Anonymously</a>
-        <a href="support.html">Support Directory</a>
-        <a href="stories.html">Share Your Story</a>
-        <a href="library.html">GBV Resources</a>
-        <a href="community.html">Community Support</a>
-        <a href="events.html">Events & Marches</a>
-        <a href="about.html">About Our Mission</a>
-    </div>
+    <form id="storyForm">
+        <div class="form-group">
+            <label for="storyTitle">Title (Optional)</label>
+            <input type="text" id="storyTitle" name="storyTitle" placeholder="A title for your story">
+        </div>
 
-    <div class="content-section" style="text-align: center;">
-        <h2>💬 Share Your Story Anonymously</h2>
-        <p>Click the button below to share your experience, story, or message of hope:</p>
+        <div class="form-group">
+            <label for="storyContent">Your Story *</label>
+            <textarea id="storyContent" name="storyContent" rows="8" placeholder="Share your experience, journey, or message of hope..." required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>
+                <input type="checkbox" id="shareAnonymously" name="shareAnonymously" checked>
+                Share anonymously (recommended)
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label>
+                <input type="checkbox" id="allowComments" name="allowComments">
+                Allow supportive comments from community
+            </label>
+        </div>
+
+        <button type="submit" class="submit-btn">Share Your Story</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('storyForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
         
-        <a href="https://docs.google.com/forms/d/1Zf3rqvWILeDjJxtoxqcszr0w8Li4ThDbzqtQ0NQVi_k/viewform" 
-           target="_blank" 
-           class="form-button">
-           📖 Share Your Story
-        </a>
+        const formData = new FormData(this);
+        const storyData = {
+            story_title: formData.get('storyTitle'),
+            story_content: formData.get('storyContent'),
+            share_anonymously: formData.get('shareAnonymously') === 'on',
+            allow_comments: formData.get('allowComments') === 'on',
+            ip_hash: getIpHash()
+        };
 
-        <p><em>Your story is completely anonymous and may help others feel less alone.</em></p>
-    </div>
-</body>
-</html>
+        try {
+            const response = await fetch(SUPABASE_URL + '/rest/v1/survivor_stories', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'apikey': SUPABASE_ANON_KEY,
+                    'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+                    'Prefer': 'return=minimal'
+                },
+                body: JSON.stringify(storyData)
+            });
+
+            if (response.ok) {
+                document.getElementById('successMessage').style.display = 'block';
+                document.getElementById('storyForm').reset();
+                setTimeout(() => {
+                    document.getElementById('successMessage').style.display = 'none';
+                }, 5000);
+            } else {
+                alert('Error submitting story. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error submitting story. Please try again.');
+        }
+    });
+</script>
