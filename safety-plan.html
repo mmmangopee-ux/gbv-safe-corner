@@ -110,8 +110,213 @@
             body { background: white; }
             .content-section { box-shadow: none; border: 1px solid #ddd; }
         }
+        
+        /* Emergency Exit Button */
+        .emergency-exit {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10000;
+        }
+        .emergency-exit-btn {
+            background: #FF6B6B;
+            color: white;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(255,0,0,0.4);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .emergency-exit-btn:hover {
+            background: #ff5252;
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(255,0,0,0.5);
+        }
+        
+        /* Language Selector */
+        #languageSelector {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 2px solid #6A0DAD;
+            background: white;
+            color: #6A0DAD;
+            font-size: 14px;
+            cursor: pointer;
+        }
     </style>
-    <script src="emergency-exit.js"></script>
+    
+    <script>
+        // Browser History Protection
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.pathname);
+        }
+        
+        // Emergency Exit Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create emergency exit button
+            const emergencyExit = document.createElement('div');
+            emergencyExit.className = 'emergency-exit';
+            emergencyExit.innerHTML = `
+                <button onclick="window.location.href='https://www.google.com/search?q=weather'" 
+                        title="Quickly leaves this site"
+                        class="emergency-exit-btn">
+                    🚨 Quick Exit
+                </button>
+            `;
+            document.body.appendChild(emergencyExit);
+
+            // Add keyboard shortcut (Esc key)
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    window.location.href = 'https://www.google.com/search?q=weather';
+                }
+            });
+            
+            // Create Language Selector
+            const languageSelector = document.createElement('select');
+            languageSelector.id = 'languageSelector';
+            languageSelector.innerHTML = `
+                <option value="en">English</option>
+                <option value="zu">Zulu</option>
+                <option value="xh">Xhosa</option>
+                <option value="af">Afrikaans</option>
+            `;
+            languageSelector.onchange = (e) => changeLanguage(e.target.value);
+            document.body.appendChild(languageSelector);
+            
+            // Initialize language
+            const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
+            changeLanguage(savedLanguage);
+            
+            // Load saved progress
+            const saved = localStorage.getItem('safetyPlanProgress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                
+                checkboxes.forEach((cb, index) => {
+                    if (progress[`item_${index}`]) {
+                        cb.checked = true;
+                        cb.closest('.checklist-item').classList.add('completed');
+                    }
+                });
+            }
+        });
+        
+        // Language Support
+        const translations = {
+            en: {
+                'home': 'Home',
+                'report': 'Report Anonymously',
+                'support': 'Support Directory',
+                'stories': 'Share Your Story',
+                'library': 'GBV Resources',
+                'community': 'Community Support',
+                'events': 'Events & Marches',
+                'about': 'About Our Mission',
+                'safety': 'Safety Planning',
+                'assessment': 'Risk Assessment',
+                'education': 'Education Hub',
+                'login': 'Admin Login'
+            },
+            zu: {
+                'home': 'Ikhaya',
+                'report': 'Bika Ngokungaziwa',
+                'support': 'Uhlu Lwezinsiza',
+                'stories': 'Yabelana Ngendaba Yakho',
+                'library': 'Izinsiza Ze-GBV',
+                'community': 'Ukusekelwa Komphakathi',
+                'events': 'Imicimbi Nemarch',
+                'about': 'Mayelana Nomgomo Wethu',
+                'safety': 'Ukuhlela Ukuphepha',
+                'assessment': 'Ukuhlola Ubungozi',
+                'education': 'I-Hub Yemfundo',
+                'login': 'Ukungena Kwe-Admin'
+            },
+            xh: {
+                'home': 'Ekhaya',
+                'report': 'Xela Ngokungaziwa',
+                'support': 'Uluhlu Looncedo',
+                'stories': 'Yabelana Ngembali Yakho',
+                'library': 'Iindlela Zoncedo Ze-GBV',
+                'community': 'Inkxaso YoLuntu',
+                'events': 'Iivenkile Neemarch',
+                'about': 'Malunga Neenjongo Zethu',
+                'safety': 'Uyilo LoKhuseleko',
+                'assessment': 'Uvavanyo LoMngcipheko',
+                'education': 'I-Hub YeMfundo',
+                'login': 'Ungeno Lwe-Admin'
+            },
+            af: {
+                'home': 'Tuis',
+                'report': 'Rapporteer Anoniem',
+                'support': 'Ondersteuningsgids',
+                'stories': 'Deel Jou Storie',
+                'library': 'GBV Hulpbronne',
+                'community': 'Gemeenskapsondersteuning',
+                'events': 'Gebeure & Optogte',
+                'about': 'Oor Ons Missie',
+                'safety': 'Veiligheidsbeplanning',
+                'assessment': 'Risiko-assessering',
+                'education': 'Onderrig Sentrum',
+                'login': 'Admin Aanteken'
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('preferredLanguage', lang);
+            applyTranslations();
+            updateLanguageSelector();
+        }
+
+        function applyTranslations() {
+            const elements = document.querySelectorAll('[data-translate]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[currentLanguage] && translations[currentLanguage][key]) {
+                    element.textContent = translations[currentLanguage][key];
+                }
+            });
+        }
+
+        function updateLanguageSelector() {
+            const selector = document.getElementById('languageSelector');
+            if (selector) {
+                selector.value = currentLanguage;
+            }
+        }
+        
+        function toggleCompleted(checkbox) {
+            const item = checkbox.closest('.checklist-item');
+            if (checkbox.checked) {
+                item.classList.add('completed');
+            } else {
+                item.classList.remove('completed');
+            }
+        }
+
+        function savePlan() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const progress = {};
+            
+            checkboxes.forEach((cb, index) => {
+                progress[`item_${index}`] = cb.checked;
+            });
+            
+            localStorage.setItem('safetyPlanProgress', JSON.stringify(progress));
+            alert('Safety plan progress saved locally on your device.');
+        }
+    </script>
 </head>
 <body>
     <div class="header">
@@ -124,16 +329,18 @@
     </div>
 
     <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="report.html">Report Anonymously</a>
-        <a href="support.html">Support Directory</a>
-        <a href="stories.html">Share Your Story</a>
-        <a href="library.html">GBV Resources</a>
-        <a href="community.html">Community Support</a>
-        <a href="events.html">Events & Marches</a>
-        <a href="about.html">About Our Mission</a>
-        <a href="safety-plan.html">Safety Planning</a>
-        <a href="login.html">Admin Login</a>
+        <a href="index.html" data-translate="home">Home</a>
+        <a href="report.html" data-translate="report">Report Anonymously</a>
+        <a href="support.html" data-translate="support">Support Directory</a>
+        <a href="stories.html" data-translate="stories">Share Your Story</a>
+        <a href="library.html" data-translate="library">GBV Resources</a>
+        <a href="community.html" data-translate="community">Community Support</a>
+        <a href="events.html" data-translate="events">Events & Marches</a>
+        <a href="about.html" data-translate="about">About Our Mission</a>
+        <a href="safety-plan.html" data-translate="safety">Safety Planning</a>
+        <a href="risk-assessment.html" data-translate="assessment">Risk Assessment</a>
+        <a href="education-hub.html" data-translate="education">Education Hub</a>
+        <a href="login.html" data-translate="login">Admin Login</a>
     </div>
 
     <div class="content-section">
@@ -261,44 +468,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        function toggleCompleted(checkbox) {
-            const item = checkbox.closest('.checklist-item');
-            if (checkbox.checked) {
-                item.classList.add('completed');
-            } else {
-                item.classList.remove('completed');
-            }
-        }
-
-        function savePlan() {
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            const progress = {};
-            
-            checkboxes.forEach((cb, index) => {
-                progress[`item_${index}`] = cb.checked;
-            });
-            
-            localStorage.setItem('safetyPlanProgress', JSON.stringify(progress));
-            alert('Safety plan progress saved locally on your device.');
-        }
-
-        // Load saved progress
-        document.addEventListener('DOMContentLoaded', function() {
-            const saved = localStorage.getItem('safetyPlanProgress');
-            if (saved) {
-                const progress = JSON.parse(saved);
-                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-                
-                checkboxes.forEach((cb, index) => {
-                    if (progress[`item_${index}`]) {
-                        cb.checked = true;
-                        cb.closest('.checklist-item').classList.add('completed');
-                    }
-                });
-            }
-        });
-    </script>
 </body>
 </html>
