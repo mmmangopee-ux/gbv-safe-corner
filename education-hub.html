@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Education Hub - GBV Safe Corner</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 1000px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            background-color: #f8f8f8; 
+            line-height: 1.6; 
+        }
+        .header { 
+            background: linear-gradient(135deg, #6A0DAD, #8A2BE2);
+            color: white; 
+            padding: 30px; 
+            text-align: center; 
+            border-radius: 15px; 
+            margin-bottom: 20px; 
+        }
+        .logo-text {
+            font-size: 2em;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+        .logo-text span {
+            display: block;
+        }
+        .nav-links { 
+            text-align: center; 
+            margin: 20px 0; 
+            padding: 15px; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 2px 4px rgba(106, 13, 173, 0.1);
+        }
+        .nav-links a { 
+            margin: 0 15px; 
+            text-decoration: none; 
+            color: #6A0DAD; 
+            font-weight: bold; 
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: #8A2BE2;
+        }
+        .content-section { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 15px; 
+            margin: 25px 0; 
+            box-shadow: 0 4px 8px rgba(106, 13, 173, 0.1);
+        }
+        .edu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        .edu-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(106, 13, 173, 0.1);
+            transition: transform 0.3s ease;
+            border-top: 4px solid #6A0DAD;
+        }
+        .edu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(106, 13, 173, 0.2);
+        }
+        .edu-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+        .resource-list {
+            text-align: left;
+            margin: 15px 0;
+        }
+        .resource-list li {
+            margin: 10px 0;
+            padding: 8px;
+            background: #f8f8f8;
+            border-radius: 5px;
+        }
+        .action-button {
+            background: #6A0DAD;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 8px;
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+        .action-button:hover {
+            background: #8A2BE2;
+        }
+        .purple-accent {
+            color: #6A0DAD;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            margin: 20px 0;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+    </style>
+    <script src="emergency-exit.js"></script>
+    <script src="privacy-protection.js"></script>
+    <script src="language-support.js"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="logo-text">
+            <span>GBV</span>
+            <span>SAFE</span>
+            <span>CORNER</span>
+        </div>
+        <p>Education & Prevention Hub</p>
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html" data-translate="home">Home</a>
+        <a href="report.html" data-translate="report">Report Anonymously</a>
+        <a href="support.html" data-translate="support">Support Directory</a>
+        <a href="stories.html" data-translate="stories">Share Your Story</a>
+        <a href="library.html" data-translate="library">GBV Resources</a>
+        <a href="community.html" data-translate="community">Community Support</a>
+        <a href="events.html" data-translate="events">Events & Marches</a>
+        <a href="about.html" data-translate="about">About Our Mission</a>
+        <a href="safety-plan.html" data-translate="safety">Safety Planning</a>
+        <a href="risk-assessment.html" data-translate="assessment">Risk Assessment</a>
+        <a href="education-hub.html">Education Hub</a>
+        <a href="login.html" data-translate="login">Admin Login</a>
+    </div>
+
+    <div class="content-section">
+        <h2 class="purple-accent">🎓 GBV Education & Prevention Hub</h2>
+        <p>Comprehensive resources for understanding, preventing, and responding to gender-based violence.</p>
+        
+        <div class="edu-grid">
+            <div class="edu-card">
+                <div class="edu-icon">👩‍⚖️</div>
+                <h3 class="purple-accent">For Survivors</h3>
+                <p>Resources for healing, rights, and recovery</p>
+                <div class="resource-list">
+                    <li>Understanding your legal rights</li>
+                    <li>Healing and recovery guides</li>
+                    <li>Building support networks</li>
+                    <li>Financial independence resources</li>
+                </div>
+                <a href="library.html" class="action-button">Access Resources</a>
+            </div>
+
+            <div class="edu-card">
+                <div class="edu-icon">🤝</div>
+                <h3 class="purple-accent">For Supporters</h3>
+                <p>How to help someone experiencing GBV</p>
+                <div class="resource-list">
+                    <li>Active listening techniques</li>
+                    <li>Safety planning assistance</li>
+                    <li>Resource navigation help</li>
+                    <li>Self-care for supporters</li>
+                </div>
+                <a href="community.html" class="action-button">Learn More</a>
+            </div>
+
+            <div class="edu-card">
+                <div class="edu-icon">🌍</div>
+                <h3 class="purple-accent">For Everyone</h3>
+                <p>Prevention education and awareness</p>
+                <div class="resource-list">
+                    <li>Bystander intervention training</li>
+                    <li>Healthy relationship education</li>
+                    <li>Consent and boundaries</li>
+                    <li>Community prevention strategies</li>
+                </div>
+                <a href="#prevention" class="action-button">Get Educated</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2 class="purple-accent">📚 Educational Resources</h2>
+        
+        <div class="edu-grid">
+            <div class="edu-card">
+                <h3 class="purple-accent">📖 Understanding GBV</h3>
+                <p>Learn about different forms of gender-based violence</p>
+                <ul class="resource-list">
+                    <li>Physical, emotional, sexual abuse</li>
+                    <li>Financial control and coercion</li>
+                    <li>Digital abuse and stalking</li>
+                    <li>Psychological manipulation</li>
+                </ul>
+            </div>
+
+            <div class="edu-card">
+                <h3 class="purple-accent">🛡️ Safety Planning</h3>
+                <p>Comprehensive safety strategies</p>
+                <ul class="resource-list">
+                    <li>Home safety measures</li>
+                    <li>Workplace safety plans</li>
+                    <li>Digital security tips</li>
+                    <li>Emergency escape plans</li>
+                </ul>
+            </div>
+
+            <div class="edu-card">
+                <h3 class="purple-accent">⚖️ Legal Rights</h3>
+                <p>Know your legal protections</p>
+                <ul class="resource-list">
+                    <li>Protection orders</li>
+                    <li>Legal aid resources</li>
+                    <li>Court procedures</li>
+                    <li>Victim rights</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section" id="prevention">
+        <h2 class="purple-accent">🌟 Prevention & Awareness</h2>
+        
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+            </iframe>
+        </div>
+        
+        <div class="edu-grid">
+            <div class="edu-card">
+                <h3 class="purple-accent">💬 Bystander Intervention</h3>
+                <p><strong>See Something, Do Something</strong></p>
+                <p>Learn safe ways to intervene when you witness GBV:</p>
+                <ul class="resource-list">
+                    <li>Direct intervention techniques</li>
+                    <li>Distraction methods</li>
+                    <li>Delegate to authorities</li>
+                    <li>Document safely</li>
+                </ul>
+            </div>
+
+            <div class="edu-card">
+                <h3 class="purple-accent">❤️ Healthy Relationships</h3>
+                <p>Signs of healthy vs unhealthy relationships:</p>
+                <ul class="resource-list">
+                    <li>Respect and equality</li>
+                    <li>Open communication</li>
+                    <li>Trust and support</li>
+                    <li>Personal boundaries</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2 class="purple-accent">📊 Statistics & Awareness</h2>
+        <p>Understanding the scope of GBV helps in prevention and support:</p>
+        
+        <div class="edu-grid">
+            <div class="edu-card">
+                <h3 class="purple-accent">1 in 3</h3>
+                <p>Women worldwide experience physical or sexual violence</p>
+            </div>
+            <div class="edu-card">
+                <h3 class="purple-accent">Less than 40%</h3>
+                <p>Of women who experience violence seek help</p>
+            </div>
+            <div class="edu-card">
+                <h3 class="purple-accent">GBV affects</h3>
+                <p>All ages, backgrounds, and socioeconomic groups</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
