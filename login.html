@@ -14,16 +14,25 @@
             background: white; 
             padding: 40px; 
             border-radius: 15px; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+            box-shadow: 0 4px 8px rgba(106, 13, 173, 0.1); 
             text-align: center;
         }
         .header { 
-            background: #8B0000; 
+            background: linear-gradient(135deg, #6A0DAD, #8A2BE2);
             color: white; 
             padding: 20px; 
             text-align: center; 
             border-radius: 10px; 
             margin-bottom: 30px; 
+        }
+        .logo-text {
+            font-size: 1.5em;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.2;
+        }
+        .logo-text span {
+            display: block;
         }
         .form-group { 
             margin: 20px 0; 
@@ -33,7 +42,7 @@
             display: block; 
             margin-bottom: 5px; 
             font-weight: bold; 
-            color: #333;
+            color: #6A0DAD;
         }
         input { 
             width: 100%; 
@@ -44,7 +53,7 @@
             box-sizing: border-box;
         }
         .login-btn { 
-            background: #8B0000; 
+            background: #6A0DAD; 
             color: white; 
             padding: 15px 40px; 
             border: none; 
@@ -53,6 +62,10 @@
             font-size: 16px; 
             width: 100%;
             margin-top: 20px;
+            transition: background 0.3s ease;
+        }
+        .login-btn:hover {
+            background: #8A2BE2;
         }
         .error-message {
             color: #d32f2f;
@@ -75,7 +88,11 @@
 <body>
     <div class="login-container">
         <div class="header">
-            <h1>GBV Safe Corner</h1>
+            <div class="logo-text">
+                <span>GBV</span>
+                <span>SAFE</span>
+                <span>CORNER</span>
+            </div>
             <p>Admin Login</p>
         </div>
 
