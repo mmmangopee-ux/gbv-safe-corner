@@ -2,8 +2,23 @@
 <html>
 <head>
     <title>Admin - GBV Safe Corner</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#6A0DAD">
+    
+    <!-- ANALYTICS INTEGRATED -->
+    <script src="analytics.js"></script>
+    <script src="supabase-config.js"></script>
+    
     <style>
-        body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; background-color: #f8f8f8; }
+        * { box-sizing: border-box; }
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            background-color: #f8f8f8; 
+        }
         .header { 
             background: linear-gradient(135deg, #6A0DAD, #8A2BE2);
             color: white; 
@@ -95,6 +110,10 @@
             position: absolute; 
             top: 20px; 
             right: 20px; 
+            transition: background 0.3s ease;
+        }
+        .logout-btn:hover {
+            background: #888;
         }
         .purple-accent {
             color: #6A0DAD;
@@ -105,6 +124,37 @@
             padding: 15px;
             margin: 15px 0;
             border-radius: 5px;
+        }
+        
+        /* Enhanced Emergency Exit */
+        .emergency-exit {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10000;
+        }
+        .emergency-exit-btn {
+            background: #FF6B6B;
+            color: white;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(255,0,0,0.4);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .emergency-exit-btn:hover {
+            background: #ff5252;
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(255,0,0,0.5);
+        }
+        
+        /* Accessibility */
+        :focus {
+            outline: 3px solid #6A0DAD;
+            outline-offset: 2px;
         }
     </style>
 </head>
@@ -159,6 +209,51 @@
     </div>
 
     <script>
+        // Enhanced Security & Privacy
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.pathname);
+        }
+        
+        // Enhanced Emergency Exit
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create emergency exit button
+            const emergencyExit = document.createElement('div');
+            emergencyExit.className = 'emergency-exit';
+            emergencyExit.innerHTML = `
+                <button onclick="emergencyRedirect()" 
+                        title="Quickly leaves this site and clears data"
+                        class="emergency-exit-btn">
+                    🚨 Quick Exit
+                </button>
+            `;
+            document.body.appendChild(emergencyExit);
+
+            // Enhanced emergency redirect
+            window.emergencyRedirect = function() {
+                // Clear sensitive data
+                localStorage.removeItem('safetyPlanProgress');
+                sessionStorage.clear();
+                document.querySelectorAll('input, textarea').forEach(element => {
+                    element.value = '';
+                });
+                // Redirect to safe page
+                window.location.href = 'https://www.google.com/search?q=weather';
+            };
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' || (e.ctrlKey && e.key === 'q')) {
+                    emergencyRedirect();
+                }
+            });
+            
+            // ANALYTICS TRACKING - INTEGRATED
+            if (typeof analytics !== 'undefined') {
+                analytics.trackPageView('admin.html');
+                analytics.trackFeatureUse('admin_panel_loaded');
+            }
+        });
+
         (function() {
             const isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
             const loginTime = localStorage.getItem('loginTime');
@@ -176,6 +271,12 @@
         function logout() {
             localStorage.removeItem('adminLoggedIn');
             localStorage.removeItem('loginTime');
+            
+            // ANALYTICS TRACKING - INTEGRATED
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse('admin_logout');
+            }
+            
             window.location.href = 'login.html';
         }
 
@@ -192,6 +293,11 @@
             
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
+            
+            // ANALYTICS TRACKING - INTEGRATED
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse('admin_tab_' + tabName);
+            }
         }
 
         async function fetchFromSupabase(tableName, options = {}) {
@@ -219,6 +325,12 @@
                 }
             } catch (error) {
                 console.error(`Error fetching from ${tableName}:`, error);
+                
+                // ANALYTICS TRACKING - INTEGRATED
+                if (typeof analytics !== 'undefined') {
+                    analytics.trackError(error, 'supabase_fetch_' + tableName);
+                }
+                
                 throw error;
             }
         }
@@ -263,6 +375,12 @@
                 
                 html += '</table>';
                 document.getElementById('reportsData').innerHTML = html;
+                
+                // ANALYTICS TRACKING - INTEGRATED
+                if (typeof analytics !== 'undefined') {
+                    analytics.trackFeatureUse('reports_loaded');
+                    analytics.trackFeatureUse('total_reports_' + reports.length);
+                }
             } catch (error) {
                 document.getElementById('reportsData').innerHTML = `
                     <p>Error loading private reports: ${error.message}</p>
@@ -304,6 +422,11 @@
                 
                 html += '</table>';
                 document.getElementById('storiesData').innerHTML = html || '<p>No stories found.</p>';
+                
+                // ANALYTICS TRACKING - INTEGRATED
+                if (typeof analytics !== 'undefined') {
+                    analytics.trackFeatureUse('stories_loaded');
+                }
             } catch (error) {
                 document.getElementById('storiesData').innerHTML = `<p>Error loading stories: ${error.message}</p>`;
             }
@@ -341,6 +464,11 @@
                 
                 html += '</table>';
                 document.getElementById('eventsData').innerHTML = html || '<p>No events found.</p>';
+                
+                // ANALYTICS TRACKING - INTEGRATED
+                if (typeof analytics !== 'undefined') {
+                    analytics.trackFeatureUse('events_loaded');
+                }
             } catch (error) {
                 document.getElementById('eventsData').innerHTML = `<p>Error loading events: ${error.message}</p>`;
             }
