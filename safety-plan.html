@@ -11,7 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
     <style>
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
             font-family: Arial, sans-serif; 
             max-width: 900px; 
@@ -39,46 +39,68 @@
             display: block;
         }
         
-        /* Mobile-First Navigation */
-        .mobile-nav-toggle {
-            display: none;
-            background: #6A0DAD;
-            color: white;
-            border: none;
-            padding: 12px 15px;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            width: 100%;
-            margin-bottom: 10px;
-            text-align: center;
+        /* Modern Mobile Navigation */
+        .mobile-nav-container {
+            margin: 20px 0;
         }
         
-        .nav-links { 
-            text-align: center; 
-            margin: 20px 0; 
-            padding: 15px; 
-            background: white; 
-            border-radius: 10px; 
-            box-shadow: 0 2px 4px rgba(106, 13, 173, 0.1);
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-        }
-        .nav-links a { 
-            padding: 8px 12px;
-            text-decoration: none; 
-            color: #6A0DAD; 
-            font-weight: bold; 
-            transition: all 0.3s ease;
-            border-radius: 5px;
-            flex: 1;
-            min-width: 120px;
-            text-align: center;
-        }
-        .nav-links a:hover {
+        .mobile-nav-header {
             background: #6A0DAD;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(106, 13, 173, 0.3);
+        }
+        
+        .mobile-nav-icon {
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-nav-content {
+            background: white;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: none;
+            overflow: hidden;
+        }
+        
+        .mobile-nav-content.active {
+            display: block;
+        }
+        
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: #f0f0f0;
+        }
+        
+        .nav-item {
+            background: white;
+            padding: 15px 10px;
+            text-align: center;
+            text-decoration: none;
+            color: #6A0DAD;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .nav-item:hover {
+            background: #6A0DAD;
+            color: white;
+        }
+        
+        .nav-item.current {
+            background: #8A2BE2;
             color: white;
         }
         
@@ -208,24 +230,13 @@
         
         /* Mobile Responsive */
         @media (max-width: 768px) {
-            .mobile-nav-toggle {
-                display: block;
+            .nav-grid {
+                grid-template-columns: 1fr;
             }
             
-            .nav-links {
-                flex-direction: column;
-                display: none;
-            }
-            
-            .nav-links.active {
-                display: flex;
-            }
-            
-            .nav-links a {
-                min-width: auto;
-                width: 100%;
-                margin: 5px 0;
-                padding: 12px 15px;
+            .nav-item {
+                padding: 18px 10px;
+                font-size: 16px;
             }
             
             .action-buttons {
@@ -253,6 +264,32 @@
             }
         }
         
+        /* Desktop - Show full navigation */
+        @media (min-width: 769px) {
+            .mobile-nav-header {
+                display: none;
+            }
+            
+            .mobile-nav-content {
+                display: block !important;
+                background: transparent;
+                box-shadow: none;
+            }
+            
+            .nav-grid {
+                grid-template-columns: repeat(4, 1fr);
+                background: white;
+                border-radius: 10px;
+                padding: 15px;
+                box-shadow: 0 2px 4px rgba(106, 13, 173, 0.1);
+                gap: 10px;
+            }
+            
+            .nav-item {
+                border-radius: 5px;
+            }
+        }
+        
         @media print {
             .no-print { display: none; }
             body { background: white; }
@@ -270,21 +307,29 @@
         <p>Safety Planning Tool</p>
     </div>
 
-    <button class="mobile-nav-toggle" onclick="toggleMobileNav()">☰ Menu</button>
-    
-    <div class="nav-links" id="mainNav">
-        <a href="index.html" data-translate="home">Home</a>
-        <a href="report.html" data-translate="report">Report</a>
-        <a href="support.html" data-translate="support">Support</a>
-        <a href="stories.html" data-translate="stories">Stories</a>
-        <a href="library.html" data-translate="library">Resources</a>
-        <a href="community.html" data-translate="community">Community</a>
-        <a href="events.html" data-translate="events">Events</a>
-        <a href="about.html" data-translate="about">About</a>
-        <a href="safety-plan.html" data-translate="safety">Safety Plan</a>
-        <a href="risk-assessment.html" data-translate="assessment">Risk Assessment</a>
-        <a href="education-hub.html" data-translate="education">Education</a>
-        <a href="login.html" data-translate="login">Admin</a>
+    <!-- Modern Mobile Navigation -->
+    <div class="mobile-nav-container">
+        <div class="mobile-nav-header" onclick="toggleMobileNav()">
+            <span>📱 Site Navigation</span>
+            <span class="mobile-nav-icon">▼</span>
+        </div>
+        
+        <div class="mobile-nav-content" id="mobileNavContent">
+            <div class="nav-grid">
+                <a href="index.html" class="nav-item" data-translate="home">Home</a>
+                <a href="report.html" class="nav-item" data-translate="report">Report</a>
+                <a href="support.html" class="nav-item" data-translate="support">Support</a>
+                <a href="stories.html" class="nav-item" data-translate="stories">Stories</a>
+                <a href="library.html" class="nav-item" data-translate="library">Resources</a>
+                <a href="community.html" class="nav-item" data-translate="community">Community</a>
+                <a href="events.html" class="nav-item" data-translate="events">Events</a>
+                <a href="about.html" class="nav-item" data-translate="about">About</a>
+                <a href="safety-plan.html" class="nav-item current" data-translate="safety">Safety</a>
+                <a href="risk-assessment.html" class="nav-item" data-translate="assessment">Risk Check</a>
+                <a href="education-hub.html" class="nav-item" data-translate="education">Education</a>
+                <a href="login.html" class="nav-item" data-translate="login">Admin</a>
+            </div>
+        </div>
     </div>
 
     <div class="content-section">
@@ -422,8 +467,11 @@
         
         // Mobile Navigation Toggle
         function toggleMobileNav() {
-            const nav = document.getElementById('mainNav');
-            nav.classList.toggle('active');
+            const navContent = document.getElementById('mobileNavContent');
+            const navIcon = document.querySelector('.mobile-nav-icon');
+            
+            navContent.classList.toggle('active');
+            navIcon.textContent = navContent.classList.contains('active') ? '▲' : '▼';
         }
         
         // Enhanced Emergency Exit
@@ -507,8 +555,8 @@
                 'community': 'Community',
                 'events': 'Events',
                 'about': 'About',
-                'safety': 'Safety Plan',
-                'assessment': 'Risk Assessment',
+                'safety': 'Safety',
+                'assessment': 'Risk Check',
                 'education': 'Education',
                 'login': 'Admin'
             },
@@ -521,8 +569,8 @@
                 'community': 'Umphakathi',
                 'events': 'Imicimbi',
                 'about': 'Mayelana',
-                'safety': 'Uhlelo Lokuphepha',
-                'assessment': 'Ukuhlola Ubungozi',
+                'safety': 'Ukuphepha',
+                'assessment': 'Ukuhlola',
                 'education': 'Imfundo',
                 'login': 'Admin'
             },
@@ -535,7 +583,7 @@
                 'community': 'Uluntu',
                 'events': 'Iivenkile',
                 'about': 'Malunga',
-                'safety': 'Uyilo Lokhuseleko',
+                'safety': 'Ukhuseleko',
                 'assessment': 'Uvavanyo',
                 'education': 'Imfundo',
                 'login': 'Admin'
@@ -549,7 +597,7 @@
                 'community': 'Gemeenskap',
                 'events': 'Gebeure',
                 'about': 'Oor',
-                'safety': 'Veiligheidsplan',
+                'safety': 'Veiligheid',
                 'assessment': 'Risiko',
                 'education': 'Onderrig',
                 'login': 'Admin'
