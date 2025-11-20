@@ -93,71 +93,216 @@
             margin: 15px 0;
             display: none;
         }
+        .privacy-warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-size: 14px;
+        }
         .purple-accent {
             color: #6A0DAD;
         }
-    </style>
-    <script src="supabase-config.js"></script>
-</head>
-<body>
-    <div class="header">
-        <div class="logo-text">
-            <span>GBV</span>
-            <span>SAFE</span>
-            <span>CORNER</span>
-        </div>
-        <p>Share Your Story</p>
-    </div>
-
-    <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="report.html">Report Anonymously</a>
-        <a href="support.html">Support Directory</a>
-        <a href="stories.html">Share Your Story</a>
-        <a href="library.html">GBV Resources</a>
-        <a href="community.html">Community Support</a>
-        <a href="events.html">Events & Marches</a>
-        <a href="about.html">About Our Mission</a>
-        <a href="login.html">Admin Login</a>
-    </div>
-
-    <div class="content-section">
-        <h2 class="purple-accent">💬 Share Your Story Anonymously</h2>
         
-        <div class="success-message" id="successMessage">
-            Thank you for sharing your story. It has been submitted anonymously.
-        </div>
-
-        <form id="storyForm">
-            <div class="form-group">
-                <label for="storyTitle">Title (Optional)</label>
-                <input type="text" id="storyTitle" name="storyTitle" placeholder="A title for your story">
-            </div>
-
-            <div class="form-group">
-                <label for="storyContent">Your Story *</label>
-                <textarea id="storyContent" name="storyContent" rows="8" placeholder="Share your experience, journey, or message of hope..." required></textarea>
-            </div>
-
-            <div class="form-group">
-                <label>
-                    <input type="checkbox" id="shareAnonymously" name="shareAnonymously" checked>
-                    Share anonymously (recommended)
-                </label>
-            </div>
-
-            <div class="form-group">
-                <label>
-                    <input type="checkbox" id="allowComments" name="allowComments">
-                    Allow supportive comments from community
-                </label>
-            </div>
-
-            <button type="submit" class="submit-btn">Share Your Story</button>
-        </form>
-    </div>
-
+        /* Emergency Exit Button */
+        .emergency-exit {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10000;
+        }
+        .emergency-exit-btn {
+            background: #FF6B6B;
+            color: white;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(255,0,0,0.4);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .emergency-exit-btn:hover {
+            background: #ff5252;
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(255,0,0,0.5);
+        }
+        
+        /* Language Selector */
+        #languageSelector {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 2px solid #6A0DAD;
+            background: white;
+            color: #6A0DAD;
+            font-size: 14px;
+            cursor: pointer;
+        }
+    </style>
+    
     <script>
+        // Browser History Protection
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.pathname);
+        }
+        
+        // Emergency Exit Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create emergency exit button
+            const emergencyExit = document.createElement('div');
+            emergencyExit.className = 'emergency-exit';
+            emergencyExit.innerHTML = `
+                <button onclick="window.location.href='https://www.google.com/search?q=weather'" 
+                        title="Quickly leaves this site"
+                        class="emergency-exit-btn">
+                    🚨 Quick Exit
+                </button>
+            `;
+            document.body.appendChild(emergencyExit);
+
+            // Add keyboard shortcut (Esc key)
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    window.location.href = 'https://www.google.com/search?q=weather';
+                }
+            });
+            
+            // Create Language Selector
+            const languageSelector = document.createElement('select');
+            languageSelector.id = 'languageSelector';
+            languageSelector.innerHTML = `
+                <option value="en">English</option>
+                <option value="zu">Zulu</option>
+                <option value="xh">Xhosa</option>
+                <option value="af">Afrikaans</option>
+            `;
+            languageSelector.onchange = (e) => changeLanguage(e.target.value);
+            document.body.appendChild(languageSelector);
+            
+            // Initialize language
+            const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
+            changeLanguage(savedLanguage);
+        });
+        
+        // Language Support
+        const translations = {
+            en: {
+                'home': 'Home',
+                'report': 'Report Anonymously',
+                'support': 'Support Directory',
+                'stories': 'Share Your Story',
+                'library': 'GBV Resources',
+                'community': 'Community Support',
+                'events': 'Events & Marches',
+                'about': 'About Our Mission',
+                'safety': 'Safety Planning',
+                'assessment': 'Risk Assessment',
+                'education': 'Education Hub',
+                'login': 'Admin Login'
+            },
+            zu: {
+                'home': 'Ikhaya',
+                'report': 'Bika Ngokungaziwa',
+                'support': 'Uhlu Lwezinsiza',
+                'stories': 'Yabelana Ngendaba Yakho',
+                'library': 'Izinsiza Ze-GBV',
+                'community': 'Ukusekelwa Komphakathi',
+                'events': 'Imicimbi Nemarch',
+                'about': 'Mayelana Nomgomo Wethu',
+                'safety': 'Ukuhlela Ukuphepha',
+                'assessment': 'Ukuhlola Ubungozi',
+                'education': 'I-Hub Yemfundo',
+                'login': 'Ukungena Kwe-Admin'
+            },
+            xh: {
+                'home': 'Ekhaya',
+                'report': 'Xela Ngokungaziwa',
+                'support': 'Uluhlu Looncedo',
+                'stories': 'Yabelana Ngembali Yakho',
+                'library': 'Iindlela Zoncedo Ze-GBV',
+                'community': 'Inkxaso YoLuntu',
+                'events': 'Iivenkile Neemarch',
+                'about': 'Malunga Neenjongo Zethu',
+                'safety': 'Uyilo LoKhuseleko',
+                'assessment': 'Uvavanyo LoMngcipheko',
+                'education': 'I-Hub YeMfundo',
+                'login': 'Ungeno Lwe-Admin'
+            },
+            af: {
+                'home': 'Tuis',
+                'report': 'Rapporteer Anoniem',
+                'support': 'Ondersteuningsgids',
+                'stories': 'Deel Jou Storie',
+                'library': 'GBV Hulpbronne',
+                'community': 'Gemeenskapsondersteuning',
+                'events': 'Gebeure & Optogte',
+                'about': 'Oor Ons Missie',
+                'safety': 'Veiligheidsbeplanning',
+                'assessment': 'Risiko-assessering',
+                'education': 'Onderrig Sentrum',
+                'login': 'Admin Aanteken'
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('preferredLanguage', lang);
+            applyTranslations();
+            updateLanguageSelector();
+        }
+
+        function applyTranslations() {
+            const elements = document.querySelectorAll('[data-translate]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[currentLanguage] && translations[currentLanguage][key]) {
+                    element.textContent = translations[currentLanguage][key];
+                }
+            });
+        }
+
+        function updateLanguageSelector() {
+            const selector = document.getElementById('languageSelector');
+            if (selector) {
+                selector.value = currentLanguage;
+            }
+        }
+        
+        // Form submission
+        const SUPABASE_URL = 'https://sofzsursxpjmghhcphrh.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvZnpzdXJzeHBqbWdoaGNwaHJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1OTIwNTMsImV4cCI6MjA3OTE2ODA1M30.nW5ylZoVNeJAegTXqx_x0bjb1lSOsvMBnhsScYR8hf8';
+
+        function getIpHash() {
+            return 'anonymous_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        async function submitToSupabase(tableName, data) {
+            try {
+                const response = await fetch(SUPABASE_URL + '/rest/v1/' + tableName, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+                        'Prefer': 'return=minimal'
+                    },
+                    body: JSON.stringify(data)
+                });
+                return response;
+            } catch (error) {
+                console.error('Error submitting to Supabase:', error);
+                throw error;
+            }
+        }
+
         document.getElementById('storyForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -188,5 +333,70 @@
             }
         });
     </script>
+</head>
+<body>
+    <div class="header">
+        <div class="logo-text">
+            <span>GBV</span>
+            <span>SAFE</span>
+            <span>CORNER</span>
+        </div>
+        <p>Share Your Story</p>
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html" data-translate="home">Home</a>
+        <a href="report.html" data-translate="report">Report Anonymously</a>
+        <a href="support.html" data-translate="support">Support Directory</a>
+        <a href="stories.html" data-translate="stories">Share Your Story</a>
+        <a href="library.html" data-translate="library">GBV Resources</a>
+        <a href="community.html" data-translate="community">Community Support</a>
+        <a href="events.html" data-translate="events">Events & Marches</a>
+        <a href="about.html" data-translate="about">About Our Mission</a>
+        <a href="safety-plan.html" data-translate="safety">Safety Planning</a>
+        <a href="risk-assessment.html" data-translate="assessment">Risk Assessment</a>
+        <a href="education-hub.html" data-translate="education">Education Hub</a>
+        <a href="login.html" data-translate="login">Admin Login</a>
+    </div>
+
+    <div class="content-section">
+        <h2 class="purple-accent">💬 Share Your Story Anonymously</h2>
+        
+        <div class="privacy-warning">
+            🔒 <strong>Privacy Protected:</strong> Your story is completely anonymous. Only share what you feel comfortable with.
+        </div>
+        
+        <div class="success-message" id="successMessage">
+            Thank you for sharing your story. It has been submitted anonymously and may help others feel less alone.
+        </div>
+
+        <form id="storyForm" autocomplete="off">
+            <div class="form-group">
+                <label for="storyTitle">Title (Optional)</label>
+                <input type="text" id="storyTitle" name="storyTitle" placeholder="A title for your story">
+            </div>
+
+            <div class="form-group">
+                <label for="storyContent">Your Story *</label>
+                <textarea id="storyContent" name="storyContent" rows="8" placeholder="Share your experience, journey, or message of hope..." required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="shareAnonymously" name="shareAnonymously" checked>
+                    Share anonymously (recommended) - Your story will be visible to help others
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="allowComments" name="allowComments">
+                    Allow supportive comments from community
+                </label>
+            </div>
+
+            <button type="submit" class="submit-btn">Share Your Story</button>
+        </form>
+    </div>
 </body>
 </html>
