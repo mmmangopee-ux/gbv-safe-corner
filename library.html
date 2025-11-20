@@ -2,7 +2,15 @@
 <html>
 <head>
     <title>GBV Resources - GBV Safe Corner</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#6A0DAD">
+    
+    <!-- ANALYTICS INTEGRATED -->
+    <script src="analytics.js"></script>
+    
     <style>
+        * { box-sizing: border-box; }
         body { 
             font-family: Arial, sans-serif; 
             max-width: 900px; 
@@ -80,11 +88,8 @@
         .download-btn:hover {
             background: #8A2BE2;
         }
-        .purple-accent {
-            color: #6A0DAD;
-        }
         
-        /* Emergency Exit Button */
+        /* Enhanced Emergency Exit */
         .emergency-exit {
             position: fixed;
             bottom: 20px;
@@ -123,32 +128,140 @@
             font-size: 14px;
             cursor: pointer;
         }
+        
+        /* Accessibility */
+        :focus {
+            outline: 3px solid #6A0DAD;
+            outline-offset: 2px;
+        }
     </style>
-    
+</head>
+<body>
+    <div class="header">
+        <div class="logo-text">
+            <span>GBV</span>
+            <span>SAFE</span>
+            <span>CORNER</span>
+        </div>
+        <p>GBV Resource Library</p>
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html" data-translate="home">Home</a>
+        <a href="report.html" data-translate="report">Report Anonymously</a>
+        <a href="support.html" data-translate="support">Support Directory</a>
+        <a href="stories.html" data-translate="stories">Share Your Story</a>
+        <a href="library.html" data-translate="library">GBV Resources</a>
+        <a href="community.html" data-translate="community">Community Support</a>
+        <a href="events.html" data-translate="events">Events & Marches</a>
+        <a href="about.html" data-translate="about">About Our Mission</a>
+        <a href="safety-plan.html" data-translate="safety">Safety Planning</a>
+        <a href="risk-assessment.html" data-translate="assessment">Risk Assessment</a>
+        <a href="education-hub.html" data-translate="education">Education Hub</a>
+        <a href="login.html" data-translate="login">Admin Login</a>
+    </div>
+
+    <div class="content-section">
+        <h2>📚 GBV Resource Library</h2>
+        <p>Educational materials, survivor stories, and helpful resources for understanding and addressing gender-based violence.</p>
+    </div>
+
+    <div class="content-section">
+        <h2>📖 Survivor Stories & Books</h2>
+        
+        <div class="resource-category">
+            <div class="book-item">
+                <h4>"I Am Why I Choose" by Koleka Putuma</h4>
+                <p>Powerful poetry exploring trauma, healing, and reclaiming power from a South African perspective.</p>
+            </div>
+
+            <div class="book-item">
+                <h4>"Knowing Why I Choose" - Anonymous Survivor Collection</h4>
+                <p>South African survivors share their journeys of healing and resilience.</p>
+            </div>
+
+            <div class="book-item">
+                <h4>"The Body Keeps the Score" by Bessel van der Kolk</h4>
+                <p>Understanding trauma and pathways to recovery.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>🎓 Educational Resources</h2>
+        
+        <div class="resource-category">
+            <h4>Understanding GBV</h4>
+            <p>What is gender-based violence? Types, signs, impacts, and how to recognize abusive patterns.</p>
+
+            <h4>Safety Planning</h4>
+            <p>How to create a safety plan for different situations - at home, work, or in public spaces.</p>
+
+            <h4>Legal Rights in South Africa</h4>
+            <p>Know your rights and legal options under South African law, including protection orders.</p>
+
+            <h4>Healthy Relationships</h4>
+            <p>Signs of healthy vs. unhealthy relationships, setting boundaries, and communication skills.</p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>🛡️ Self-Care & Healing</h2>
+        
+        <div class="resource-category">
+            <div class="book-item">
+                <h4>Grounding Techniques</h4>
+                <p>Practical exercises for managing anxiety and trauma responses.</p>
+            </div>
+
+            <div class="book-item">
+                <h4>Journaling Prompts</h4>
+                <p>Writing exercises for processing experiences and emotional healing.</p>
+            </div>
+
+            <div class="book-item">
+                <h4>Building Support Networks</h4>
+                <p>How to create and maintain healthy support systems.</p>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Browser History Protection
+        // Enhanced Security & Privacy
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.pathname);
         }
         
-        // Emergency Exit Functionality
+        // Enhanced Emergency Exit
         document.addEventListener('DOMContentLoaded', function() {
             // Create emergency exit button
             const emergencyExit = document.createElement('div');
             emergencyExit.className = 'emergency-exit';
             emergencyExit.innerHTML = `
-                <button onclick="window.location.href='https://www.google.com/search?q=weather'" 
-                        title="Quickly leaves this site"
+                <button onclick="emergencyRedirect()" 
+                        title="Quickly leaves this site and clears data"
                         class="emergency-exit-btn">
                     🚨 Quick Exit
                 </button>
             `;
             document.body.appendChild(emergencyExit);
 
-            // Add keyboard shortcut (Esc key)
+            // Enhanced emergency redirect
+            window.emergencyRedirect = function() {
+                // Clear sensitive data
+                localStorage.removeItem('safetyPlanProgress');
+                sessionStorage.clear();
+                document.querySelectorAll('input, textarea').forEach(element => {
+                    element.value = '';
+                });
+                // Redirect to safe page
+                window.location.href = 'https://www.google.com/search?q=weather';
+            };
+
+            // Keyboard shortcuts
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    window.location.href = 'https://www.google.com/search?q=weather';
+                if (e.key === 'Escape' || (e.ctrlKey && e.key === 'q')) {
+                    emergencyRedirect();
                 }
             });
             
@@ -167,6 +280,12 @@
             // Initialize language
             const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
             changeLanguage(savedLanguage);
+            
+            // ANALYTICS TRACKING - INTEGRATED
+            if (typeof analytics !== 'undefined') {
+                analytics.trackPageView('library.html');
+                analytics.trackFeatureUse('library_loaded');
+            }
         });
         
         // Language Support
@@ -255,95 +374,5 @@
             }
         }
     </script>
-</head>
-<body>
-    <div class="header">
-        <div class="logo-text">
-            <span>GBV</span>
-            <span>SAFE</span>
-            <span>CORNER</span>
-        </div>
-        <p>GBV Resource Library</p>
-    </div>
-
-    <div class="nav-links">
-        <a href="index.html" data-translate="home">Home</a>
-        <a href="report.html" data-translate="report">Report Anonymously</a>
-        <a href="support.html" data-translate="support">Support Directory</a>
-        <a href="stories.html" data-translate="stories">Share Your Story</a>
-        <a href="library.html" data-translate="library">GBV Resources</a>
-        <a href="community.html" data-translate="community">Community Support</a>
-        <a href="events.html" data-translate="events">Events & Marches</a>
-        <a href="about.html" data-translate="about">About Our Mission</a>
-        <a href="safety-plan.html" data-translate="safety">Safety Planning</a>
-        <a href="risk-assessment.html" data-translate="assessment">Risk Assessment</a>
-        <a href="education-hub.html" data-translate="education">Education Hub</a>
-        <a href="login.html" data-translate="login">Admin Login</a>
-    </div>
-
-    <div class="content-section">
-        <h2 class="purple-accent">📚 GBV Resource Library</h2>
-        <p>Educational materials, survivor stories, and helpful resources for understanding and addressing gender-based violence.</p>
-    </div>
-
-    <div class="content-section">
-        <h2 class="purple-accent">📖 Survivor Stories & Books</h2>
-        
-        <div class="resource-category">
-            <div class="book-item">
-                <h4 class="purple-accent">"I Am Why I Choose" by Koleka Putuma</h4>
-                <p>Powerful poetry exploring trauma, healing, and reclaiming power from a South African perspective.</p>
-            </div>
-
-            <div class="book-item">
-                <h4 class="purple-accent">"Knowing Why I Choose" - Anonymous Survivor Collection</h4>
-                <p>South African survivors share their journeys of healing and resilience.</p>
-            </div>
-
-            <div class="book-item">
-                <h4 class="purple-accent">"The Body Keeps the Score" by Bessel van der Kolk</h4>
-                <p>Understanding trauma and pathways to recovery.</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="content-section">
-        <h2 class="purple-accent">🎓 Educational Resources</h2>
-        
-        <div class="resource-category">
-            <h4 class="purple-accent">Understanding GBV</h4>
-            <p>What is gender-based violence? Types, signs, impacts, and how to recognize abusive patterns.</p>
-
-            <h4 class="purple-accent">Safety Planning</h4>
-            <p>How to create a safety plan for different situations - at home, work, or in public spaces.</p>
-
-            <h4 class="purple-accent">Legal Rights in South Africa</h4>
-            <p>Know your rights and legal options under South African law, including protection orders.</p>
-
-            <h4 class="purple-accent">Healthy Relationships</h4>
-            <p>Signs of healthy vs. unhealthy relationships, setting boundaries, and communication skills.</p>
-        </div>
-    </div>
-
-    <div class="content-section">
-        <h2 class="purple-accent">🛡️ Self-Care & Healing</h2>
-        
-        <div class="resource-category">
-            <div class="book-item">
-                <h4 class="purple-accent">Grounding Techniques</h4>
-                <p>Practical exercises for managing anxiety and trauma responses.</p>
-            </div>
-
-            <div class="book-item">
-                <h4 class="purple-accent">Journaling Prompts</h4>
-                <p>Writing exercises for processing experiences and emotional healing.</p>
-            </div>
-
-            <div class="book-item">
-                <h4 class="purple-accent">Building Support Networks</h4>
-                <p>How to create and maintain healthy support systems.</p>
-            </div>
-        </div>
-    </div>
 </body>
 </html>
