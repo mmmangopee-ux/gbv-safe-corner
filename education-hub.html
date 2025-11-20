@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Risk Assessment - GBV Safe Corner</title>
+    <title>Education Hub - GBV Safe Corner</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#6A0DAD">
     
     <!-- ANALYTICS INTEGRATED -->
     <script src="analytics.js"></script>
+    <script src="navigation.js"></script>
     
     <style>
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
             font-family: Arial, sans-serif; 
             max-width: 900px; 
@@ -37,24 +38,7 @@
         .logo-text span {
             display: block;
         }
-        .nav-links { 
-            text-align: center; 
-            margin: 20px 0; 
-            padding: 15px; 
-            background: white; 
-            border-radius: 10px; 
-            box-shadow: 0 2px 4px rgba(106, 13, 173, 0.1);
-        }
-        .nav-links a { 
-            margin: 0 15px; 
-            text-decoration: none; 
-            color: #6A0DAD; 
-            font-weight: bold; 
-            transition: color 0.3s ease;
-        }
-        .nav-links a:hover {
-            color: #8A2BE2;
-        }
+        
         .content-section { 
             background: white; 
             padding: 30px; 
@@ -62,65 +46,103 @@
             margin: 25px 0; 
             box-shadow: 0 4px 8px rgba(106, 13, 173, 0.1);
         }
-        .question-group {
+        .education-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
             margin: 25px 0;
-            padding: 20px;
-            background: #f9f9f9;
-            border-radius: 10px;
         }
-        .question {
+        .education-card {
+            background: #f9f9f9;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #6A0DAD;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .education-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(106, 13, 173, 0.15);
+            border-color: #6A0DAD;
+        }
+        .module-section {
+            background: #f0f8ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #2196F3;
+        }
+        .resource-button {
+            background: #6A0DAD;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            display: inline-block;
+            margin: 5px;
+            transition: all 0.3s ease;
+            border: 2px solid #6A0DAD;
+            font-weight: bold;
+        }
+        .resource-button:hover {
+            background: #8A2BE2;
+            border-color: #8A2BE2;
+            transform: translateY(-2px);
+        }
+        .progress-tracker {
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #4CAF50;
+        }
+        .quiz-container {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #ffc107;
+        }
+        .quiz-question {
             margin: 15px 0;
             padding: 15px;
             background: white;
             border-radius: 8px;
-            border-left: 4px solid #6A0DAD;
         }
-        .options {
-            margin: 10px 0;
-        }
-        .option {
+        .quiz-option {
             margin: 8px 0;
             padding: 10px;
             background: #f8f8f8;
             border-radius: 5px;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
         }
-        .option:hover {
+        .quiz-option:hover {
             background: #e8e8e8;
         }
-        .option.selected {
+        .quiz-option.selected {
             background: #6A0DAD;
             color: white;
         }
-        .submit-btn {
-            background: #6A0DAD;
-            color: white;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 18px;
-            margin: 20px 0;
-            width: 100%;
-            transition: background 0.3s ease;
-        }
-        .submit-btn:hover {
-            background: #8A2BE2;
-        }
-        .result {
-            display: none;
-            padding: 25px;
-            margin: 20px 0;
+        .download-section {
+            background: #e8f4fd;
+            padding: 20px;
             border-radius: 10px;
-            text-align: center;
+            margin: 20px 0;
+            border-left: 4px solid #2196F3;
         }
-        .result.low { background: #e8f5e8; border: 2px solid #4CAF50; }
-        .result.medium { background: #fff3cd; border: 2px solid #ffc107; }
-        .result.high { background: #f8d7da; border: 2px solid #dc3545; }
-        .emergency { background: #dc3545; color: white; padding: 15px; border-radius: 8px; margin: 15px 0; }
-        .purple-accent {
-            color: #6A0DAD;
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
         /* Enhanced Emergency Exit */
@@ -161,12 +183,32 @@
             color: #6A0DAD;
             font-size: 14px;
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #languageSelector:hover {
+            background: #6A0DAD;
+            color: white;
         }
         
         /* Accessibility */
         :focus {
             outline: 3px solid #6A0DAD;
             outline-offset: 2px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .education-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .education-card {
+                padding: 20px;
+            }
         }
     </style>
 </head>
@@ -177,154 +219,213 @@
             <span>SAFE</span>
             <span>CORNER</span>
         </div>
-        <p>Risk Assessment Tool</p>
+        <p>Education Hub</p>
     </div>
 
-    <div class="nav-links">
-        <a href="index.html" data-translate="home">Home</a>
-        <a href="report.html" data-translate="report">Report Anonymously</a>
-        <a href="support.html" data-translate="support">Support Directory</a>
-        <a href="stories.html" data-translate="stories">Share Your Story</a>
-        <a href="library.html" data-translate="library">GBV Resources</a>
-        <a href="community.html" data-translate="community">Community Support</a>
-        <a href="events.html" data-translate="events">Events & Marches</a>
-        <a href="about.html" data-translate="about">About Our Mission</a>
-        <a href="safety-plan.html" data-translate="safety">Safety Planning</a>
-        <a href="risk-assessment.html" data-translate="assessment">Risk Assessment</a>
-        <a href="education-hub.html" data-translate="education">Education Hub</a>
-        <a href="login.html" data-translate="login">Admin Login</a>
+    <!-- Navigation auto-loaded here -->
+
+    <div class="content-section">
+        <h2>🎓 GBV Education Hub</h2>
+        <p>Comprehensive educational resources to understand, prevent, and respond to gender-based violence. Learn at your own pace with our structured modules.</p>
+        
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div style="font-size: 1.5em; font-weight: bold; color: #6A0DAD;">6</div>
+                <div>Learning Modules</div>
+            </div>
+            <div class="stat-item">
+                <div style="font-size: 1.5em; font-weight: bold; color: #6A0DAD;">25+</div>
+                <div>Resources</div>
+            </div>
+            <div class="stat-item">
+                <div style="font-size: 1.5em; font-weight: bold; color: #6A0DAD;">100%</div>
+                <div>Free Access</div>
+            </div>
+            <div class="stat-item">
+                <div style="font-size: 1.5em; font-weight: bold; color: #6A0DAD;">Self-Paced</div>
+                <div>Learning</div>
+            </div>
+        </div>
+
+        <div class="progress-tracker">
+            <h3>📊 Your Learning Progress</h3>
+            <p>Track your journey through our educational modules. Your progress is saved locally on your device.</p>
+            <div style="background: #e0e0e0; border-radius: 10px; height: 20px; margin: 15px 0;">
+                <div id="progressBar" style="background: #6A0DAD; height: 100%; border-radius: 10px; width: 0%; transition: width 0.5s ease;"></div>
+            </div>
+            <p id="progressText">0% Complete - Start your learning journey</p>
+        </div>
     </div>
 
     <div class="content-section">
-        <h2 class="purple-accent">🔍 Safety Risk Assessment</h2>
-        <p>This anonymous assessment helps identify potential risks in your situation. Your answers are not stored.</p>
+        <h2>📚 Educational Modules</h2>
+        <p>Explore our comprehensive learning modules designed to build your understanding of GBV step by step.</p>
         
-        <form id="riskAssessment">
-            <div class="question-group">
-                <h3 class="purple-accent">Behavior Patterns</h3>
-                
-                <div class="question">
-                    <p><strong>1. Has the person ever threatened to harm you or your family?</strong></p>
-                    <div class="options">
-                        <div class="option" onclick="selectOption(this)">No, never</div>
-                        <div class="option" onclick="selectOption(this)">Yes, but not recently</div>
-                        <div class="option" onclick="selectOption(this)">Yes, recently</div>
-                        <div class="option" onclick="selectOption(this)">Yes, with specific plans</div>
-                    </div>
+        <div class="education-grid">
+            <div class="education-card" data-module="1">
+                <h3>🔍 Module 1: Understanding GBV</h3>
+                <p>Learn what gender-based violence is, its different forms, and how to recognize the signs.</p>
+                <div class="module-section">
+                    <strong>Topics Covered:</strong>
+                    <ul style="margin: 10px 0; padding-left: 20px;">
+                        <li>Definition and types of GBV</li>
+                        <li>Power and control dynamics</li>
+                        <li>Recognizing warning signs</li>
+                        <li>Myths and facts about GBV</li>
+                    </ul>
                 </div>
-
-                <div class="question">
-                    <p><strong>2. Does the person have access to weapons?</strong></p>
-                    <div class="options">
-                        <div class="option" onclick="selectOption(this)">No</div>
-                        <div class="option" onclick="selectOption(this)">Yes, but not firearms</div>
-                        <div class="option" onclick="selectOption(this)">Yes, including firearms</div>
-                        <div class="option" onclick="selectOption(this)">Yes, and has threatened to use them</div>
-                    </div>
-                </div>
-
-                <div class="question">
-                    <p><strong>3. Has the physical violence increased in frequency or severity?</strong></p>
-                    <div class="options">
-                        <div class="option" onclick="selectOption(this)">No physical violence</div>
-                        <div class="option" onclick="selectOption(this)">Occasional, not increasing</div>
-                        <div class="option" onclick="selectOption(this)">Yes, becoming more frequent</div>
-                        <div class="option" onclick="selectOption(this)">Yes, much more severe recently</div>
-                    </div>
-                </div>
+                <button class="resource-button" onclick="startModule(1)">Start Module</button>
+                <button class="resource-button" onclick="downloadResource('gbv-basics-guide.pdf')">Download Guide</button>
             </div>
 
-            <div class="question-group">
-                <h3 class="purple-accent">Control & Isolation</h3>
-                
-                <div class="question">
-                    <p><strong>4. Does the person control your daily activities?</strong></p>
-                    <div class="options">
-                        <div class="option" onclick="selectOption(this)">No</div>
-                        <div class="option" onclick="selectOption(this)">Sometimes monitors activities</div>
-                        <div class="option" onclick="selectOption(this)">Frequently controls movements</div>
-                        <div class="option" onclick="selectOption(this)">Complete control over daily life</div>
-                    </div>
+            <div class="education-card" data-module="2">
+                <h3>🛡️ Module 2: Safety Planning</h3>
+                <p>Practical strategies for creating safety plans in different situations and environments.</p>
+                <div class="module-section">
+                    <strong>Topics Covered:</strong>
+                    <ul style="margin: 10px 0; padding-left: 20px;">
+                        <li>Home safety strategies</li>
+                        <li>Digital safety measures</li>
+                        <li>Emergency escape planning</li>
+                        <li>Safety with children</li>
+                    </ul>
                 </div>
-
-                <div class="question">
-                    <p><strong>5. Are you isolated from friends and family?</strong></p>
-                    <div class="options">
-                        <div class="option" onclick="selectOption(this)">No, have regular contact</div>
-                        <div class="option" onclick="selectOption(this)">Some restrictions on contact</div>
-                        <div class="option" onclick="selectOption(this)">Limited contact allowed</div>
-                        <div class="option" onclick="selectOption(this)">Completely isolated</div>
-                    </div>
-                </div>
+                <button class="resource-button" onclick="startModule(2)">Start Module</button>
+                <button class="resource-button" onclick="downloadResource('safety-planning-toolkit.pdf')">Download Toolkit</button>
             </div>
 
-            <div class="question-group">
-                <h3 class="purple-accent">Recent Changes</h3>
-                
-                <div class="question">
-                    <p><strong>6. Have you recently separated or tried to leave?</strong></p>
-                    <div class="options">
-                        <div class="option" onclick="selectOption(this)">No</div>
-                        <div class="option" onclick="selectOption(this)">Considering leaving</div>
-                        <div class="option" onclick="selectOption(this)">Recently separated</div>
-                        <div class="option" onclick="selectOption(this)">Left but being stalked/harassed</div>
-                    </div>
+            <div class="education-card" data-module="3">
+                <h3>⚖️ Module 3: Legal Rights & Resources</h3>
+                <p>Understand your legal rights, protection orders, and how to access legal support.</p>
+                <div class="module-section">
+                    <strong>Topics Covered:</strong>
+                    <ul style="margin: 10px 0; padding-left: 20px;">
+                        <li>South African GBV laws</li>
+                        <li>Protection orders process</li>
+                        <li>Legal aid resources</li>
+                        <li>Court procedures</li>
+                    </ul>
                 </div>
-
-                <div class="question">
-                    <p><strong>7. Is the person unemployed or facing major stress?</strong></p>
-                    <div class="options">
-                        <div class="option" onclick="selectOption(this)">No major stresses</div>
-                        <div class="option" onclick="selectOption(this)">Some work/financial stress</div>
-                        <div class="option" onclick="selectOption(this)">Recent job loss or major stress</div>
-                        <div class="option" onclick="selectOption(this)">Multiple major stressors</div>
-                    </div>
-                </div>
+                <button class="resource-button" onclick="startModule(3)">Start Module</button>
+                <button class="resource-button" onclick="downloadResource('legal-rights-handbook.pdf')">Download Handbook</button>
             </div>
 
-            <button type="button" class="submit-btn" onclick="calculateRisk()">Get Risk Assessment</button>
-        </form>
+            <div class="education-card" data-module="4">
+                <h3>💪 Module 4: Healing & Recovery</h3>
+                <p>Resources and strategies for emotional healing, trauma recovery, and building resilience.</p>
+                <div class="module-section">
+                    <strong>Topics Covered:</strong>
+                    <ul style="margin: 10px 0; padding-left: 20px;">
+                        <li>Understanding trauma</li>
+                        <li>Coping strategies</li>
+                        <li>Building support networks</li>
+                        <li>Self-care practices</li>
+                    </ul>
+                </div>
+                <button class="resource-button" onclick="startModule(4)">Start Module</button>
+                <button class="resource-button" onclick="downloadResource('healing-journey-guide.pdf')">Download Guide</button>
+            </div>
 
-        <div id="resultLow" class="result low">
-            <h3>🟢 Lower Risk Level</h3>
-            <p>Your situation appears to have lower immediate risk, but remain vigilant.</p>
-            <p><strong>Recommended Actions:</strong></p>
-            <ul style="text-align: left; display: inline-block;">
-                <li>Continue with safety planning</li>
-                <li>Maintain contact with support network</li>
-                <li>Document any incidents</li>
-                <li>Know emergency contacts</li>
-            </ul>
+            <div class="education-card" data-module="5">
+                <h3>🤝 Module 5: Supporting Others</h3>
+                <p>Learn how to support friends, family members, or community members affected by GBV.</p>
+                <div class="module-section">
+                    <strong>Topics Covered:</strong>
+                    <ul style="margin: 10px 0; padding-left: 20px;">
+                        <li>Active listening skills</li>
+                        <li>Appropriate responses</li>
+                        <li>Boundaries in support</li>
+                        <li>Referral to professionals</li>
+                    </ul>
+                </div>
+                <button class="resource-button" onclick="startModule(5)">Start Module</button>
+                <button class="resource-button" onclick="downloadResource('support-guide.pdf')">Download Guide</button>
+            </div>
+
+            <div class="education-card" data-module="6">
+                <h3>🌍 Module 6: Prevention & Advocacy</h3>
+                <p>Strategies for preventing GBV in your community and becoming an effective advocate.</p>
+                <div class="module-section">
+                    <strong>Topics Covered:</strong>
+                    <ul style="margin: 10px 0; padding-left: 20px;">
+                        <li>Community prevention</li>
+                        <li>Advocacy skills</li>
+                        <li>Educational campaigns</li>
+                        <li>Policy awareness</li>
+                    </ul>
+                </div>
+                <button class="resource-button" onclick="startModule(6)">Start Module</button>
+                <button class="resource-button" onclick="downloadResource('advocacy-toolkit.pdf')">Download Toolkit</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>🧠 Knowledge Check</h2>
+        <p>Test your understanding with this interactive quiz. Your answers are not stored - this is for your learning only.</p>
+        
+        <div class="quiz-container">
+            <div class="quiz-question">
+                <p><strong>1. Which of these is NOT a form of gender-based violence?</strong></p>
+                <div class="quiz-option" onclick="selectAnswer(this, 1)">Physical abuse</div>
+                <div class="quiz-option" onclick="selectAnswer(this, 1)">Emotional manipulation</div>
+                <div class="quiz-option" onclick="selectAnswer(this, 1)">Financial control</div>
+                <div class="quiz-option correct" onclick="selectAnswer(this, 1)">Mutual disagreement in a relationship</div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>2. What is the first priority in any GBV situation?</strong></p>
+                <div class="quiz-option correct" onclick="selectAnswer(this, 2)">Immediate safety of the survivor</div>
+                <div class="quiz-option" onclick="selectAnswer(this, 2)">Confronting the perpetrator</div>
+                <div class="quiz-option" onclick="selectAnswer(this, 2)">Documenting evidence</div>
+                <div class="quiz-option" onclick="selectAnswer(this, 2)">Seeking legal advice</div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>3. Which number should you call for immediate GBV emergency help in South Africa?</strong></p>
+                <div class="quiz-option" onclick="selectAnswer(this, 3)">911</div>
+                <div class="quiz-option correct" onclick="selectAnswer(this, 3)">0800 428 428</div>
+                <div class="quiz-option" onclick="selectAnswer(this, 3)">112</div>
+                <div class="quiz-option" onclick="selectAnswer(this, 3)">10111 (Police)</div>
+            </div>
+
+            <button class="resource-button" onclick="checkQuiz()" style="margin-top: 15px;">Check Answers</button>
+            <div id="quizResult" style="margin-top: 15px; padding: 15px; border-radius: 8px; display: none;"></div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>📥 Download Resources</h2>
+        <p>Access comprehensive educational materials that you can download and share.</p>
+        
+        <div class="download-section">
+            <h4>Essential Guides & Toolkits</h4>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 15px 0;">
+                <div>
+                    <strong>GBV Basics Guide</strong><br>
+                    <button class="resource-button" onclick="downloadResource('gbv-basics-guide.pdf')">Download PDF</button>
+                </div>
+                <div>
+                    <strong>Safety Planning Toolkit</strong><br>
+                    <button class="resource-button" onclick="downloadResource('safety-planning-toolkit.pdf')">Download PDF</button>
+                </div>
+                <div>
+                    <strong>Legal Rights Handbook</strong><br>
+                    <button class="resource-button" onclick="downloadResource('legal-rights-handbook.pdf')">Download PDF</button>
+                </div>
+                <div>
+                    <strong>Support Network Guide</strong><br>
+                    <button class="resource-button" onclick="downloadResource('support-network-guide.pdf')">Download PDF</button>
+                </div>
+            </div>
         </div>
 
-        <div id="resultMedium" class="result medium">
-            <h3>🟡 Medium Risk Level</h3>
-            <p>Your situation shows concerning patterns that need attention.</p>
-            <p><strong>Recommended Actions:</strong></p>
-            <ul style="text-align: left; display: inline-block;">
-                <li>Implement safety plan immediately</li>
-                <li>Contact support services</li>
-                <li>Increase communication with trusted contacts</li>
-                <li>Consider legal protection options</li>
-            </ul>
-        </div>
-
-        <div id="resultHigh" class="result high">
-            <h3>🔴 High Risk Level</h3>
-            <p>Your situation indicates significant risk factors that require immediate attention.</p>
-            <div class="emergency">
-                <h4>🚨 IMMEDIATE ACTION RECOMMENDED</h4>
-                <p>Contact emergency services or GBV helpline immediately</p>
-                <p><strong>GBV Command Centre: 0800 428 428</strong></p>
-                <p><strong>Police Emergency: 10111</strong></p>
-            </div>
-            <p><strong>Additional Actions:</strong></p>
-            <ul style="text-align: left; display: inline-block;">
-                <li>Activate emergency safety plan</li>
-                <li>Go to a safe location immediately</li>
-                <li>Contact trusted support persons</li>
-                <li>Consider seeking shelter</li>
-            </ul>
+        <div class="download-section">
+            <h4>Quick Reference Cards</h4>
+            <p>Printable resources for easy access to emergency information.</p>
+            <button class="resource-button" onclick="downloadResource('emergency-contacts-card.pdf')">Emergency Contacts Card</button>
+            <button class="resource-button" onclick="downloadResource('safety-plan-checklist.pdf')">Safety Plan Checklist</button>
+            <button class="resource-button" onclick="downloadResource('gbv-warning-signs.pdf')">Warning Signs Guide</button>
         </div>
     </div>
 
@@ -352,6 +453,7 @@
             window.emergencyRedirect = function() {
                 // Clear sensitive data
                 localStorage.removeItem('safetyPlanProgress');
+                localStorage.removeItem('educationProgress');
                 sessionStorage.clear();
                 document.querySelectorAll('input, textarea').forEach(element => {
                     element.value = '';
@@ -383,15 +485,13 @@
             const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
             changeLanguage(savedLanguage);
             
-            // Clear selections on page refresh
-            document.querySelectorAll('.option').forEach(option => {
-                option.classList.remove('selected');
-            });
+            // Load education progress
+            loadEducationProgress();
             
             // ANALYTICS TRACKING - INTEGRATED
             if (typeof analytics !== 'undefined') {
-                analytics.trackPageView('risk-assessment.html');
-                analytics.trackFeatureUse('risk_assessment_loaded');
+                analytics.trackPageView('education-hub.html');
+                analytics.trackFeatureUse('education_hub_loaded');
             }
         });
         
@@ -399,59 +499,59 @@
         const translations = {
             en: {
                 'home': 'Home',
-                'report': 'Report Anonymously',
-                'support': 'Support Directory',
-                'stories': 'Share Your Story',
-                'library': 'GBV Resources',
-                'community': 'Community Support',
-                'events': 'Events & Marches',
-                'about': 'About Our Mission',
-                'safety': 'Safety Planning',
-                'assessment': 'Risk Assessment',
-                'education': 'Education Hub',
-                'login': 'Admin Login'
+                'report': 'Report',
+                'support': 'Support',
+                'stories': 'Stories',
+                'library': 'Resources',
+                'community': 'Community',
+                'events': 'Events',
+                'about': 'About',
+                'safety': 'Safety',
+                'assessment': 'Risk Check',
+                'education': 'Education',
+                'login': 'Admin'
             },
             zu: {
                 'home': 'Ikhaya',
-                'report': 'Bika Ngokungaziwa',
-                'support': 'Uhlu Lwezinsiza',
-                'stories': 'Yabelana Ngendaba Yakho',
-                'library': 'Izinsiza Ze-GBV',
-                'community': 'Ukusekelwa Komphakathi',
-                'events': 'Imicimbi Nemarch',
-                'about': 'Mayelana Nomgomo Wethu',
-                'safety': 'Ukuhlela Ukuphepha',
-                'assessment': 'Ukuhlola Ubungozi',
-                'education': 'I-Hub Yemfundo',
-                'login': 'Ukungena Kwe-Admin'
+                'report': 'Bika',
+                'support': 'Usizo',
+                'stories': 'Izindaba',
+                'library': 'Izinsiza',
+                'community': 'Umphakathi',
+                'events': 'Imicimbi',
+                'about': 'Mayelana',
+                'safety': 'Ukuphepha',
+                'assessment': 'Ukuhlola',
+                'education': 'Imfundo',
+                'login': 'Admin'
             },
             xh: {
                 'home': 'Ekhaya',
-                'report': 'Xela Ngokungaziwa',
-                'support': 'Uluhlu Looncedo',
-                'stories': 'Yabelana Ngembali Yakho',
-                'library': 'Iindlela Zoncedo Ze-GBV',
-                'community': 'Inkxaso YoLuntu',
-                'events': 'Iivenkile Neemarch',
-                'about': 'Malunga Neenjongo Zethu',
-                'safety': 'Uyilo LoKhuseleko',
-                'assessment': 'Uvavanyo LoMngcipheko',
-                'education': 'I-Hub YeMfundo',
-                'login': 'Ungeno Lwe-Admin'
+                'report': 'Xela',
+                'support': 'Uncedo',
+                'stories': 'Iimbali',
+                'library': 'Iindlela',
+                'community': 'Uluntu',
+                'events': 'Iivenkile',
+                'about': 'Malunga',
+                'safety': 'Ukhuseleko',
+                'assessment': 'Uvavanyo',
+                'education': 'Imfundo',
+                'login': 'Admin'
             },
             af: {
                 'home': 'Tuis',
-                'report': 'Rapporteer Anoniem',
-                'support': 'Ondersteuningsgids',
-                'stories': 'Deel Jou Storie',
-                'library': 'GBV Hulpbronne',
-                'community': 'Gemeenskapsondersteuning',
-                'events': 'Gebeure & Optogte',
-                'about': 'Oor Ons Missie',
-                'safety': 'Veiligheidsbeplanning',
-                'assessment': 'Risiko-assessering',
-                'education': 'Onderrig Sentrum',
-                'login': 'Admin Aanteken'
+                'report': 'Rapporteer',
+                'support': 'Ondersteuning',
+                'stories': 'Stories',
+                'library': 'Hulpbronne',
+                'community': 'Gemeenskap',
+                'events': 'Gebeure',
+                'about': 'Oor',
+                'safety': 'Veiligheid',
+                'assessment': 'Risiko',
+                'education': 'Onderrig',
+                'login': 'Admin'
             }
         };
 
@@ -480,60 +580,138 @@
                 selector.value = currentLanguage;
             }
         }
-        
-        let score = 0;
-        const maxScore = 28;
 
-        function selectOption(element) {
-            // Remove selection from siblings
-            const siblings = element.parentElement.children;
-            for (let sibling of siblings) {
-                sibling.classList.remove('selected');
+        // Education Progress Tracking
+        function loadEducationProgress() {
+            const progress = JSON.parse(localStorage.getItem('educationProgress') || '{}');
+            let completedModules = 0;
+            const totalModules = 6;
+
+            // Check which modules are completed
+            for (let i = 1; i <= totalModules; i++) {
+                if (progress[`module_${i}`]) {
+                    completedModules++;
+                    // Mark module as completed in UI
+                    const moduleCard = document.querySelector(`[data-module="${i}"]`);
+                    if (moduleCard) {
+                        moduleCard.style.background = '#e8f5e8';
+                        moduleCard.style.borderLeftColor = '#4CAF50';
+                    }
+                }
             }
-            // Add selection to clicked element
-            element.classList.add('selected');
-            
-            // ANALYTICS TRACKING - INTEGRATED
-            if (typeof analytics !== 'undefined') {
-                analytics.trackFeatureUse('risk_option_selected');
-            }
-        }
 
-        function calculateRisk() {
-            score = 0;
-            const selectedOptions = document.querySelectorAll('.option.selected');
+            // Update progress bar
+            const progressPercentage = (completedModules / totalModules) * 100;
+            document.getElementById('progressBar').style.width = `${progressPercentage}%`;
             
-            selectedOptions.forEach(option => {
-                const options = Array.from(option.parentElement.children);
-                const index = options.indexOf(option);
-                score += index;
-            });
-
-            // Hide all results first
-            document.querySelectorAll('.result').forEach(result => {
-                result.style.display = 'none';
-            });
-
-            // Show appropriate result
-            const percentage = (score / maxScore) * 100;
-            
-            if (percentage < 30) {
-                document.getElementById('resultLow').style.display = 'block';
-            } else if (percentage < 60) {
-                document.getElementById('resultMedium').style.display = 'block';
+            let progressText = '';
+            if (completedModules === 0) {
+                progressText = '0% Complete - Start your learning journey';
+            } else if (completedModules === totalModules) {
+                progressText = '100% Complete - Congratulations! 🎉';
             } else {
-                document.getElementById('resultHigh').style.display = 'block';
+                progressText = `${Math.round(progressPercentage)}% Complete - ${completedModules}/${totalModules} modules finished`;
             }
+            document.getElementById('progressText').textContent = progressText;
+        }
 
-            // Scroll to results
-            document.querySelector('.result').scrollIntoView({ behavior: 'smooth' });
+        function startModule(moduleNumber) {
+            // Mark module as started
+            const progress = JSON.parse(localStorage.getItem('educationProgress') || '{}');
+            progress[`module_${moduleNumber}`] = true;
+            localStorage.setItem('educationProgress', JSON.stringify(progress));
             
-            // ANALYTICS TRACKING - INTEGRATED
+            // Update UI
+            loadEducationProgress();
+            
+            // Show module content (in a real implementation, this would navigate to module page)
+            alert(`Starting Module ${moduleNumber}. In a full implementation, this would open the module content.`);
+            
+            // ANALYTICS TRACKING
             if (typeof analytics !== 'undefined') {
-                analytics.trackFeatureUse('risk_assessment_completed');
-                analytics.trackFeatureUse('risk_level_' + (percentage < 30 ? 'low' : percentage < 60 ? 'medium' : 'high'));
+                analytics.trackFeatureUse(`module_${moduleNumber}_started`);
             }
         }
+
+        function downloadResource(filename) {
+            // Simulate download (in real implementation, this would serve actual files)
+            alert(`Downloading ${filename}. In a full implementation, this would download the actual file.`);
+            
+            // ANALYTICS TRACKING
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse(`resource_download_${filename.replace('.pdf', '')}`);
+            }
+        }
+
+        // Quiz functionality
+        let selectedAnswers = {};
+
+        function selectAnswer(element, questionNumber) {
+            // Remove selection from other options in same question
+            const question = element.parentElement;
+            const options = question.querySelectorAll('.quiz-option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            
+            // Select clicked option
+            element.classList.add('selected');
+            selectedAnswers[questionNumber] = element;
+        }
+
+        function checkQuiz() {
+            let correctAnswers = 0;
+            const totalQuestions = 3;
+
+            // Check each question
+            for (let i = 1; i <= totalQuestions; i++) {
+                if (selectedAnswers[i] && selectedAnswers[i].classList.contains('correct')) {
+                    correctAnswers++;
+                }
+            }
+
+            // Display results
+            const resultDiv = document.getElementById('quizResult');
+            const score = Math.round((correctAnswers / totalQuestions) * 100);
+            
+            let resultHTML = '';
+            if (score === 100) {
+                resultHTML = `<div style="background: #d4edda; color: #155724; padding: 15px; border-radius: 8px;">
+                    <h4>🎉 Excellent! ${score}%</h4>
+                    <p>You have a strong understanding of GBV concepts. Keep learning and sharing your knowledge!</p>
+                </div>`;
+            } else if (score >= 70) {
+                resultHTML = `<div style="background: #fff3cd; color: #856404; padding: 15px; border-radius: 8px;">
+                    <h4>👍 Good Job! ${score}%</h4>
+                    <p>You have a good understanding. Review the modules to strengthen your knowledge.</p>
+                </div>`;
+            } else {
+                resultHTML = `<div style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px;">
+                    <h4>📚 Keep Learning! ${score}%</h4>
+                    <p>Review the educational modules to improve your understanding of GBV concepts.</p>
+                </div>`;
+            }
+
+            resultDiv.innerHTML = resultHTML;
+            resultDiv.style.display = 'block';
+
+            // ANALYTICS TRACKING
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse('quiz_completed');
+                analytics.trackFeatureUse(`quiz_score_${score}`);
+            }
+        }
+
+        // Add interactive module tracking
+        document.addEventListener('DOMContentLoaded', function() {
+            // Track module card views
+            document.querySelectorAll('.education-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    const moduleNum = this.getAttribute('data-module');
+                    if (typeof analytics !== 'undefined') {
+                        analytics.trackFeatureUse(`module_${moduleNum}_viewed`);
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
