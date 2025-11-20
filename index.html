@@ -92,12 +92,10 @@
     </style>
 </head>
 <body>
-    <!-- Emergency Banner -->
     <div class="emergency-banner">
         🚨 24/7 EMERGENCY: GBV COMMAND CENTRE 0800 428 428 • POLICE 10111 🚨
     </div>
 
-    <!-- Main Header -->
     <div class="header">
         <h1>GBV Safe Corner</h1>
         <p>Anonymous GBV Reporting & Support Platform</p>
@@ -106,7 +104,6 @@
         </p>
     </div>
 
-    <!-- Navigation -->
     <div class="nav-links">
         <a href="index.html">Home</a>
         <a href="report.html">Report Anonymously</a>
@@ -116,15 +113,14 @@
         <a href="community.html">Community Support</a>
         <a href="events.html">Events & Marches</a>
         <a href="about.html">About Our Mission</a>
+        <a href="login.html">Admin Login</a>
     </div>
 
-    <!-- Mission Statement -->
     <div class="mission-box">
         <h2>Our Mission</h2>
         <p>GBV Safe Corner provides a safe, anonymous space for anyone affected by gender-based violence. We connect you to verified help and supportive communities.</p>
     </div>
 
-    <!-- Action Grid -->
     <div class="action-grid">
         <div class="action-card">
             <h3>📝 Report Anonymously</h3>
@@ -151,7 +147,6 @@
         </div>
     </div>
 
-    <!-- Emergency Resources -->
     <div class="resources">
         <h2>🆘 24/7 Emergency Contacts</h2>
         <p><strong>GBV Command Centre:</strong> 0800 428 428 (Free) • Call *120*7355#</p>
@@ -162,7 +157,6 @@
         <p><em>All services available in multiple languages</em></p>
     </div>
 
-    <!-- How It Works -->
     <div class="mission-box">
         <h2>How It Works</h2>
         <p>1. <strong>Report Safely:</strong> Anonymous reporting with privacy protection</p>
@@ -171,7 +165,16 @@
         <p>4. <strong>Create Change:</strong> Participate in awareness and prevention</p>
     </div>
 
-    <!-- Footer -->
+    <div class="content-section">
+        <h2>🌟 Recent Community Stories</h2>
+        <div id="recentStories"></div>
+    </div>
+
+    <div class="content-section">
+        <h2>📅 Upcoming Events</h2>
+        <div id="upcomingEvents"></div>
+    </div>
+
     <div class="footer">
         <p><strong>GBV Safe Corner</strong> - Safe GBV Support Platform</p>
         <p>Anonymous • Verified • Community-Driven</p>
@@ -179,5 +182,62 @@
             For anyone affected by gender-based violence
         </p>
     </div>
+
+    <script>
+        async function loadRecentStories() {
+            try {
+                const response = await fetch('https://sofzsursxpjmghhcphrh.supabase.co/rest/v1/survivor_stories?share_anonymously=eq.true&order=created_at.desc&limit=3', {
+                    headers: {
+                        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvZnpzdXJzeHBqbWdoaGNwaHJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1OTIwNTMsImV4cCI6MjA3OTE2ODA1M30.nW5ylZoVNeJAegTXqx_x0bjb1lSOsvMBnhsScYR8hf8'
+                    }
+                });
+                const stories = await response.json();
+                
+                let html = '';
+                stories.forEach(story => {
+                    const preview = story.story_content.length > 150 ? 
+                        story.story_content.substring(0, 150) + '...' : story.story_content;
+                    
+                    html += `<div class="action-card">
+                        <h3>${story.story_title || 'Anonymous Story'}</h3>
+                        <p>${preview}</p>
+                        <small>Shared ${new Date(story.created_at).toLocaleDateString()}</small>
+                    </div>`;
+                });
+                
+                document.getElementById('recentStories').innerHTML = html || '<p>No stories yet. Be the first to share!</p>';
+            } catch (error) {
+                document.getElementById('recentStories').innerHTML = '<p>Loading community stories...</p>';
+            }
+        }
+
+        async function loadUpcomingEvents() {
+            try {
+                const response = await fetch('https://sofzsursxpjmghhcphrh.supabase.co/rest/v1/gbv_events?is_public=eq.true&event_date=gte.now()&order=event_date.asc&limit=3', {
+                    headers: {
+                        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvZnpzdXJzeHBqbWdoaGNwaHJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1OTIwNTMsImV4cCI6MjA3OTE2ODA1M30.nW5ylZoVNeJAegTXqx_x0bjb1lSOsvMBnhsScYR8hf8'
+                    }
+                });
+                const events = await response.json();
+                
+                let html = '';
+                events.forEach(event => {
+                    html += `<div class="action-card">
+                        <h3>${event.event_name}</h3>
+                        <p><strong>When:</strong> ${new Date(event.event_date).toLocaleDateString()}</p>
+                        <p><strong>Where:</strong> ${event.location}</p>
+                        <p>${event.description}</p>
+                    </div>`;
+                });
+                
+                document.getElementById('upcomingEvents').innerHTML = html || '<p>No upcoming events. Organize one!</p>';
+            } catch (error) {
+                document.getElementById('upcomingEvents').innerHTML = '<p>Loading events...</p>';
+            }
+        }
+
+        loadRecentStories();
+        loadUpcomingEvents();
+    </script>
 </body>
 </html>
