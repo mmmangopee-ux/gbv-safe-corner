@@ -4,26 +4,112 @@
     <title>Admin - GBV Safe Corner</title>
     <style>
         body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; background-color: #f8f8f8; }
-        .header { background: #8B0000; color: white; padding: 20px; text-align: center; border-radius: 10px; margin-bottom: 20px; }
-        .admin-section { background: white; padding: 20px; border-radius: 10px; margin: 20px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .data-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
-        .data-table th, .data-table td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-        .data-table th { background: #8B0000; color: white; }
-        .data-table tr:nth-child(even) { background: #f9f9f9; }
-        .tab-buttons { display: flex; margin-bottom: 20px; }
-        .tab-btn { padding: 10px 20px; background: #ddd; border: none; cursor: pointer; margin-right: 5px; }
-        .tab-btn.active { background: #8B0000; color: white; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        .refresh-btn { background: #8B0000; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 15px; }
-        .logout-btn { background: #666; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; position: absolute; top: 20px; right: 20px; }
+        .header { 
+            background: linear-gradient(135deg, #6A0DAD, #8A2BE2);
+            color: white; 
+            padding: 20px; 
+            text-align: center; 
+            border-radius: 10px; 
+            margin-bottom: 20px; 
+        }
+        .logo-text {
+            font-size: 1.5em;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+        .logo-text span {
+            display: block;
+        }
+        .admin-section { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            margin: 20px 0; 
+            box-shadow: 0 2px 5px rgba(106, 13, 173, 0.1);
+        }
+        .data-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 15px 0; 
+        }
+        .data-table th, .data-table td { 
+            border: 1px solid #ddd; 
+            padding: 10px; 
+            text-align: left; 
+        }
+        .data-table th { 
+            background: #6A0DAD; 
+            color: white; 
+        }
+        .data-table tr:nth-child(even) { 
+            background: #f9f9f9; 
+        }
+        .tab-buttons { 
+            display: flex; 
+            margin-bottom: 20px; 
+        }
+        .tab-btn { 
+            padding: 10px 20px; 
+            background: #ddd; 
+            border: none; 
+            cursor: pointer; 
+            margin-right: 5px; 
+            transition: all 0.3s ease;
+        }
+        .tab-btn.active { 
+            background: #6A0DAD; 
+            color: white; 
+        }
+        .tab-btn:hover {
+            background: #6A0DAD;
+            color: white;
+        }
+        .tab-content { 
+            display: none; 
+        }
+        .tab-content.active { 
+            display: block; 
+        }
+        .refresh-btn { 
+            background: #6A0DAD; 
+            color: white; 
+            padding: 10px 20px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            margin-bottom: 15px; 
+            transition: background 0.3s ease;
+        }
+        .refresh-btn:hover {
+            background: #8A2BE2;
+        }
+        .logout-btn { 
+            background: #666; 
+            color: white; 
+            padding: 8px 15px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            position: absolute; 
+            top: 20px; 
+            right: 20px; 
+        }
+        .purple-accent {
+            color: #6A0DAD;
+        }
     </style>
 </head>
 <body>
     <button class="logout-btn" onclick="logout()">Logout</button>
 
     <div class="header">
-        <h1>GBV Safe Corner - Admin Panel</h1>
+        <div class="logo-text">
+            <span>GBV</span>
+            <span>SAFE</span>
+            <span>CORNER</span>
+        </div>
         <p>View Submitted Data</p>
     </div>
 
@@ -35,7 +121,7 @@
 
     <div id="reports" class="tab-content active">
         <div class="admin-section">
-            <h2>Anonymous Reports</h2>
+            <h2 class="purple-accent">Anonymous Reports</h2>
             <button class="refresh-btn" onclick="loadReports()">Refresh Reports</button>
             <div id="reportsData"></div>
         </div>
@@ -43,7 +129,7 @@
 
     <div id="stories" class="tab-content">
         <div class="admin-section">
-            <h2>Survivor Stories</h2>
+            <h2 class="purple-accent">Survivor Stories</h2>
             <button class="refresh-btn" onclick="loadStories()">Refresh Stories</button>
             <div id="storiesData"></div>
         </div>
@@ -51,7 +137,7 @@
 
     <div id="events" class="tab-content">
         <div class="admin-section">
-            <h2>Event Submissions</h2>
+            <h2 class="purple-accent">Event Submissions</h2>
             <button class="refresh-btn" onclick="loadEvents()">Refresh Events</button>
             <div id="eventsData"></div>
         </div>
