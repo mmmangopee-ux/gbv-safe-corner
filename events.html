@@ -1,81 +1,149 @@
-<div class="event-form">
-    <form id="eventForm">
-        <div class="form-group">
-            <label for="eventName">Event Name *</label>
-            <input type="text" id="eventName" name="eventName" required>
-        </div>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Events & Marches - GBV Safe Corner</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #f8f8f8; line-height: 1.6; }
+        .header { background: #8B0000; color: white; padding: 30px; text-align: center; border-radius: 15px; margin-bottom: 20px; }
+        .nav-links { text-align: center; margin: 20px 0; padding: 15px; background: white; border-radius: 10px; }
+        .nav-links a { margin: 0 15px; text-decoration: none; color: #8B0000; font-weight: bold; }
+        .content-section { background: white; padding: 30px; border-radius: 15px; margin: 25px 0; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .event-card { background: #f9f9f9; padding: 20px; margin: 15px 0; border-radius: 10px; border-left: 5px solid #8B0000; }
+        .organize-box { background: #E8F4FD; padding: 25px; border-radius: 10px; margin: 20px 0; text-align: center; }
+        .event-form { background: #f9f9f9; padding: 25px; border-radius: 10px; margin: 20px 0; }
+        .form-group { margin: 15px 0; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        textarea, select, input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: Arial; box-sizing: border-box; }
+        .submit-btn { background: #8B0000; color: white; padding: 12px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; width: 100%; }
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            display: none;
+        }
+    </style>
+    <script src="supabase-config.js"></script>
+</head>
+<body>
+    <div class="header">
+        <h1>GBV Safe Corner</h1>
+        <p>Events & Awareness Marches</p>
+    </div>
 
-        <div class="form-group">
-            <label for="eventType">Event Type *</label>
-            <select id="eventType" name="eventType" required>
-                <option value="">Select type...</option>
-                <option value="march">March/Protest</option>
-                <option value="vigil">Vigil</option>
-                <option value="workshop">Workshop</option>
-                <option value="support_group">Support Group</option>
-                <option value="awareness">Awareness Campaign</option>
-            </select>
-        </div>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="report.html">Report Anonymously</a>
+        <a href="support.html">Support Directory</a>
+        <a href="stories.html">Share Your Story</a>
+        <a href="library.html">GBV Resources</a>
+        <a href="community.html">Community Support</a>
+        <a href="events.html">Events & Marches</a>
+        <a href="about.html">About Our Mission</a>
+    </div>
 
-        <div class="form-group">
-            <label for="eventDate">Event Date *</label>
-            <input type="datetime-local" id="eventDate" name="eventDate" required>
-        </div>
-
-        <div class="form-group">
-            <label for="location">Location *</label>
-            <input type="text" id="location" name="location" placeholder="Physical address or online" required>
-        </div>
-
-        <div class="form-group">
-            <label for="description">Event Description *</label>
-            <textarea id="description" name="description" rows="4" required></textarea>
-        </div>
-
-        <div class="form-group">
-            <label for="organizerContact">Organizer Contact (Email) *</label>
-            <input type="email" id="organizerContact" name="organizerContact" required>
-        </div>
-
-        <button type="submit" class="submit-btn">Submit Event</button>
-    </form>
-</div>
-
-<script>
-    document.getElementById('eventForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
+    <div class="content-section">
+        <h2>📅 Upcoming Events</h2>
         
-        const formData = new FormData(this);
-        const eventData = {
-            event_name: formData.get('eventName'),
-            event_type: formData.get('eventType'),
-            event_date: formData.get('eventDate'),
-            location: formData.get('location'),
-            description: formData.get('description'),
-            organizer_contact: formData.get('organizerContact')
-        };
+        <div class="event-card">
+            <h3>🎗️ GBV Awareness March</h3>
+            <p><strong>Date:</strong> Coming soon - Be the first to organize!</p>
+            <p><strong>Location:</strong> Your community</p>
+            <p><strong>Description:</strong> Join others in taking a stand against gender-based violence.</p>
+        </div>
 
-        try {
-            const response = await fetch(SUPABASE_URL + '/rest/v1/gbv_events', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'apikey': SUPABASE_ANON_KEY,
-                    'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-                    'Prefer': 'return=minimal'
-                },
-                body: JSON.stringify(eventData)
-            });
+        <div class="event-card">
+            <h3>💜 Survivor Support Workshop</h3>
+            <p><strong>Date:</strong> Organize one in your area</p>
+            <p><strong>Location:</strong> Virtual or in-person</p>
+            <p><strong>Description:</strong> Healing and empowerment sessions for survivors.</p>
+        </div>
+    </div>
 
-            if (response.ok) {
-                alert('Event submitted successfully! It will be reviewed before publishing.');
-                document.getElementById('eventForm').reset();
-            } else {
+    <div class="organize-box">
+        <h3>📢 Organize an Event</h3>
+        <p>Plan a march, vigil, or awareness event in your community.</p>
+        
+        <div class="event-form">
+            <div class="success-message" id="successMessage">
+                Event submitted successfully! It will be reviewed before publishing.
+            </div>
+
+            <form id="eventForm">
+                <div class="form-group">
+                    <label for="eventName">Event Name *</label>
+                    <input type="text" id="eventName" name="eventName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="eventType">Event Type *</label>
+                    <select id="eventType" name="eventType" required>
+                        <option value="">Select type...</option>
+                        <option value="march">March/Protest</option>
+                        <option value="vigil">Vigil</option>
+                        <option value="workshop">Workshop</option>
+                        <option value="support_group">Support Group</option>
+                        <option value="awareness">Awareness Campaign</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="eventDate">Event Date *</label>
+                    <input type="datetime-local" id="eventDate" name="eventDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location *</label>
+                    <input type="text" id="location" name="location" placeholder="Physical address or online" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Event Description *</label>
+                    <textarea id="description" name="description" rows="4" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="organizerContact">Organizer Contact (Email) *</label>
+                    <input type="email" id="organizerContact" name="organizerContact" required>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Event</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('eventForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const eventData = {
+                event_name: formData.get('eventName'),
+                event_type: formData.get('eventType'),
+                event_date: formData.get('eventDate'),
+                location: formData.get('location'),
+                description: formData.get('description'),
+                organizer_contact: formData.get('organizerContact')
+            };
+
+            try {
+                const response = await submitToSupabase('gbv_events', eventData);
+
+                if (response.ok) {
+                    document.getElementById('successMessage').style.display = 'block';
+                    document.getElementById('eventForm').reset();
+                    setTimeout(() => {
+                        document.getElementById('successMessage').style.display = 'none';
+                    }, 5000);
+                } else {
+                    alert('Error submitting event. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
                 alert('Error submitting event. Please try again.');
             }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Error submitting event. Please try again.');
-        }
-    });
-</script>
+        });
+    </script>
+</body>
+</html>
