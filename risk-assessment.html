@@ -2,7 +2,15 @@
 <html>
 <head>
     <title>Risk Assessment - GBV Safe Corner</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#6A0DAD">
+    
+    <!-- ANALYTICS INTEGRATED -->
+    <script src="analytics.js"></script>
+    
     <style>
+        * { box-sizing: border-box; }
         body { 
             font-family: Arial, sans-serif; 
             max-width: 900px; 
@@ -95,6 +103,10 @@
             font-size: 18px;
             margin: 20px 0;
             width: 100%;
+            transition: background 0.3s ease;
+        }
+        .submit-btn:hover {
+            background: #8A2BE2;
         }
         .result {
             display: none;
@@ -111,7 +123,7 @@
             color: #6A0DAD;
         }
         
-        /* Emergency Exit Button */
+        /* Enhanced Emergency Exit */
         .emergency-exit {
             position: fixed;
             bottom: 20px;
@@ -150,186 +162,13 @@
             font-size: 14px;
             cursor: pointer;
         }
+        
+        /* Accessibility */
+        :focus {
+            outline: 3px solid #6A0DAD;
+            outline-offset: 2px;
+        }
     </style>
-    
-    <script>
-        // Browser History Protection
-        if (window.history.replaceState) {
-            window.history.replaceState(null, null, window.location.pathname);
-        }
-        
-        // Emergency Exit Functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            // Create emergency exit button
-            const emergencyExit = document.createElement('div');
-            emergencyExit.className = 'emergency-exit';
-            emergencyExit.innerHTML = `
-                <button onclick="window.location.href='https://www.google.com/search?q=weather'" 
-                        title="Quickly leaves this site"
-                        class="emergency-exit-btn">
-                    🚨 Quick Exit
-                </button>
-            `;
-            document.body.appendChild(emergencyExit);
-
-            // Add keyboard shortcut (Esc key)
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    window.location.href = 'https://www.google.com/search?q=weather';
-                }
-            });
-            
-            // Create Language Selector
-            const languageSelector = document.createElement('select');
-            languageSelector.id = 'languageSelector';
-            languageSelector.innerHTML = `
-                <option value="en">English</option>
-                <option value="zu">Zulu</option>
-                <option value="xh">Xhosa</option>
-                <option value="af">Afrikaans</option>
-            `;
-            languageSelector.onchange = (e) => changeLanguage(e.target.value);
-            document.body.appendChild(languageSelector);
-            
-            // Initialize language
-            const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
-            changeLanguage(savedLanguage);
-            
-            // Clear selections on page refresh
-            document.querySelectorAll('.option').forEach(option => {
-                option.classList.remove('selected');
-            });
-        });
-        
-        // Language Support
-        const translations = {
-            en: {
-                'home': 'Home',
-                'report': 'Report Anonymously',
-                'support': 'Support Directory',
-                'stories': 'Share Your Story',
-                'library': 'GBV Resources',
-                'community': 'Community Support',
-                'events': 'Events & Marches',
-                'about': 'About Our Mission',
-                'safety': 'Safety Planning',
-                'assessment': 'Risk Assessment',
-                'education': 'Education Hub',
-                'login': 'Admin Login'
-            },
-            zu: {
-                'home': 'Ikhaya',
-                'report': 'Bika Ngokungaziwa',
-                'support': 'Uhlu Lwezinsiza',
-                'stories': 'Yabelana Ngendaba Yakho',
-                'library': 'Izinsiza Ze-GBV',
-                'community': 'Ukusekelwa Komphakathi',
-                'events': 'Imicimbi Nemarch',
-                'about': 'Mayelana Nomgomo Wethu',
-                'safety': 'Ukuhlela Ukuphepha',
-                'assessment': 'Ukuhlola Ubungozi',
-                'education': 'I-Hub Yemfundo',
-                'login': 'Ukungena Kwe-Admin'
-            },
-            xh: {
-                'home': 'Ekhaya',
-                'report': 'Xela Ngokungaziwa',
-                'support': 'Uluhlu Looncedo',
-                'stories': 'Yabelana Ngembali Yakho',
-                'library': 'Iindlela Zoncedo Ze-GBV',
-                'community': 'Inkxaso YoLuntu',
-                'events': 'Iivenkile Neemarch',
-                'about': 'Malunga Neenjongo Zethu',
-                'safety': 'Uyilo LoKhuseleko',
-                'assessment': 'Uvavanyo LoMngcipheko',
-                'education': 'I-Hub YeMfundo',
-                'login': 'Ungeno Lwe-Admin'
-            },
-            af: {
-                'home': 'Tuis',
-                'report': 'Rapporteer Anoniem',
-                'support': 'Ondersteuningsgids',
-                'stories': 'Deel Jou Storie',
-                'library': 'GBV Hulpbronne',
-                'community': 'Gemeenskapsondersteuning',
-                'events': 'Gebeure & Optogte',
-                'about': 'Oor Ons Missie',
-                'safety': 'Veiligheidsbeplanning',
-                'assessment': 'Risiko-assessering',
-                'education': 'Onderrig Sentrum',
-                'login': 'Admin Aanteken'
-            }
-        };
-
-        let currentLanguage = 'en';
-
-        function changeLanguage(lang) {
-            currentLanguage = lang;
-            localStorage.setItem('preferredLanguage', lang);
-            applyTranslations();
-            updateLanguageSelector();
-        }
-
-        function applyTranslations() {
-            const elements = document.querySelectorAll('[data-translate]');
-            elements.forEach(element => {
-                const key = element.getAttribute('data-translate');
-                if (translations[currentLanguage] && translations[currentLanguage][key]) {
-                    element.textContent = translations[currentLanguage][key];
-                }
-            });
-        }
-
-        function updateLanguageSelector() {
-            const selector = document.getElementById('languageSelector');
-            if (selector) {
-                selector.value = currentLanguage;
-            }
-        }
-        
-        let score = 0;
-        const maxScore = 28;
-
-        function selectOption(element) {
-            // Remove selection from siblings
-            const siblings = element.parentElement.children;
-            for (let sibling of siblings) {
-                sibling.classList.remove('selected');
-            }
-            // Add selection to clicked element
-            element.classList.add('selected');
-        }
-
-        function calculateRisk() {
-            score = 0;
-            const selectedOptions = document.querySelectorAll('.option.selected');
-            
-            selectedOptions.forEach(option => {
-                const options = Array.from(option.parentElement.children);
-                const index = options.indexOf(option);
-                score += index;
-            });
-
-            // Hide all results first
-            document.querySelectorAll('.result').forEach(result => {
-                result.style.display = 'none';
-            });
-
-            // Show appropriate result
-            const percentage = (score / maxScore) * 100;
-            
-            if (percentage < 30) {
-                document.getElementById('resultLow').style.display = 'block';
-            } else if (percentage < 60) {
-                document.getElementById('resultMedium').style.display = 'block';
-            } else {
-                document.getElementById('resultHigh').style.display = 'block';
-            }
-
-            // Scroll to results
-            document.querySelector('.result').scrollIntoView({ behavior: 'smooth' });
-        }
-    </script>
 </head>
 <body>
     <div class="header">
@@ -488,5 +327,213 @@
             </ul>
         </div>
     </div>
+
+    <script>
+        // Enhanced Security & Privacy
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.pathname);
+        }
+        
+        // Enhanced Emergency Exit
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create emergency exit button
+            const emergencyExit = document.createElement('div');
+            emergencyExit.className = 'emergency-exit';
+            emergencyExit.innerHTML = `
+                <button onclick="emergencyRedirect()" 
+                        title="Quickly leaves this site and clears data"
+                        class="emergency-exit-btn">
+                    🚨 Quick Exit
+                </button>
+            `;
+            document.body.appendChild(emergencyExit);
+
+            // Enhanced emergency redirect
+            window.emergencyRedirect = function() {
+                // Clear sensitive data
+                localStorage.removeItem('safetyPlanProgress');
+                sessionStorage.clear();
+                document.querySelectorAll('input, textarea').forEach(element => {
+                    element.value = '';
+                });
+                // Redirect to safe page
+                window.location.href = 'https://www.google.com/search?q=weather';
+            };
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' || (e.ctrlKey && e.key === 'q')) {
+                    emergencyRedirect();
+                }
+            });
+            
+            // Create Language Selector
+            const languageSelector = document.createElement('select');
+            languageSelector.id = 'languageSelector';
+            languageSelector.innerHTML = `
+                <option value="en">English</option>
+                <option value="zu">Zulu</option>
+                <option value="xh">Xhosa</option>
+                <option value="af">Afrikaans</option>
+            `;
+            languageSelector.onchange = (e) => changeLanguage(e.target.value);
+            document.body.appendChild(languageSelector);
+            
+            // Initialize language
+            const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
+            changeLanguage(savedLanguage);
+            
+            // Clear selections on page refresh
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // ANALYTICS TRACKING - INTEGRATED
+            if (typeof analytics !== 'undefined') {
+                analytics.trackPageView('risk-assessment.html');
+                analytics.trackFeatureUse('risk_assessment_loaded');
+            }
+        });
+        
+        // Language Support
+        const translations = {
+            en: {
+                'home': 'Home',
+                'report': 'Report Anonymously',
+                'support': 'Support Directory',
+                'stories': 'Share Your Story',
+                'library': 'GBV Resources',
+                'community': 'Community Support',
+                'events': 'Events & Marches',
+                'about': 'About Our Mission',
+                'safety': 'Safety Planning',
+                'assessment': 'Risk Assessment',
+                'education': 'Education Hub',
+                'login': 'Admin Login'
+            },
+            zu: {
+                'home': 'Ikhaya',
+                'report': 'Bika Ngokungaziwa',
+                'support': 'Uhlu Lwezinsiza',
+                'stories': 'Yabelana Ngendaba Yakho',
+                'library': 'Izinsiza Ze-GBV',
+                'community': 'Ukusekelwa Komphakathi',
+                'events': 'Imicimbi Nemarch',
+                'about': 'Mayelana Nomgomo Wethu',
+                'safety': 'Ukuhlela Ukuphepha',
+                'assessment': 'Ukuhlola Ubungozi',
+                'education': 'I-Hub Yemfundo',
+                'login': 'Ukungena Kwe-Admin'
+            },
+            xh: {
+                'home': 'Ekhaya',
+                'report': 'Xela Ngokungaziwa',
+                'support': 'Uluhlu Looncedo',
+                'stories': 'Yabelana Ngembali Yakho',
+                'library': 'Iindlela Zoncedo Ze-GBV',
+                'community': 'Inkxaso YoLuntu',
+                'events': 'Iivenkile Neemarch',
+                'about': 'Malunga Neenjongo Zethu',
+                'safety': 'Uyilo LoKhuseleko',
+                'assessment': 'Uvavanyo LoMngcipheko',
+                'education': 'I-Hub YeMfundo',
+                'login': 'Ungeno Lwe-Admin'
+            },
+            af: {
+                'home': 'Tuis',
+                'report': 'Rapporteer Anoniem',
+                'support': 'Ondersteuningsgids',
+                'stories': 'Deel Jou Storie',
+                'library': 'GBV Hulpbronne',
+                'community': 'Gemeenskapsondersteuning',
+                'events': 'Gebeure & Optogte',
+                'about': 'Oor Ons Missie',
+                'safety': 'Veiligheidsbeplanning',
+                'assessment': 'Risiko-assessering',
+                'education': 'Onderrig Sentrum',
+                'login': 'Admin Aanteken'
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('preferredLanguage', lang);
+            applyTranslations();
+            updateLanguageSelector();
+        }
+
+        function applyTranslations() {
+            const elements = document.querySelectorAll('[data-translate]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[currentLanguage] && translations[currentLanguage][key]) {
+                    element.textContent = translations[currentLanguage][key];
+                }
+            });
+        }
+
+        function updateLanguageSelector() {
+            const selector = document.getElementById('languageSelector');
+            if (selector) {
+                selector.value = currentLanguage;
+            }
+        }
+        
+        let score = 0;
+        const maxScore = 28;
+
+        function selectOption(element) {
+            // Remove selection from siblings
+            const siblings = element.parentElement.children;
+            for (let sibling of siblings) {
+                sibling.classList.remove('selected');
+            }
+            // Add selection to clicked element
+            element.classList.add('selected');
+            
+            // ANALYTICS TRACKING - INTEGRATED
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse('risk_option_selected');
+            }
+        }
+
+        function calculateRisk() {
+            score = 0;
+            const selectedOptions = document.querySelectorAll('.option.selected');
+            
+            selectedOptions.forEach(option => {
+                const options = Array.from(option.parentElement.children);
+                const index = options.indexOf(option);
+                score += index;
+            });
+
+            // Hide all results first
+            document.querySelectorAll('.result').forEach(result => {
+                result.style.display = 'none';
+            });
+
+            // Show appropriate result
+            const percentage = (score / maxScore) * 100;
+            
+            if (percentage < 30) {
+                document.getElementById('resultLow').style.display = 'block';
+            } else if (percentage < 60) {
+                document.getElementById('resultMedium').style.display = 'block';
+            } else {
+                document.getElementById('resultHigh').style.display = 'block';
+            }
+
+            // Scroll to results
+            document.querySelector('.result').scrollIntoView({ behavior: 'smooth' });
+            
+            // ANALYTICS TRACKING - INTEGRATED
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse('risk_assessment_completed');
+                analytics.trackFeatureUse('risk_level_' + (percentage < 30 ? 'low' : percentage < 60 ? 'medium' : 'high'));
+            }
+        }
+    </script>
 </body>
 </html>
