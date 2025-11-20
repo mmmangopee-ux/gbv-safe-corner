@@ -3,13 +3,66 @@
 <head>
     <title>Share Your Story - GBV Safe Corner</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #f8f8f8; line-height: 1.6; }
-        .header { background: #8B0000; color: white; padding: 30px; text-align: center; border-radius: 15px; margin-bottom: 20px; }
-        .nav-links { text-align: center; margin: 20px 0; padding: 15px; background: white; border-radius: 10px; }
-        .nav-links a { margin: 0 15px; text-decoration: none; color: #8B0000; font-weight: bold; }
-        .content-section { background: white; padding: 30px; border-radius: 15px; margin: 25px 0; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .form-group { margin: 15px 0; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 900px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            background-color: #f8f8f8; 
+            line-height: 1.6; 
+        }
+        .header { 
+            background: linear-gradient(135deg, #6A0DAD, #8A2BE2);
+            color: white; 
+            padding: 30px; 
+            text-align: center; 
+            border-radius: 15px; 
+            margin-bottom: 20px; 
+        }
+        .logo-text {
+            font-size: 2em;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+        .logo-text span {
+            display: block;
+        }
+        .nav-links { 
+            text-align: center; 
+            margin: 20px 0; 
+            padding: 15px; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 2px 4px rgba(106, 13, 173, 0.1);
+        }
+        .nav-links a { 
+            margin: 0 15px; 
+            text-decoration: none; 
+            color: #6A0DAD; 
+            font-weight: bold; 
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: #8A2BE2;
+        }
+        .content-section { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 15px; 
+            margin: 25px 0; 
+            box-shadow: 0 4px 8px rgba(106, 13, 173, 0.1);
+        }
+        .form-group { 
+            margin: 15px 0; 
+        }
+        label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: bold; 
+            color: #6A0DAD;
+        }
         textarea, select, input { 
             width: 100%; 
             padding: 10px; 
@@ -19,7 +72,7 @@
             box-sizing: border-box;
         }
         .submit-btn { 
-            background: #8B0000; 
+            background: #6A0DAD; 
             color: white; 
             padding: 12px 30px; 
             border: none; 
@@ -27,6 +80,10 @@
             cursor: pointer; 
             font-size: 16px; 
             width: 100%;
+            transition: background 0.3s ease;
+        }
+        .submit-btn:hover {
+            background: #8A2BE2;
         }
         .success-message {
             background: #d4edda;
@@ -36,12 +93,19 @@
             margin: 15px 0;
             display: none;
         }
+        .purple-accent {
+            color: #6A0DAD;
+        }
     </style>
     <script src="supabase-config.js"></script>
 </head>
 <body>
     <div class="header">
-        <h1>GBV Safe Corner</h1>
+        <div class="logo-text">
+            <span>GBV</span>
+            <span>SAFE</span>
+            <span>CORNER</span>
+        </div>
         <p>Share Your Story</p>
     </div>
 
@@ -54,10 +118,11 @@
         <a href="community.html">Community Support</a>
         <a href="events.html">Events & Marches</a>
         <a href="about.html">About Our Mission</a>
+        <a href="login.html">Admin Login</a>
     </div>
 
     <div class="content-section">
-        <h2>💬 Share Your Story Anonymously</h2>
+        <h2 class="purple-accent">💬 Share Your Story Anonymously</h2>
         
         <div class="success-message" id="successMessage">
             Thank you for sharing your story. It has been submitted anonymously.
