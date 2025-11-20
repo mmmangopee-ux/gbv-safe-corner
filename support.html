@@ -2,7 +2,15 @@
 <html>
 <head>
     <title>Support Directory - GBV Safe Corner</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#6A0DAD">
+    
+    <!-- ANALYTICS INTEGRATED -->
+    <script src="analytics.js"></script>
+    
     <style>
+        * { box-sizing: border-box; }
         body { 
             font-family: Arial, sans-serif; 
             max-width: 900px; 
@@ -114,11 +122,8 @@
             background: #6A0DAD;
             color: white;
         }
-        .purple-accent {
-            color: #6A0DAD;
-        }
         
-        /* Emergency Exit Button */
+        /* Enhanced Emergency Exit */
         .emergency-exit {
             position: fixed;
             bottom: 20px;
@@ -157,32 +162,154 @@
             font-size: 14px;
             cursor: pointer;
         }
+        
+        /* Accessibility */
+        :focus {
+            outline: 3px solid #6A0DAD;
+            outline-offset: 2px;
+        }
     </style>
-    
+</head>
+<body>
+    <div class="header">
+        <div class="logo-text">
+            <span>GBV</span>
+            <span>SAFE</span>
+            <span>CORNER</span>
+        </div>
+        <p>Verified Support Directory</p>
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html" data-translate="home">Home</a>
+        <a href="report.html" data-translate="report">Report Anonymously</a>
+        <a href="support.html" data-translate="support">Support Directory</a>
+        <a href="stories.html" data-translate="stories">Share Your Story</a>
+        <a href="library.html" data-translate="library">GBV Resources</a>
+        <a href="community.html" data-translate="community">Community Support</a>
+        <a href="events.html" data-translate="events">Events & Marches</a>
+        <a href="about.html" data-translate="about">About Our Mission</a>
+        <a href="safety-plan.html" data-translate="safety">Safety Planning</a>
+        <a href="risk-assessment.html" data-translate="assessment">Risk Assessment</a>
+        <a href="education-hub.html" data-translate="education">Education Hub</a>
+        <a href="login.html" data-translate="login">Admin Login</a>
+    </div>
+
+    <div class="content-section">
+        <h2>🆘 24/7 Emergency Contacts</h2>
+        <p><strong>GBV Command Centre:</strong> 0800 428 428</p>
+        <p><strong>Police Emergency:</strong> 10111</p>
+        <p><strong>Lifeline Counseling:</strong> 0861 322 322</p>
+        <p><strong>Suicide Crisis Line:</strong> 0800 567 567</p>
+    </div>
+
+    <div class="content-section">
+        <h2>✅ Verified Support Organizations</h2>
+        <p>All organizations listed below have been verified for your safety and trust.</p>
+
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterOrganizations('all')">All Services</button>
+            <button class="filter-btn" onclick="filterOrganizations('counseling')">Counseling</button>
+            <button class="filter-btn" onclick="filterOrganizations('legal')">Legal Aid</button>
+            <button class="filter-btn" onclick="filterOrganizations('shelter')">Shelters</button>
+            <button class="filter-btn" onclick="filterOrganizations('support')">Support Groups</button>
+        </div>
+
+        <div class="organization-card" data-category="counseling,support">
+            <h3>TEARS Foundation <span class="verification-badge">VERIFIED</span></h3>
+            <p><strong>Services:</strong> 
+                <span class="service-tag">Counseling</span>
+                <span class="service-tag">Crisis Intervention</span>
+                <span class="service-tag">Support Groups</span>
+            </p>
+            <p><strong>Contact:</strong> 010 590 5920</p>
+            <p><strong>Website:</strong> tears.co.za</p>
+            <a href="https://tears.co.za" class="contact-button" target="_blank">Visit Website</a>
+            <a href="tel:0105905920" class="contact-button">Call Now</a>
+        </div>
+
+        <div class="organization-card" data-category="legal,counseling,shelter">
+            <h3>People Opposing Women Abuse (POWA) <span class="verification-badge">VERIFIED</span></h3>
+            <p><strong>Services:</strong> 
+                <span class="service-tag">Legal Aid</span>
+                <span class="service-tag">Counseling</span>
+                <span class="service-tag">Shelter</span>
+                <span class="service-tag">Support Groups</span>
+            </p>
+            <p><strong>Contact:</strong> 011 642 4345</p>
+            <p><strong>Website:</strong> powa.co.za</p>
+            <a href="https://www.powa.co.za" class="contact-button" target="_blank">Visit Website</a>
+            <a href="tel:0116424345" class="contact-button">Call Now</a>
+        </div>
+
+        <div class="organization-card" data-category="legal">
+            <h3>Legal Aid South Africa <span class="verification-badge">VERIFIED</span></h3>
+            <p><strong>Services:</strong> 
+                <span class="service-tag">Legal Aid</span>
+                <span class="service-tag">Court Support</span>
+            </p>
+            <p><strong>Contact:</strong> 0800 110 110 (Toll-free)</p>
+            <p><strong>Website:</strong> legal-aid.co.za</p>
+            <a href="https://legal-aid.co.za" class="contact-button" target="_blank">Visit Website</a>
+            <a href="tel:0800110110" class="contact-button">Call Now</a>
+        </div>
+
+        <div class="organization-card" data-category="counseling,support">
+            <h3>Lifeline <span class="verification-badge">VERIFIED</span></h3>
+            <p><strong>Services:</strong> 
+                <span class="service-tag">Crisis Counseling</span>
+                <span class="service-tag">Support Groups</span>
+                <span class="service-tag">Telephone Support</span>
+            </p>
+            <p><strong>Contact:</strong> 0861 322 322</p>
+            <p><strong>Website:</strong> lifelinesa.co.za</p>
+            <a href="https://lifelinesa.co.za" class="contact-button" target="_blank">Visit Website</a>
+            <a href="tel:0861322322" class="contact-button">Call Now</a>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>🏢 Are you an organization that helps GBV survivors?</h2>
+        <p>Apply to be listed in our verified directory and reach those who need your help.</p>
+        <a href="#" class="contact-button" onclick="alert('Contact us at: [Your Email] to apply for verification')">Apply for Verification</a>
+    </div>
+
     <script>
-        // Browser History Protection
+        // Enhanced Security & Privacy
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.pathname);
         }
         
-        // Emergency Exit Functionality
+        // Enhanced Emergency Exit
         document.addEventListener('DOMContentLoaded', function() {
             // Create emergency exit button
             const emergencyExit = document.createElement('div');
             emergencyExit.className = 'emergency-exit';
             emergencyExit.innerHTML = `
-                <button onclick="window.location.href='https://www.google.com/search?q=weather'" 
-                        title="Quickly leaves this site"
+                <button onclick="emergencyRedirect()" 
+                        title="Quickly leaves this site and clears data"
                         class="emergency-exit-btn">
                     🚨 Quick Exit
                 </button>
             `;
             document.body.appendChild(emergencyExit);
 
-            // Add keyboard shortcut (Esc key)
+            // Enhanced emergency redirect
+            window.emergencyRedirect = function() {
+                // Clear sensitive data
+                localStorage.removeItem('safetyPlanProgress');
+                sessionStorage.clear();
+                document.querySelectorAll('input, textarea').forEach(element => {
+                    element.value = '';
+                });
+                // Redirect to safe page
+                window.location.href = 'https://www.google.com/search?q=weather';
+            };
+
+            // Keyboard shortcuts
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    window.location.href = 'https://www.google.com/search?q=weather';
+                if (e.key === 'Escape' || (e.ctrlKey && e.key === 'q')) {
+                    emergencyRedirect();
                 }
             });
             
@@ -201,6 +328,12 @@
             // Initialize language
             const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
             changeLanguage(savedLanguage);
+            
+            // ANALYTICS TRACKING - INTEGRATED
+            if (typeof analytics !== 'undefined') {
+                analytics.trackPageView('support.html');
+                analytics.trackFeatureUse('support_directory_loaded');
+            }
         });
         
         // Language Support
@@ -288,7 +421,7 @@
                 selector.value = currentLanguage;
             }
         }
-        
+
         function filterOrganizations(category) {
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('active');
@@ -303,111 +436,12 @@
                     org.style.display = 'none';
                 }
             });
+            
+            // ANALYTICS TRACKING - INTEGRATED
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse('support_filter_' + category);
+            }
         }
     </script>
-</head>
-<body>
-    <div class="header">
-        <div class="logo-text">
-            <span>GBV</span>
-            <span>SAFE</span>
-            <span>CORNER</span>
-        </div>
-        <p>Verified Support Directory</p>
-    </div>
-
-    <div class="nav-links">
-        <a href="index.html" data-translate="home">Home</a>
-        <a href="report.html" data-translate="report">Report Anonymously</a>
-        <a href="support.html" data-translate="support">Support Directory</a>
-        <a href="stories.html" data-translate="stories">Share Your Story</a>
-        <a href="library.html" data-translate="library">GBV Resources</a>
-        <a href="community.html" data-translate="community">Community Support</a>
-        <a href="events.html" data-translate="events">Events & Marches</a>
-        <a href="about.html" data-translate="about">About Our Mission</a>
-        <a href="safety-plan.html" data-translate="safety">Safety Planning</a>
-        <a href="risk-assessment.html" data-translate="assessment">Risk Assessment</a>
-        <a href="education-hub.html" data-translate="education">Education Hub</a>
-        <a href="login.html" data-translate="login">Admin Login</a>
-    </div>
-
-    <div class="content-section">
-        <h2 class="purple-accent">🆘 24/7 Emergency Contacts</h2>
-        <p><strong>GBV Command Centre:</strong> 0800 428 428</p>
-        <p><strong>Police Emergency:</strong> 10111</p>
-        <p><strong>Lifeline Counseling:</strong> 0861 322 322</p>
-        <p><strong>Suicide Crisis Line:</strong> 0800 567 567</p>
-    </div>
-
-    <div class="content-section">
-        <h2 class="purple-accent">✅ Verified Support Organizations</h2>
-        <p>All organizations listed below have been verified for your safety and trust.</p>
-
-        <div class="filter-buttons">
-            <button class="filter-btn active" onclick="filterOrganizations('all')">All Services</button>
-            <button class="filter-btn" onclick="filterOrganizations('counseling')">Counseling</button>
-            <button class="filter-btn" onclick="filterOrganizations('legal')">Legal Aid</button>
-            <button class="filter-btn" onclick="filterOrganizations('shelter')">Shelters</button>
-            <button class="filter-btn" onclick="filterOrganizations('support')">Support Groups</button>
-        </div>
-
-        <div class="organization-card" data-category="counseling,support">
-            <h3 class="purple-accent">TEARS Foundation <span class="verification-badge">VERIFIED</span></h3>
-            <p><strong>Services:</strong> 
-                <span class="service-tag">Counseling</span>
-                <span class="service-tag">Crisis Intervention</span>
-                <span class="service-tag">Support Groups</span>
-            </p>
-            <p><strong>Contact:</strong> 010 590 5920</p>
-            <p><strong>Website:</strong> tears.co.za</p>
-            <a href="https://tears.co.za" class="contact-button" target="_blank">Visit Website</a>
-            <a href="tel:0105905920" class="contact-button">Call Now</a>
-        </div>
-
-        <div class="organization-card" data-category="legal,counseling,shelter">
-            <h3 class="purple-accent">People Opposing Women Abuse (POWA) <span class="verification-badge">VERIFIED</span></h3>
-            <p><strong>Services:</strong> 
-                <span class="service-tag">Legal Aid</span>
-                <span class="service-tag">Counseling</span>
-                <span class="service-tag">Shelter</span>
-                <span class="service-tag">Support Groups</span>
-            </p>
-            <p><strong>Contact:</strong> 011 642 4345</p>
-            <p><strong>Website:</strong> powa.co.za</p>
-            <a href="https://www.powa.co.za" class="contact-button" target="_blank">Visit Website</a>
-            <a href="tel:0116424345" class="contact-button">Call Now</a>
-        </div>
-
-        <div class="organization-card" data-category="legal">
-            <h3 class="purple-accent">Legal Aid South Africa <span class="verification-badge">VERIFIED</span></h3>
-            <p><strong>Services:</strong> 
-                <span class="service-tag">Legal Aid</span>
-                <span class="service-tag">Court Support</span>
-            </p>
-            <p><strong>Contact:</strong> 0800 110 110 (Toll-free)</p>
-            <p><strong>Website:</strong> legal-aid.co.za</p>
-            <a href="https://legal-aid.co.za" class="contact-button" target="_blank">Visit Website</a>
-            <a href="tel:0800110110" class="contact-button">Call Now</a>
-        </div>
-
-        <div class="organization-card" data-category="counseling,support">
-            <h3 class="purple-accent">Lifeline <span class="verification-badge">VERIFIED</span></h3>
-            <p><strong>Services:</strong> 
-                <span class="service-tag">Crisis Counseling</span>
-                <span class="service-tag">Support Groups</span>
-                <span class="service-tag">Telephone Support</span>
-            </p>
-            <p><strong>Contact:</strong> 0861 322 322</p>
-            <p><strong>Website:</strong> lifelinesa.co.za</p>
-            <a href="https://lifelinesa.co.za" class="contact-button" target="_blank">Visit Website</a>
-            <a href="tel:0861322322" class="contact-button">Call Now</a>
-        </div>
-    </div>
-
-    <div class="content-section">
-        <h2 class="purple-accent">🏢 Are you an organization that helps GBV survivors?</h2>
-        <p>Apply to be listed in our verified directory and reach those who need your help.</p>
-        <a href="#" class="contact-button" onclick="alert('Contact us at: [Your Email] to apply for verification')">Apply for Verification</a>
-    </div>
 </body>
 </html>
