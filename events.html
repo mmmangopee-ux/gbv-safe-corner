@@ -2,7 +2,15 @@
 <html>
 <head>
     <title>Events & Marches - GBV Safe Corner</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#6A0DAD">
+    
+    <!-- ANALYTICS INTEGRATED -->
+    <script src="analytics.js"></script>
+    
     <style>
+        * { box-sizing: border-box; }
         body { 
             font-family: Arial, sans-serif; 
             max-width: 900px; 
@@ -81,7 +89,6 @@
             display: block; 
             margin-bottom: 5px; 
             font-weight: bold; 
-            color: #6A0DAD;
         }
         textarea, select, input { 
             width: 100%; 
@@ -89,7 +96,6 @@
             border: 1px solid #ddd; 
             border-radius: 5px; 
             font-family: Arial; 
-            box-sizing: border-box; 
         }
         .submit-btn { 
             background: #6A0DAD; 
@@ -99,25 +105,13 @@
             border-radius: 5px; 
             cursor: pointer; 
             font-size: 16px; 
-            width: 100%; 
             transition: background 0.3s ease;
         }
         .submit-btn:hover {
             background: #8A2BE2;
         }
-        .success-message {
-            background: #d4edda;
-            color: #155724;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-            display: none;
-        }
-        .purple-accent {
-            color: #6A0DAD;
-        }
         
-        /* Emergency Exit Button */
+        /* Enhanced Emergency Exit */
         .emergency-exit {
             position: fixed;
             bottom: 20px;
@@ -156,32 +150,105 @@
             font-size: 14px;
             cursor: pointer;
         }
+        
+        /* Accessibility */
+        :focus {
+            outline: 3px solid #6A0DAD;
+            outline-offset: 2px;
+        }
     </style>
-    
+</head>
+<body>
+    <div class="header">
+        <div class="logo-text">
+            <span>GBV</span>
+            <span>SAFE</span>
+            <span>CORNER</span>
+        </div>
+        <p>Events & Awareness Marches</p>
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html" data-translate="home">Home</a>
+        <a href="report.html" data-translate="report">Report Anonymously</a>
+        <a href="support.html" data-translate="support">Support Directory</a>
+        <a href="stories.html" data-translate="stories">Share Your Story</a>
+        <a href="library.html" data-translate="library">GBV Resources</a>
+        <a href="community.html" data-translate="community">Community Support</a>
+        <a href="events.html" data-translate="events">Events & Marches</a>
+        <a href="about.html" data-translate="about">About Our Mission</a>
+        <a href="safety-plan.html" data-translate="safety">Safety Planning</a>
+        <a href="risk-assessment.html" data-translate="assessment">Risk Assessment</a>
+        <a href="education-hub.html" data-translate="education">Education Hub</a>
+        <a href="login.html" data-translate="login">Admin Login</a>
+    </div>
+
+    <div class="content-section">
+        <h2>📅 Upcoming Events</h2>
+        
+        <div class="event-card">
+            <h3>🎗️ GBV Awareness March</h3>
+            <p><strong>Date:</strong> Coming soon - Be the first to organize!</p>
+            <p><strong>Location:</strong> Your community</p>
+            <p><strong>Description:</strong> Join others in taking a stand against gender-based violence.</p>
+        </div>
+
+        <div class="event-card">
+            <h3>💜 Survivor Support Workshop</h3>
+            <p><strong>Date:</strong> Organize one in your area</p>
+            <p><strong>Location:</strong> Virtual or in-person</p>
+            <p><strong>Description:</strong> Healing and empowerment sessions for survivors.</p>
+        </div>
+    </div>
+
+    <div class="organize-box">
+        <h3>📢 Organize an Event</h3>
+        <p>Plan a march, vigil, or awareness event in your community.</p>
+        
+        <div class="event-form">
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe7gRYD0fu4JlouNpfpbMwXjIiAEb8SPF3SbhMdrJHbXWedeA/viewform?embedded=true" 
+                    width="100%" height="1200" frameborder="0" marginheight="0" marginwidth="0">
+                Loading…
+            </iframe>
+        </div>
+    </div>
+
     <script>
-        // Browser History Protection
+        // Enhanced Security & Privacy
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.pathname);
         }
         
-        // Emergency Exit Functionality
+        // Enhanced Emergency Exit
         document.addEventListener('DOMContentLoaded', function() {
             // Create emergency exit button
             const emergencyExit = document.createElement('div');
             emergencyExit.className = 'emergency-exit';
             emergencyExit.innerHTML = `
-                <button onclick="window.location.href='https://www.google.com/search?q=weather'" 
-                        title="Quickly leaves this site"
+                <button onclick="emergencyRedirect()" 
+                        title="Quickly leaves this site and clears data"
                         class="emergency-exit-btn">
                     🚨 Quick Exit
                 </button>
             `;
             document.body.appendChild(emergencyExit);
 
-            // Add keyboard shortcut (Esc key)
+            // Enhanced emergency redirect
+            window.emergencyRedirect = function() {
+                // Clear sensitive data
+                localStorage.removeItem('safetyPlanProgress');
+                sessionStorage.clear();
+                document.querySelectorAll('input, textarea').forEach(element => {
+                    element.value = '';
+                });
+                // Redirect to safe page
+                window.location.href = 'https://www.google.com/search?q=weather';
+            };
+
+            // Keyboard shortcuts
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    window.location.href = 'https://www.google.com/search?q=weather';
+                if (e.key === 'Escape' || (e.ctrlKey && e.key === 'q')) {
+                    emergencyRedirect();
                 }
             });
             
@@ -201,8 +268,11 @@
             const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
             changeLanguage(savedLanguage);
             
-            // Load events
-            loadEvents();
+            // ANALYTICS TRACKING - INTEGRATED
+            if (typeof analytics !== 'undefined') {
+                analytics.trackPageView('events.html');
+                analytics.trackFeatureUse('events_loaded');
+            }
         });
         
         // Language Support
@@ -290,173 +360,6 @@
                 selector.value = currentLanguage;
             }
         }
-        
-        // Form submission
-        const SUPABASE_URL = 'https://sofzsursxpjmghhcphrh.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvZnpzdXJzeHBqbWdoaGNwaHJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1OTIwNTMsImV4cCI6MjA3OTE2ODA1M30.nW5ylZoVNeJAegTXqx_x0bjb1lSOsvMBnhsScYR8hf8';
-
-        function getIpHash() {
-            return 'anonymous_' + Math.random().toString(36).substr(2, 9);
-        }
-
-        async function submitToSupabase(tableName, data) {
-            try {
-                const response = await fetch(SUPABASE_URL + '/rest/v1/' + tableName, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'apikey': SUPABASE_ANON_KEY,
-                        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-                        'Prefer': 'return=minimal'
-                    },
-                    body: JSON.stringify(data)
-                });
-                return response;
-            } catch (error) {
-                console.error('Error submitting to Supabase:', error);
-                throw error;
-            }
-        }
-
-        async function loadEvents() {
-            try {
-                const response = await fetch('https://sofzsursxpjmghhcphrh.supabase.co/rest/v1/gbv_events?is_public=eq.true&order=event_date.asc', {
-                    headers: {
-                        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvZnpzdXJzeHBqbWdoaGNwaHJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1OTIwNTMsImV4cCI6MjA3OTE2ODA1M30.nW5ylZoVNeJAegTXqx_x0bjb1lSOsvMBnhsScYR8hf8'
-                    }
-                });
-                const events = await response.json();
-                
-                let html = '';
-                events.forEach(event => {
-                    html += `<div class="event-card">
-                        <h3 class="purple-accent">${event.event_name}</h3>
-                        <p><strong>Date:</strong> ${new Date(event.event_date).toLocaleDateString()}</p>
-                        <p><strong>Location:</strong> ${event.location}</p>
-                        <p><strong>Type:</strong> ${event.event_type}</p>
-                        <p>${event.description}</p>
-                        <p><strong>Contact:</strong> ${event.organizer_contact}</p>
-                    </div>`;
-                });
-                
-                document.getElementById('eventsList').innerHTML = html || '<p>No upcoming events. Be the first to organize one!</p>';
-            } catch (error) {
-                document.getElementById('eventsList').innerHTML = '<p>Error loading events. Please try again later.</p>';
-            }
-        }
-
-        document.getElementById('eventForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const eventData = {
-                event_name: formData.get('eventName'),
-                event_type: formData.get('eventType'),
-                event_date: formData.get('eventDate'),
-                location: formData.get('location'),
-                description: formData.get('description'),
-                organizer_contact: formData.get('organizerContact')
-            };
-
-            try {
-                const response = await submitToSupabase('gbv_events', eventData);
-
-                if (response.ok) {
-                    document.getElementById('successMessage').style.display = 'block';
-                    document.getElementById('eventForm').reset();
-                    setTimeout(() => {
-                        document.getElementById('successMessage').style.display = 'none';
-                    }, 5000);
-                } else {
-                    alert('Error submitting event. Please try again.');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error submitting event. Please try again.');
-            }
-        });
     </script>
-</head>
-<body>
-    <div class="header">
-        <div class="logo-text">
-            <span>GBV</span>
-            <span>SAFE</span>
-            <span>CORNER</span>
-        </div>
-        <p>Events & Awareness Marches</p>
-    </div>
-
-    <div class="nav-links">
-        <a href="index.html" data-translate="home">Home</a>
-        <a href="report.html" data-translate="report">Report Anonymously</a>
-        <a href="support.html" data-translate="support">Support Directory</a>
-        <a href="stories.html" data-translate="stories">Share Your Story</a>
-        <a href="library.html" data-translate="library">GBV Resources</a>
-        <a href="community.html" data-translate="community">Community Support</a>
-        <a href="events.html" data-translate="events">Events & Marches</a>
-        <a href="about.html" data-translate="about">About Our Mission</a>
-        <a href="safety-plan.html" data-translate="safety">Safety Planning</a>
-        <a href="risk-assessment.html" data-translate="assessment">Risk Assessment</a>
-        <a href="education-hub.html" data-translate="education">Education Hub</a>
-        <a href="login.html" data-translate="login">Admin Login</a>
-    </div>
-
-    <div class="content-section">
-        <h2 class="purple-accent">📅 Upcoming Events</h2>
-        <div id="eventsList"></div>
-    </div>
-
-    <div class="organize-box">
-        <h3 class="purple-accent">📢 Organize an Event</h3>
-        <p>Plan a march, vigil, or awareness event in your community.</p>
-        
-        <div class="event-form">
-            <div class="success-message" id="successMessage">
-                Event submitted successfully! It will be reviewed before publishing.
-            </div>
-
-            <form id="eventForm" autocomplete="off">
-                <div class="form-group">
-                    <label for="eventName">Event Name *</label>
-                    <input type="text" id="eventName" name="eventName" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="eventType">Event Type *</label>
-                    <select id="eventType" name="eventType" required>
-                        <option value="">Select type...</option>
-                        <option value="march">March/Protest</option>
-                        <option value="vigil">Vigil</option>
-                        <option value="workshop">Workshop</option>
-                        <option value="support_group">Support Group</option>
-                        <option value="awareness">Awareness Campaign</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="eventDate">Event Date *</label>
-                    <input type="datetime-local" id="eventDate" name="eventDate" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="location">Location *</label>
-                    <input type="text" id="location" name="location" placeholder="Physical address or online" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="description">Event Description *</label>
-                    <textarea id="description" name="description" rows="4" required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="organizerContact">Organizer Contact (Email) *</label>
-                    <input type="email" id="organizerContact" name="organizerContact" required>
-                </div>
-
-                <button type="submit" class="submit-btn">Submit Event</button>
-            </form>
-        </div>
-    </div>
 </body>
 </html>
