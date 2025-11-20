@@ -2,7 +2,15 @@
 <html>
 <head>
     <title>Share Your Story - GBV Safe Corner</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#6A0DAD">
+    
+    <!-- ANALYTICS INTEGRATED -->
+    <script src="analytics.js"></script>
+    
     <style>
+        * { box-sizing: border-box; }
         body { 
             font-family: Arial, sans-serif; 
             max-width: 900px; 
@@ -53,59 +61,24 @@
             border-radius: 15px; 
             margin: 25px 0; 
             box-shadow: 0 4px 8px rgba(106, 13, 173, 0.1);
+            text-align: center;
         }
-        .form-group { 
-            margin: 15px 0; 
-        }
-        label { 
-            display: block; 
-            margin-bottom: 5px; 
-            font-weight: bold; 
-            color: #6A0DAD;
-        }
-        textarea, select, input { 
-            width: 100%; 
-            padding: 10px; 
-            border: 1px solid #ddd; 
-            border-radius: 5px; 
-            font-family: Arial; 
-            box-sizing: border-box;
-        }
-        .submit-btn { 
+        .form-button { 
             background: #6A0DAD; 
             color: white; 
-            padding: 12px 30px; 
-            border: none; 
-            border-radius: 5px; 
-            cursor: pointer; 
-            font-size: 16px; 
-            width: 100%;
+            padding: 15px 40px; 
+            text-decoration: none; 
+            border-radius: 8px; 
+            font-size: 18px; 
+            display: inline-block; 
+            margin: 10px; 
             transition: background 0.3s ease;
         }
-        .submit-btn:hover {
+        .form-button:hover {
             background: #8A2BE2;
         }
-        .success-message {
-            background: #d4edda;
-            color: #155724;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-            display: none;
-        }
-        .privacy-warning {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-        .purple-accent {
-            color: #6A0DAD;
-        }
         
-        /* Emergency Exit Button */
+        /* Enhanced Emergency Exit */
         .emergency-exit {
             position: fixed;
             bottom: 20px;
@@ -144,32 +117,88 @@
             font-size: 14px;
             cursor: pointer;
         }
+        
+        /* Accessibility */
+        :focus {
+            outline: 3px solid #6A0DAD;
+            outline-offset: 2px;
+        }
     </style>
-    
+</head>
+<body>
+    <div class="header">
+        <div class="logo-text">
+            <span>GBV</span>
+            <span>SAFE</span>
+            <span>CORNER</span>
+        </div>
+        <p>Share Your Story</p>
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html" data-translate="home">Home</a>
+        <a href="report.html" data-translate="report">Report Anonymously</a>
+        <a href="support.html" data-translate="support">Support Directory</a>
+        <a href="stories.html" data-translate="stories">Share Your Story</a>
+        <a href="library.html" data-translate="library">GBV Resources</a>
+        <a href="community.html" data-translate="community">Community Support</a>
+        <a href="events.html" data-translate="events">Events & Marches</a>
+        <a href="about.html" data-translate="about">About Our Mission</a>
+        <a href="safety-plan.html" data-translate="safety">Safety Planning</a>
+        <a href="risk-assessment.html" data-translate="assessment">Risk Assessment</a>
+        <a href="education-hub.html" data-translate="education">Education Hub</a>
+        <a href="login.html" data-translate="login">Admin Login</a>
+    </div>
+
+    <div class="content-section">
+        <h2>💬 Share Your Story Anonymously</h2>
+        <p>Click the button below to share your experience, story, or message of hope:</p>
+        
+        <a href="https://docs.google.com/forms/d/1Zf3rqvWILeDjJxtoxqcszr0w8Li4ThDbzqtQ0NQVi_k/viewform" 
+           target="_blank" 
+           class="form-button">
+           📖 Share Your Story
+        </a>
+
+        <p><em>Your story is completely anonymous and may help others feel less alone.</em></p>
+    </div>
+
     <script>
-        // Browser History Protection
+        // Enhanced Security & Privacy
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.pathname);
         }
         
-        // Emergency Exit Functionality
+        // Enhanced Emergency Exit
         document.addEventListener('DOMContentLoaded', function() {
             // Create emergency exit button
             const emergencyExit = document.createElement('div');
             emergencyExit.className = 'emergency-exit';
             emergencyExit.innerHTML = `
-                <button onclick="window.location.href='https://www.google.com/search?q=weather'" 
-                        title="Quickly leaves this site"
+                <button onclick="emergencyRedirect()" 
+                        title="Quickly leaves this site and clears data"
                         class="emergency-exit-btn">
                     🚨 Quick Exit
                 </button>
             `;
             document.body.appendChild(emergencyExit);
 
-            // Add keyboard shortcut (Esc key)
+            // Enhanced emergency redirect
+            window.emergencyRedirect = function() {
+                // Clear sensitive data
+                localStorage.removeItem('safetyPlanProgress');
+                sessionStorage.clear();
+                document.querySelectorAll('input, textarea').forEach(element => {
+                    element.value = '';
+                });
+                // Redirect to safe page
+                window.location.href = 'https://www.google.com/search?q=weather';
+            };
+
+            // Keyboard shortcuts
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    window.location.href = 'https://www.google.com/search?q=weather';
+                if (e.key === 'Escape' || (e.ctrlKey && e.key === 'q')) {
+                    emergencyRedirect();
                 }
             });
             
@@ -188,6 +217,12 @@
             // Initialize language
             const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
             changeLanguage(savedLanguage);
+            
+            // ANALYTICS TRACKING - INTEGRATED
+            if (typeof analytics !== 'undefined') {
+                analytics.trackPageView('stories.html');
+                analytics.trackFeatureUse('stories_page_loaded');
+            }
         });
         
         // Language Support
@@ -275,128 +310,6 @@
                 selector.value = currentLanguage;
             }
         }
-        
-        // Form submission
-        const SUPABASE_URL = 'https://sofzsursxpjmghhcphrh.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvZnpzdXJzeHBqbWdoaGNwaHJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1OTIwNTMsImV4cCI6MjA3OTE2ODA1M30.nW5ylZoVNeJAegTXqx_x0bjb1lSOsvMBnhsScYR8hf8';
-
-        function getIpHash() {
-            return 'anonymous_' + Math.random().toString(36).substr(2, 9);
-        }
-
-        async function submitToSupabase(tableName, data) {
-            try {
-                const response = await fetch(SUPABASE_URL + '/rest/v1/' + tableName, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'apikey': SUPABASE_ANON_KEY,
-                        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-                        'Prefer': 'return=minimal'
-                    },
-                    body: JSON.stringify(data)
-                });
-                return response;
-            } catch (error) {
-                console.error('Error submitting to Supabase:', error);
-                throw error;
-            }
-        }
-
-        document.getElementById('storyForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const storyData = {
-                story_title: formData.get('storyTitle'),
-                story_content: formData.get('storyContent'),
-                share_anonymously: formData.get('shareAnonymously') === 'on',
-                allow_comments: formData.get('allowComments') === 'on',
-                ip_hash: getIpHash()
-            };
-
-            try {
-                const response = await submitToSupabase('survivor_stories', storyData);
-
-                if (response.ok) {
-                    document.getElementById('successMessage').style.display = 'block';
-                    document.getElementById('storyForm').reset();
-                    setTimeout(() => {
-                        document.getElementById('successMessage').style.display = 'none';
-                    }, 5000);
-                } else {
-                    alert('Error submitting story. Please try again.');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error submitting story. Please try again.');
-            }
-        });
     </script>
-</head>
-<body>
-    <div class="header">
-        <div class="logo-text">
-            <span>GBV</span>
-            <span>SAFE</span>
-            <span>CORNER</span>
-        </div>
-        <p>Share Your Story</p>
-    </div>
-
-    <div class="nav-links">
-        <a href="index.html" data-translate="home">Home</a>
-        <a href="report.html" data-translate="report">Report Anonymously</a>
-        <a href="support.html" data-translate="support">Support Directory</a>
-        <a href="stories.html" data-translate="stories">Share Your Story</a>
-        <a href="library.html" data-translate="library">GBV Resources</a>
-        <a href="community.html" data-translate="community">Community Support</a>
-        <a href="events.html" data-translate="events">Events & Marches</a>
-        <a href="about.html" data-translate="about">About Our Mission</a>
-        <a href="safety-plan.html" data-translate="safety">Safety Planning</a>
-        <a href="risk-assessment.html" data-translate="assessment">Risk Assessment</a>
-        <a href="education-hub.html" data-translate="education">Education Hub</a>
-        <a href="login.html" data-translate="login">Admin Login</a>
-    </div>
-
-    <div class="content-section">
-        <h2 class="purple-accent">💬 Share Your Story Anonymously</h2>
-        
-        <div class="privacy-warning">
-            🔒 <strong>Privacy Protected:</strong> Your story is completely anonymous. Only share what you feel comfortable with.
-        </div>
-        
-        <div class="success-message" id="successMessage">
-            Thank you for sharing your story. It has been submitted anonymously and may help others feel less alone.
-        </div>
-
-        <form id="storyForm" autocomplete="off">
-            <div class="form-group">
-                <label for="storyTitle">Title (Optional)</label>
-                <input type="text" id="storyTitle" name="storyTitle" placeholder="A title for your story">
-            </div>
-
-            <div class="form-group">
-                <label for="storyContent">Your Story *</label>
-                <textarea id="storyContent" name="storyContent" rows="8" placeholder="Share your experience, journey, or message of hope..." required></textarea>
-            </div>
-
-            <div class="form-group">
-                <label>
-                    <input type="checkbox" id="shareAnonymously" name="shareAnonymously" checked>
-                    Share anonymously (recommended) - Your story will be visible to help others
-                </label>
-            </div>
-
-            <div class="form-group">
-                <label>
-                    <input type="checkbox" id="allowComments" name="allowComments">
-                    Allow supportive comments from community
-                </label>
-            </div>
-
-            <button type="submit" class="submit-btn">Share Your Story</button>
-        </form>
-    </div>
 </body>
 </html>
