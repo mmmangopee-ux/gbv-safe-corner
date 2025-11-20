@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#6A0DAD">
     
+    <!-- ANALYTICS INTEGRATED -->
     <script src="analytics.js"></script>
     <script src="navigation.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -38,7 +39,7 @@
         .logo-text span {
             display: block;
         }
-
+        
         .content-section { 
             background: white; 
             padding: 30px; 
@@ -52,6 +53,11 @@
             background: #f9f9f9;
             border-radius: 10px;
             border-left: 4px solid #6A0DAD;
+            transition: all 0.3s ease;
+        }
+        .safety-category:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(106, 13, 173, 0.1);
         }
         .checklist-item {
             margin: 15px 0;
@@ -59,6 +65,10 @@
             background: white;
             border-radius: 8px;
             border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        .checklist-item:hover {
+            border-color: #6A0DAD;
         }
         .checklist-item label {
             display: flex;
@@ -69,6 +79,7 @@
         .checklist-item input[type="checkbox"] {
             margin-right: 12px;
             transform: scale(1.2);
+            cursor: pointer;
         }
         .checklist-item.completed {
             background: #e8f5e8;
@@ -81,39 +92,108 @@
             justify-content: center;
             margin: 20px 0;
         }
-        .print-btn, .save-btn, .pdf-btn {
+        .print-btn, .save-btn, .pdf-btn, .clear-btn {
             padding: 12px 20px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
             transition: all 0.3s ease;
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+            font-weight: bold;
+            border: 2px solid transparent;
         }
         .print-btn {
             background: #6A0DAD;
             color: white;
+            border-color: #6A0DAD;
         }
         .print-btn:hover {
             background: #8A2BE2;
+            border-color: #8A2BE2;
+            transform: translateY(-2px);
         }
         .save-btn {
             background: #4CAF50;
             color: white;
+            border-color: #4CAF50;
         }
         .save-btn:hover {
             background: #45a049;
+            border-color: #45a049;
+            transform: translateY(-2px);
         }
         .pdf-btn {
             background: #d32f2f;
             color: white;
+            border-color: #d32f2f;
         }
         .pdf-btn:hover {
             background: #c62828;
+            border-color: #c62828;
+            transform: translateY(-2px);
+        }
+        .clear-btn {
+            background: #ff9800;
+            color: white;
+            border-color: #ff9800;
+        }
+        .clear-btn:hover {
+            background: #f57c00;
+            border-color: #f57c00;
+            transform: translateY(-2px);
         }
         .purple-accent {
             color: #6A0DAD;
         }
+        .progress-section {
+            background: #e8f4fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6A0DAD, #8A2BE2);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+        .custom-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f8f8;
+            border-radius: 5px;
+        }
+        .custom-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+        .add-custom-btn {
+            background: #6A0DAD;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
         
+        /* Enhanced Emergency Exit */
         .emergency-exit {
             position: fixed;
             bottom: 20px;
@@ -130,8 +210,15 @@
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(255,0,0,0.4);
             font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .emergency-exit-btn:hover {
+            background: #ff5252;
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(255,0,0,0.5);
         }
         
+        /* Language Selector */
         #languageSelector {
             position: fixed;
             top: 20px;
@@ -143,16 +230,44 @@
             background: white;
             color: #6A0DAD;
             font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #languageSelector:hover {
+            background: #6A0DAD;
+            color: white;
         }
         
+        /* Accessibility */
+        :focus {
+            outline: 3px solid #6A0DAD;
+            outline-offset: 2px;
+        }
+
+        /* Mobile Responsive */
         @media (max-width: 768px) {
             .action-buttons {
                 flex-direction: column;
             }
             
-            .print-btn, .save-btn, .pdf-btn {
+            .print-btn, .save-btn, .pdf-btn, .clear-btn {
                 width: 100%;
             }
+            
+            .safety-category {
+                padding: 15px;
+            }
+            
+            .checklist-item {
+                padding: 12px;
+            }
+        }
+
+        @media print {
+            .no-print { display: none; }
+            body { background: white; }
+            .content-section { box-shadow: none; border: 1px solid #ddd; }
+            .safety-category { break-inside: avoid; }
         }
     </style>
 </head>
@@ -166,16 +281,25 @@
         <p>Safety Planning Tool</p>
     </div>
 
-    <!-- Navigation will be automatically inserted here by navigation.js -->
+    <!-- Navigation auto-loaded here -->
 
     <div class="content-section">
         <h2 class="purple-accent">🛡️ Personal Safety Plan</h2>
-        <p>Create a personalized safety plan. Your responses are not saved online - this is for your personal use only.</p>
+        <p>Create a personalized safety plan. Your responses are not saved online - this is for your personal use only. All data stays on your device.</p>
         
+        <div class="progress-section">
+            <h3>Your Safety Plan Progress</h3>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <p id="progressText">0% Complete - Start building your safety plan</p>
+        </div>
+
         <div class="action-buttons no-print">
-            <button class="print-btn" onclick="window.print()">🖨️ Print Plan</button>
+            <button class="print-btn" onclick="window.print()">🖨️ Print Safety Plan</button>
             <button class="save-btn" onclick="savePlan()">💾 Save Progress</button>
             <button class="pdf-btn" onclick="generateSafetyPlanPDF()">📄 Download PDF</button>
+            <button class="clear-btn" onclick="clearPlan()">🗑️ Clear All</button>
         </div>
 
         <div class="safety-category">
@@ -195,7 +319,7 @@
             <div class="checklist-item">
                 <label>
                     <input type="checkbox" onchange="toggleCompleted(this)">
-                    Keep phone charged and accessible
+                    Keep phone charged and accessible at all times
                 </label>
             </div>
             <div class="checklist-item">
@@ -204,13 +328,343 @@
                     Teach children how to call emergency services
                 </label>
             </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Have a code word with trusted neighbors for emergencies
+                </label>
+            </div>
+            <div class="custom-item">
+                <input type="text" class="custom-input" id="customHome" placeholder="➕ Add your own home safety item...">
+                <button class="add-custom-btn" onclick="addCustomItem('home')">Add Item</button>
+            </div>
         </div>
 
-        <!-- Rest of your safety plan content remains the same -->
+        <div class="safety-category">
+            <h3 class="purple-accent">📞 Emergency Contacts & Support</h3>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Memorize 2-3 emergency numbers
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Identify safe neighbors who can help
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Save emergency contacts under code names in phone
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Establish check-in times with trusted friends/family
+                </label>
+            </div>
+            <div class="custom-item">
+                <input type="text" class="custom-input" id="customContacts" placeholder="➕ Add emergency contact information...">
+                <button class="add-custom-btn" onclick="addCustomItem('contacts')">Add Contact</button>
+            </div>
+        </div>
+
+        <div class="safety-category">
+            <h3 class="purple-accent">💼 Important Documents & Essentials</h3>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Keep IDs, passports, and important documents in safe place
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Have copies of important documents with trusted person
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Save emergency money in hidden location
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Pack emergency bag with essentials (medication, clothes, cash)
+                </label>
+            </div>
+            <div class="custom-item">
+                <input type="text" class="custom-input" id="customDocuments" placeholder="➕ Add important document reminder...">
+                <button class="add-custom-btn" onclick="addCustomItem('documents')">Add Item</button>
+            </div>
+        </div>
+
+        <div class="safety-category">
+            <h3 class="purple-accent">🔄 Daily Safety Routines</h3>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Vary daily routines and travel routes
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Inform trusted people of your whereabouts
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Avoid isolated areas when alone
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Trust your instincts - if something feels wrong, leave
+                </label>
+            </div>
+            <div class="custom-item">
+                <input type="text" class="custom-input" id="customRoutines" placeholder="➕ Add your daily safety routine...">
+                <button class="add-custom-btn" onclick="addCustomItem('routines')">Add Routine</button>
+            </div>
+        </div>
+
+        <div class="safety-category">
+            <h3 class="purple-accent">📱 Digital Safety & Privacy</h3>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Use private browsing mode when accessing support resources
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Clear browser history regularly
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Use strong, unique passwords for all accounts
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Be cautious about location sharing on social media
+                </label>
+            </div>
+            <div class="custom-item">
+                <input type="text" class="custom-input" id="customDigital" placeholder="➕ Add digital safety tip...">
+                <button class="add-custom-btn" onclick="addCustomItem('digital')">Add Tip</button>
+            </div>
+        </div>
+
+        <div class="safety-category">
+            <h3 class="purple-accent">🚨 Emergency Protocol</h3>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Know the quickest route to nearest police station
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Identify safe places to go in an emergency (friends, family, shelters)
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Practice emergency scenarios with children if applicable
+                </label>
+            </div>
+            <div class="checklist-item">
+                <label>
+                    <input type="checkbox" onchange="toggleCompleted(this)">
+                    Keep car fueled and ready for quick departure
+                </label>
+            </div>
+            <div class="custom-item">
+                <input type="text" class="custom-input" id="customEmergency" placeholder="➕ Add emergency protocol step...">
+                <button class="add-custom-btn" onclick="addCustomItem('emergency')">Add Step</button>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <h3>Emergency Contacts Quick Reference</h3>
+            <div style="text-align: left; background: white; padding: 20px; border-radius: 8px; margin: 15px 0;">
+                <p><strong>GBV Command Centre:</strong> 0800 428 428</p>
+                <p><strong>Police Emergency:</strong> 10111</p>
+                <p><strong>Lifeline Counseling:</strong> 0861 322 322</p>
+                <p><strong>Suicide Crisis Line:</strong> 0800 567 567</p>
+                <p><strong>Childline:</strong> 0800 055 555</p>
+                <p><strong>Your Trusted Contacts:</strong> ___________________</p>
+            </div>
+        </div>
     </div>
 
     <script>
-        // Your existing JavaScript functions here
+        // Enhanced Security & Privacy
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.pathname);
+        }
+        
+        // Enhanced Emergency Exit
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create emergency exit button
+            const emergencyExit = document.createElement('div');
+            emergencyExit.className = 'emergency-exit';
+            emergencyExit.innerHTML = `
+                <button onclick="emergencyRedirect()" 
+                        title="Quickly leaves this site and clears data"
+                        class="emergency-exit-btn">
+                    🚨 Quick Exit
+                </button>
+            `;
+            document.body.appendChild(emergencyExit);
+
+            // Enhanced emergency redirect
+            window.emergencyRedirect = function() {
+                // Clear sensitive data
+                localStorage.removeItem('safetyPlanProgress');
+                localStorage.removeItem('customSafetyItems');
+                sessionStorage.clear();
+                document.querySelectorAll('input, textarea').forEach(element => {
+                    element.value = '';
+                });
+                // Redirect to safe page
+                window.location.href = 'https://www.google.com/search?q=weather';
+            };
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' || (e.ctrlKey && e.key === 'q')) {
+                    emergencyRedirect();
+                }
+            });
+            
+            // Create Language Selector
+            const languageSelector = document.createElement('select');
+            languageSelector.id = 'languageSelector';
+            languageSelector.innerHTML = `
+                <option value="en">English</option>
+                <option value="zu">Zulu</option>
+                <option value="xh">Xhosa</option>
+                <option value="af">Afrikaans</option>
+            `;
+            languageSelector.onchange = (e) => changeLanguage(e.target.value);
+            document.body.appendChild(languageSelector);
+            
+            // Initialize language
+            const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
+            changeLanguage(savedLanguage);
+            
+            // Load saved progress
+            loadSavedProgress();
+            
+            // ANALYTICS TRACKING - INTEGRATED
+            if (typeof analytics !== 'undefined') {
+                analytics.trackPageView('safety-plan.html');
+                analytics.trackFeatureUse('safety_plan_loaded');
+            }
+        });
+        
+        // Language Support
+        const translations = {
+            en: {
+                'home': 'Home',
+                'report': 'Report',
+                'support': 'Support',
+                'stories': 'Stories',
+                'library': 'Resources',
+                'community': 'Community',
+                'events': 'Events',
+                'about': 'About',
+                'safety': 'Safety',
+                'assessment': 'Risk Check',
+                'education': 'Education',
+                'login': 'Admin'
+            },
+            zu: {
+                'home': 'Ikhaya',
+                'report': 'Bika',
+                'support': 'Usizo',
+                'stories': 'Izindaba',
+                'library': 'Izinsiza',
+                'community': 'Umphakathi',
+                'events': 'Imicimbi',
+                'about': 'Mayelana',
+                'safety': 'Ukuphepha',
+                'assessment': 'Ukuhlola',
+                'education': 'Imfundo',
+                'login': 'Admin'
+            },
+            xh: {
+                'home': 'Ekhaya',
+                'report': 'Xela',
+                'support': 'Uncedo',
+                'stories': 'Iimbali',
+                'library': 'Iindlela',
+                'community': 'Uluntu',
+                'events': 'Iivenkile',
+                'about': 'Malunga',
+                'safety': 'Ukhuseleko',
+                'assessment': 'Uvavanyo',
+                'education': 'Imfundo',
+                'login': 'Admin'
+            },
+            af: {
+                'home': 'Tuis',
+                'report': 'Rapporteer',
+                'support': 'Ondersteuning',
+                'stories': 'Stories',
+                'library': 'Hulpbronne',
+                'community': 'Gemeenskap',
+                'events': 'Gebeure',
+                'about': 'Oor',
+                'safety': 'Veiligheid',
+                'assessment': 'Risiko',
+                'education': 'Onderrig',
+                'login': 'Admin'
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('preferredLanguage', lang);
+            applyTranslations();
+            updateLanguageSelector();
+        }
+
+        function applyTranslations() {
+            const elements = document.querySelectorAll('[data-translate]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[currentLanguage] && translations[currentLanguage][key]) {
+                    element.textContent = translations[currentLanguage][key];
+                }
+            });
+        }
+
+        function updateLanguageSelector() {
+            const selector = document.getElementById('languageSelector');
+            if (selector) {
+                selector.value = currentLanguage;
+            }
+        }
+        
         function toggleCompleted(checkbox) {
             const item = checkbox.closest('.checklist-item');
             if (checkbox.checked) {
@@ -218,25 +672,221 @@
             } else {
                 item.classList.remove('completed');
             }
+            updateProgress();
+            
+            // ANALYTICS TRACKING - INTEGRATED
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse('checklist_toggle');
+            }
+        }
+
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const completed = document.querySelectorAll('input[type="checkbox"]:checked');
+            const progress = (completed.length / checkboxes.length) * 100;
+            
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            let progressText = '';
+            if (progress === 0) {
+                progressText = '0% Complete - Start building your safety plan';
+            } else if (progress < 25) {
+                progressText = Math.round(progress) + '% Complete - Great start!';
+            } else if (progress < 50) {
+                progressText = Math.round(progress) + '% Complete - Making good progress!';
+            } else if (progress < 75) {
+                progressText = Math.round(progress) + '% Complete - Almost there!';
+            } else if (progress < 100) {
+                progressText = Math.round(progress) + '% Complete - Excellent work!';
+            } else {
+                progressText = '100% Complete - Your safety plan is ready!';
+            }
+            
+            document.getElementById('progressText').textContent = progressText;
         }
 
         function savePlan() {
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
             const progress = {};
+            
             checkboxes.forEach((cb, index) => {
                 progress[`item_${index}`] = cb.checked; 
             });
+            
+            // Save custom items
+            const customItems = {};
+            const customInputs = ['customHome', 'customContacts', 'customDocuments', 'customRoutines', 'customDigital', 'customEmergency'];
+            customInputs.forEach(id => {
+                customItems[id] = document.getElementById(id).value;
+            });
+            
             localStorage.setItem('safetyPlanProgress', JSON.stringify(progress));
+            localStorage.setItem('customSafetyItems', JSON.stringify(customItems));
+            
             alert('Safety plan progress saved locally on your device.');
+            
+            // ANALYTICS TRACKING - INTEGRATED
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse('safety_plan_save');
+            }
+        }
+
+        function loadSavedProgress() {
+            const saved = localStorage.getItem('safetyPlanProgress');
+            const customSaved = localStorage.getItem('customSafetyItems');
+            
+            if (saved) {
+                const progress = JSON.parse(saved);
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                
+                checkboxes.forEach((cb, index) => {
+                    if (progress[`item_${index}`]) {
+                        cb.checked = true;
+                        cb.closest('.checklist-item').classList.add('completed');
+                    }
+                });
+            }
+            
+            if (customSaved) {
+                const customItems = JSON.parse(customSaved);
+                Object.keys(customItems).forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.value = customItems[id];
+                    }
+                });
+            }
+            
+            updateProgress();
+        }
+
+        function clearPlan() {
+            if (confirm('Are you sure you want to clear your entire safety plan? This cannot be undone.')) {
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(cb => {
+                    cb.checked = false;
+                    cb.closest('.checklist-item').classList.remove('completed');
+                });
+                
+                const customInputs = ['customHome', 'customContacts', 'customDocuments', 'customRoutines', 'customDigital', 'customEmergency'];
+                customInputs.forEach(id => {
+                    document.getElementById(id).value = '';
+                });
+                
+                localStorage.removeItem('safetyPlanProgress');
+                localStorage.removeItem('customSafetyItems');
+                
+                updateProgress();
+                
+                // ANALYTICS TRACKING - INTEGRATED
+                if (typeof analytics !== 'undefined') {
+                    analytics.trackFeatureUse('safety_plan_cleared');
+                }
+                
+                alert('Safety plan cleared successfully.');
+            }
+        }
+
+        function addCustomItem(category) {
+            const inputId = 'custom' + category.charAt(0).toUpperCase() + category.slice(1);
+            const input = document.getElementById(inputId);
+            const text = input.value.trim();
+            
+            if (text) {
+                const categoryElement = input.closest('.safety-category');
+                const newItem = document.createElement('div');
+                newItem.className = 'checklist-item';
+                newItem.innerHTML = `
+                    <label>
+                        <input type="checkbox" onchange="toggleCompleted(this)">
+                        ${text}
+                    </label>
+                `;
+                
+                categoryElement.insertBefore(newItem, input.parentElement);
+                input.value = '';
+                
+                // ANALYTICS TRACKING - INTEGRATED
+                if (typeof analytics !== 'undefined') {
+                    analytics.trackFeatureUse('custom_item_added');
+                }
+            }
         }
         
-        // Emergency exit and other functions
-        document.addEventListener('DOMContentLoaded', function() {
-            const emergencyExit = document.createElement('div');
-            emergencyExit.className = 'emergency-exit';
-            emergencyExit.innerHTML = `<button onclick="window.location.href='https://www.google.com/search?q=weather'" class="emergency-exit-btn">🚨 Quick Exit</button>`;
-            document.body.appendChild(emergencyExit);
-        });
+        // Enhanced PDF Generator
+        function generateSafetyPlanPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Title
+            doc.setFontSize(20);
+            doc.setTextColor(106, 13, 173);
+            doc.text('Personal Safety Plan - GBV Safe Corner', 20, 20);
+            
+            // Emergency Contacts
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            doc.text('Emergency Contacts:', 20, 35);
+            doc.text('GBV Command Centre: 0800 428 428', 25, 45);
+            doc.text('Police Emergency: 10111', 25, 55);
+            doc.text('Lifeline Counseling: 0861 322 322', 25, 65);
+            doc.text('Suicide Crisis Line: 0800 567 567', 25, 75);
+            
+            // Content from checklists
+            let yPosition = 95;
+            const categories = document.querySelectorAll('.safety-category');
+            
+            categories.forEach(category => {
+                const title = category.querySelector('h3').textContent;
+                const items = category.querySelectorAll('.checklist-item');
+                
+                // Check if we need a new page
+                if (yPosition > 250) {
+                    doc.addPage();
+                    yPosition = 20;
+                }
+                
+                // Category title
+                doc.setFontSize(14);
+                doc.setTextColor(106, 13, 173);
+                doc.text(title, 20, yPosition);
+                yPosition += 10;
+                
+                // Items
+                doc.setFontSize(10);
+                doc.setTextColor(0, 0, 0);
+                
+                items.forEach(item => {
+                    const text = item.querySelector('label').textContent.trim();
+                    const isCompleted = item.classList.contains('completed');
+                    const status = isCompleted ? '✓ Completed' : '□ Pending';
+                    
+                    if (yPosition > 270) {
+                        doc.addPage();
+                        yPosition = 20;
+                    }
+                    
+                    doc.text(`• ${text} - ${status}`, 25, yPosition);
+                    yPosition += 8;
+                });
+                
+                yPosition += 10;
+            });
+            
+            // Footer
+            doc.setFontSize(8);
+            doc.setTextColor(100, 100, 100);
+            doc.text('Generated by GBV Safe Corner - ' + new Date().toLocaleDateString(), 20, 280);
+            doc.text('Keep this plan in a safe, accessible location', 20, 285);
+            
+            // Save the PDF
+            doc.save('gbv-safety-plan.pdf');
+            
+            // ANALYTICS TRACKING - INTEGRATED
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse('pdf_download');
+            }
+        }
     </script>
 </body>
 </html>
