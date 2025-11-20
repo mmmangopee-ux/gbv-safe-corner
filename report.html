@@ -2,7 +2,17 @@
 <html>
 <head>
     <title>Report Anonymously - GBV Safe Corner</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#6A0DAD">
+    
+    <!-- ANALYTICS INTEGRATED -->
+    <script src="analytics.js"></script>
+    <script src="navigation.js"></script>
+    <script src="supabase-config.js"></script>
+    
     <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
             font-family: Arial, sans-serif; 
             max-width: 900px; 
@@ -29,24 +39,7 @@
         .logo-text span {
             display: block;
         }
-        .nav-links { 
-            text-align: center; 
-            margin: 20px 0; 
-            padding: 15px; 
-            background: white; 
-            border-radius: 10px; 
-            box-shadow: 0 2px 4px rgba(106, 13, 173, 0.1);
-        }
-        .nav-links a { 
-            margin: 0 15px; 
-            text-decoration: none; 
-            color: #6A0DAD; 
-            font-weight: bold; 
-            transition: color 0.3s ease;
-        }
-        .nav-links a:hover {
-            color: #8A2BE2;
-        }
+        
         .content-section { 
             background: white; 
             padding: 30px; 
@@ -93,6 +86,14 @@
             margin: 15px 0;
             display: none;
         }
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            display: none;
+        }
         .privacy-warning {
             background: #fff3cd;
             border: 1px solid #ffeaa7;
@@ -105,7 +106,7 @@
             color: #6A0DAD;
         }
         
-        /* Emergency Exit Button */
+        /* Enhanced Emergency Exit */
         .emergency-exit {
             position: fixed;
             bottom: 20px;
@@ -144,32 +145,220 @@
             font-size: 14px;
             cursor: pointer;
         }
+        
+        /* Accessibility */
+        :focus {
+            outline: 3px solid #6A0DAD;
+            outline-offset: 2px;
+        }
+
+        /* Loading spinner */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #6A0DAD;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
-    
+</head>
+<body>
+    <div class="header">
+        <div class="logo-text">
+            <span>GBV</span>
+            <span>SAFE</span>
+            <span>CORNER</span>
+        </div>
+        <p>Anonymous Reporting</p>
+    </div>
+
+    <!-- Navigation auto-loaded here -->
+
+    <div class="content-section">
+        <h2 class="purple-accent">📝 File an Anonymous Report</h2>
+        
+        <div class="privacy-warning">
+            🔒 <strong>Privacy Tip:</strong> Use private browsing mode and clear your history after submitting. Your report is completely anonymous.
+        </div>
+        
+        <div class="success-message" id="successMessage">
+            ✅ Thank you for your report. It has been submitted anonymously and is completely private.
+        </div>
+
+        <div class="error-message" id="errorMessage">
+            ❌ There was an error submitting your report. Please try again or use alternative reporting methods.
+        </div>
+
+        <div class="loading" id="loadingSpinner">
+            <div class="spinner"></div>
+            <p>Submitting your anonymous report...</p>
+        </div>
+
+        <form id="reportForm" autocomplete="off">
+            <div class="form-group">
+                <label for="incidentType">Type of Incident *</label>
+                <select id="incidentType" name="incidentType" required>
+                    <option value="">Select type...</option>
+                    <option value="domestic_violence">Domestic Violence</option>
+                    <option value="sexual_assault">Sexual Assault</option>
+                    <option value="emotional_abuse">Emotional Abuse</option>
+                    <option value="financial_abuse">Financial Abuse</option>
+                    <option value="harassment">Harassment</option>
+                    <option value="stalking">Stalking</option>
+                    <option value="workplace_violence">Workplace Violence</option>
+                    <option value="child_abuse">Child Abuse</option>
+                    <option value="elder_abuse">Elder Abuse</option>
+                    <option value="technology_facilitated">Technology-Facilitated Abuse</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="location">Location (Optional)</label>
+                <input type="text" id="location" name="location" placeholder="City, area, or neighborhood">
+            </div>
+
+            <div class="form-group">
+                <label for="dateOccurred">When did this happen? (Optional)</label>
+                <input type="date" id="dateOccurred" name="dateOccurred">
+            </div>
+
+            <div class="form-group">
+                <label for="timeOccurred">Approximate Time (Optional)</label>
+                <input type="time" id="timeOccurred" name="timeOccurred">
+            </div>
+
+            <div class="form-group">
+                <label for="description">What happened? *</label>
+                <textarea id="description" name="description" rows="6" placeholder="Please describe the incident in as much detail as you feel comfortable sharing..." required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="perpetratorRelationship">Relationship to Perpetrator (Optional)</label>
+                <select id="perpetratorRelationship" name="perpetratorRelationship">
+                    <option value="">Select relationship...</option>
+                    <option value="partner">Current Partner</option>
+                    <option value="ex_partner">Former Partner</option>
+                    <option value="family_member">Family Member</option>
+                    <option value="friend">Friend</option>
+                    <option value="colleague">Colleague</option>
+                    <option value="employer">Employer</option>
+                    <option value="stranger">Stranger</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="witnesses">Were there any witnesses? (Optional)</label>
+                <select id="witnesses" name="witnesses">
+                    <option value="">Select...</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                    <option value="unsure">Unsure</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="evidence">Do you have any evidence? (Optional)</label>
+                <select id="evidence" name="evidence">
+                    <option value="">Select...</option>
+                    <option value="photos">Photos</option>
+                    <option value="messages">Texts/Messages</option>
+                    <option value="emails">Emails</option>
+                    <option value="medical_records">Medical Records</option>
+                    <option value="other">Other</option>
+                    <option value="none">No evidence</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="needsSupport" name="needsSupport">
+                    I would like to be connected with support services
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="immediateDanger" name="immediateDanger">
+                    I am in immediate danger right now
+                </label>
+            </div>
+
+            <div class="form-group" id="emergencyAlert" style="display: none;">
+                <div class="privacy-warning" style="background: #f8d7da; border-color: #f5c6cb;">
+                    🚨 <strong>IMMEDIATE DANGER:</strong> Please call emergency services immediately at <strong>10111</strong> or GBV Command Centre at <strong>0800 428 428</strong>. Your safety is the top priority.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="consent" name="consent" required>
+                    I understand this report is anonymous and no personal information is collected *
+                </label>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitButton">Submit Report Anonymously</button>
+        </form>
+
+        <div class="privacy-warning" style="margin-top: 30px;">
+            <strong>Remember:</strong> 
+            <ul style="margin: 10px 0; padding-left: 20px;">
+                <li>This report is completely anonymous</li>
+                <li>No IP addresses or personal data are stored</li>
+                <li>You cannot be identified through this system</li>
+                <li>For immediate danger, always call emergency services first</li>
+            </ul>
+        </div>
+    </div>
+
     <script>
-        // Browser History Protection
+        // Enhanced Security & Privacy
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.pathname);
         }
         
-        // Emergency Exit Functionality
+        // Enhanced Emergency Exit
         document.addEventListener('DOMContentLoaded', function() {
             // Create emergency exit button
             const emergencyExit = document.createElement('div');
             emergencyExit.className = 'emergency-exit';
             emergencyExit.innerHTML = `
-                <button onclick="window.location.href='https://www.google.com/search?q=weather'" 
-                        title="Quickly leaves this site"
+                <button onclick="emergencyRedirect()" 
+                        title="Quickly leaves this site and clears data"
                         class="emergency-exit-btn">
                     🚨 Quick Exit
                 </button>
             `;
             document.body.appendChild(emergencyExit);
 
-            // Add keyboard shortcut (Esc key)
+            // Enhanced emergency redirect
+            window.emergencyRedirect = function() {
+                // Clear sensitive data
+                localStorage.removeItem('safetyPlanProgress');
+                sessionStorage.clear();
+                document.querySelectorAll('input, textarea').forEach(element => {
+                    element.value = '';
+                });
+                // Redirect to safe page
+                window.location.href = 'https://www.google.com/search?q=weather';
+            };
+
+            // Keyboard shortcuts
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    window.location.href = 'https://www.google.com/search?q=weather';
+                if (e.key === 'Escape' || (e.ctrlKey && e.key === 'q')) {
+                    emergencyRedirect();
                 }
             });
             
@@ -188,65 +377,76 @@
             // Initialize language
             const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
             changeLanguage(savedLanguage);
+            
+            // ANALYTICS TRACKING - INTEGRATED
+            if (typeof analytics !== 'undefined') {
+                analytics.trackPageView('report.html');
+                analytics.trackFeatureUse('report_page_loaded');
+            }
+
+            // Immediate danger alert
+            document.getElementById('immediateDanger').addEventListener('change', function() {
+                document.getElementById('emergencyAlert').style.display = this.checked ? 'block' : 'none';
+            });
         });
         
         // Language Support
         const translations = {
             en: {
                 'home': 'Home',
-                'report': 'Report Anonymously',
-                'support': 'Support Directory',
-                'stories': 'Share Your Story',
-                'library': 'GBV Resources',
-                'community': 'Community Support',
-                'events': 'Events & Marches',
-                'about': 'About Our Mission',
-                'safety': 'Safety Planning',
-                'assessment': 'Risk Assessment',
-                'education': 'Education Hub',
-                'login': 'Admin Login'
+                'report': 'Report',
+                'support': 'Support',
+                'stories': 'Stories',
+                'library': 'Resources',
+                'community': 'Community',
+                'events': 'Events',
+                'about': 'About',
+                'safety': 'Safety',
+                'assessment': 'Risk Check',
+                'education': 'Education',
+                'login': 'Admin'
             },
             zu: {
                 'home': 'Ikhaya',
-                'report': 'Bika Ngokungaziwa',
-                'support': 'Uhlu Lwezinsiza',
-                'stories': 'Yabelana Ngendaba Yakho',
-                'library': 'Izinsiza Ze-GBV',
-                'community': 'Ukusekelwa Komphakathi',
-                'events': 'Imicimbi Nemarch',
-                'about': 'Mayelana Nomgomo Wethu',
-                'safety': 'Ukuhlela Ukuphepha',
-                'assessment': 'Ukuhlola Ubungozi',
-                'education': 'I-Hub Yemfundo',
-                'login': 'Ukungena Kwe-Admin'
+                'report': 'Bika',
+                'support': 'Usizo',
+                'stories': 'Izindaba',
+                'library': 'Izinsiza',
+                'community': 'Umphakathi',
+                'events': 'Imicimbi',
+                'about': 'Mayelana',
+                'safety': 'Ukuphepha',
+                'assessment': 'Ukuhlola',
+                'education': 'Imfundo',
+                'login': 'Admin'
             },
             xh: {
                 'home': 'Ekhaya',
-                'report': 'Xela Ngokungaziwa',
-                'support': 'Uluhlu Looncedo',
-                'stories': 'Yabelana Ngembali Yakho',
-                'library': 'Iindlela Zoncedo Ze-GBV',
-                'community': 'Inkxaso YoLuntu',
-                'events': 'Iivenkile Neemarch',
-                'about': 'Malunga Neenjongo Zethu',
-                'safety': 'Uyilo LoKhuseleko',
-                'assessment': 'Uvavanyo LoMngcipheko',
-                'education': 'I-Hub YeMfundo',
-                'login': 'Ungeno Lwe-Admin'
+                'report': 'Xela',
+                'support': 'Uncedo',
+                'stories': 'Iimbali',
+                'library': 'Iindlela',
+                'community': 'Uluntu',
+                'events': 'Iivenkile',
+                'about': 'Malunga',
+                'safety': 'Ukhuseleko',
+                'assessment': 'Uvavanyo',
+                'education': 'Imfundo',
+                'login': 'Admin'
             },
             af: {
                 'home': 'Tuis',
-                'report': 'Rapporteer Anoniem',
-                'support': 'Ondersteuningsgids',
-                'stories': 'Deel Jou Storie',
-                'library': 'GBV Hulpbronne',
-                'community': 'Gemeenskapsondersteuning',
-                'events': 'Gebeure & Optogte',
-                'about': 'Oor Ons Missie',
-                'safety': 'Veiligheidsbeplanning',
-                'assessment': 'Risiko-assessering',
-                'education': 'Onderrig Sentrum',
-                'login': 'Admin Aanteken'
+                'report': 'Rapporteer',
+                'support': 'Ondersteuning',
+                'stories': 'Stories',
+                'library': 'Hulpbronne',
+                'community': 'Gemeenskap',
+                'events': 'Gebeure',
+                'about': 'Oor',
+                'safety': 'Veiligheid',
+                'assessment': 'Risiko',
+                'education': 'Onderrig',
+                'login': 'Admin'
             }
         };
 
@@ -276,7 +476,7 @@
             }
         }
         
-        // Form submission
+        // Form submission with enhanced functionality
         const SUPABASE_URL = 'https://sofzsursxpjmghhcphrh.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvZnpzdXJzeHBqbWdoaGNwaHJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1OTIwNTMsImV4cCI6MjA3OTE2ODA1M30.nW5ylZoVNeJAegTXqx_x0bjb1lSOsvMBnhsScYR8hf8';
 
@@ -284,7 +484,40 @@
             return 'anonymous_' + Math.random().toString(36).substr(2, 9);
         }
 
+        function getSessionId() {
+            let sessionId = sessionStorage.getItem('gbv_session_id');
+            if (!sessionId) {
+                sessionId = 'session_' + Math.random().toString(36).substr(2, 9);
+                sessionStorage.setItem('gbv_session_id', sessionId);
+            }
+            return sessionId;
+        }
+
+        let lastSubmission = 0;
+        const SUBMISSION_DELAY = 5000;
+
+        function canSubmit() {
+            const now = Date.now();
+            if (now - lastSubmission < SUBMISSION_DELAY) {
+                alert('Please wait a few seconds before submitting again.');
+                return false;
+            }
+            lastSubmission = now;
+            return true;
+        }
+
         async function submitToSupabase(tableName, data) {
+            if (!canSubmit()) {
+                throw new Error('Rate limit exceeded');
+            }
+            
+            const enhancedData = {
+                ...data,
+                submitted_at: new Date().toISOString(),
+                session_id: getSessionId(),
+                ip_hash: getIpHash()
+            };
+            
             try {
                 const response = await fetch(SUPABASE_URL + '/rest/v1/' + tableName, {
                     method: 'POST',
@@ -294,7 +527,7 @@
                         'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
                         'Prefer': 'return=minimal'
                     },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify(enhancedData)
                 });
                 return response;
             } catch (error) {
@@ -306,14 +539,25 @@
         document.getElementById('reportForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
+            // Show loading spinner
+            document.getElementById('loadingSpinner').style.display = 'block';
+            document.getElementById('submitButton').disabled = true;
+            document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('errorMessage').style.display = 'none';
+
             const formData = new FormData(this);
             const reportData = {
                 incident_type: formData.get('incidentType'),
                 location: formData.get('location'),
                 description: formData.get('description'),
                 date_occurred: formData.get('dateOccurred'),
+                time_occurred: formData.get('timeOccurred'),
+                perpetrator_relationship: formData.get('perpetratorRelationship'),
+                witnesses: formData.get('witnesses'),
+                evidence: formData.get('evidence'),
                 needs_support: formData.get('needsSupport') === 'on',
-                ip_hash: getIpHash()
+                immediate_danger: formData.get('immediateDanger') === 'on',
+                consent_given: formData.get('consent') === 'on'
             };
 
             try {
@@ -322,94 +566,66 @@
                 if (response.ok) {
                     document.getElementById('successMessage').style.display = 'block';
                     document.getElementById('reportForm').reset();
+                    
+                    // ANALYTICS TRACKING - INTEGRATED
+                    if (typeof analytics !== 'undefined') {
+                        analytics.trackFeatureUse('report_submitted_success');
+                    }
+                    
                     setTimeout(() => {
                         document.getElementById('successMessage').style.display = 'none';
-                    }, 5000);
+                    }, 8000);
                 } else {
-                    alert('Error submitting report. Please try again.');
+                    throw new Error('Server response not OK');
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('Error submitting report. Please try again.');
+                document.getElementById('errorMessage').style.display = 'block';
+                
+                // ANALYTICS TRACKING - INTEGRATED
+                if (typeof analytics !== 'undefined') {
+                    analytics.trackError(error, 'report_submission_failed');
+                }
+            } finally {
+                document.getElementById('loadingSpinner').style.display = 'none';
+                document.getElementById('submitButton').disabled = false;
             }
         });
+
+        // Auto-save draft functionality
+        let autoSaveTimer;
+        document.getElementById('reportForm').addEventListener('input', function() {
+            clearTimeout(autoSaveTimer);
+            autoSaveTimer = setTimeout(() => {
+                const formData = new FormData(this);
+                const draft = {};
+                for (let [key, value] of formData.entries()) {
+                    draft[key] = value;
+                }
+                localStorage.setItem('reportDraft', JSON.stringify(draft));
+            }, 2000);
+        });
+
+        // Load draft on page load
+        const savedDraft = localStorage.getItem('reportDraft');
+        if (savedDraft) {
+            const draft = JSON.parse(savedDraft);
+            Object.keys(draft).forEach(key => {
+                const element = document.querySelector(`[name="${key}"]`);
+                if (element) {
+                    if (element.type === 'checkbox') {
+                        element.checked = draft[key] === 'on';
+                    } else {
+                        element.value = draft[key];
+                    }
+                }
+            });
+            
+            // Clear draft after loading
+            setTimeout(() => {
+                localStorage.removeItem('reportDraft');
+            }, 1000);
+        }
     </script>
-</head>
-<body>
-    <div class="header">
-        <div class="logo-text">
-            <span>GBV</span>
-            <span>SAFE</span>
-            <span>CORNER</span>
-        </div>
-        <p>Anonymous Reporting</p>
-    </div>
-
-    <div class="nav-links">
-        <a href="index.html" data-translate="home">Home</a>
-        <a href="report.html" data-translate="report">Report Anonymously</a>
-        <a href="support.html" data-translate="support">Support Directory</a>
-        <a href="stories.html" data-translate="stories">Share Your Story</a>
-        <a href="library.html" data-translate="library">GBV Resources</a>
-        <a href="community.html" data-translate="community">Community Support</a>
-        <a href="events.html" data-translate="events">Events & Marches</a>
-        <a href="about.html" data-translate="about">About Our Mission</a>
-        <a href="safety-plan.html" data-translate="safety">Safety Planning</a>
-        <a href="risk-assessment.html" data-translate="assessment">Risk Assessment</a>
-        <a href="education-hub.html" data-translate="education">Education Hub</a>
-        <a href="login.html" data-translate="login">Admin Login</a>
-    </div>
-
-    <div class="content-section">
-        <h2 class="purple-accent">📝 File an Anonymous Report</h2>
-        
-        <div class="privacy-warning">
-            🔒 <strong>Privacy Tip:</strong> Use private browsing mode and clear your history after submitting. Your report is completely anonymous.
-        </div>
-        
-        <div class="success-message" id="successMessage">
-            Thank you for your report. It has been submitted anonymously and is completely private.
-        </div>
-
-        <form id="reportForm" autocomplete="off">
-            <div class="form-group">
-                <label for="incidentType">Type of Incident *</label>
-                <select id="incidentType" name="incidentType" required>
-                    <option value="">Select type...</option>
-                    <option value="domestic_violence">Domestic Violence</option>
-                    <option value="sexual_assault">Sexual Assault</option>
-                    <option value="emotional_abuse">Emotional Abuse</option>
-                    <option value="financial_abuse">Financial Abuse</option>
-                    <option value="harassment">Harassment</option>
-                    <option value="stalking">Stalking</option>
-                    <option value="other">Other</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="location">Location (Optional)</label>
-                <input type="text" id="location" name="location" placeholder="City, area, or neighborhood">
-            </div>
-
-            <div class="form-group">
-                <label for="dateOccurred">When did this happen? (Optional)</label>
-                <input type="date" id="dateOccurred" name="dateOccurred">
-            </div>
-
-            <div class="form-group">
-                <label for="description">What happened? *</label>
-                <textarea id="description" name="description" rows="6" placeholder="Please describe the incident..." required></textarea>
-            </div>
-
-            <div class="form-group">
-                <label>
-                    <input type="checkbox" id="needsSupport" name="needsSupport">
-                    I would like to be connected with support services
-                </label>
-            </div>
-
-            <button type="submit" class="submit-btn">Submit Report Anonymously</button>
-        </form>
-    </div>
 </body>
 </html>
