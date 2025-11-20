@@ -16,9 +16,12 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         .refresh-btn { background: #8B0000; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 15px; }
+        .logout-btn { background: #666; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; position: absolute; top: 20px; right: 20px; }
     </style>
 </head>
 <body>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+
     <div class="header">
         <h1>GBV Safe Corner - Admin Panel</h1>
         <p>View Submitted Data</p>
@@ -55,11 +58,30 @@
     </div>
 
     <script>
+        (function() {
+            const isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+            const loginTime = localStorage.getItem('loginTime');
+            const currentTime = new Date().getTime();
+            const hoursSinceLogin = loginTime ? (currentTime - loginTime) / (1000 * 60 * 60) : 0;
+
+            if (!isLoggedIn || hoursSinceLogin >= 24) {
+                localStorage.removeItem('adminLoggedIn');
+                localStorage.removeItem('loginTime');
+                window.location.href = 'login.html';
+                return;
+            }
+        })();
+
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            localStorage.removeItem('loginTime');
+            window.location.href = 'login.html';
+        }
+
         const SUPABASE_URL = 'https://sofzsursxpjmghhcphrh.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvZnpzdXJzeHBqbWdoaGNwaHJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1OTIwNTMsImV4cCI6MjA3OTE2ODA1M30.nW5ylZoVNeJAegTXqx_x0bjb1lSOsvMBnhsScYR8hf8';
 
         function showTab(tabName) {
-            // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
@@ -67,7 +89,6 @@
                 btn.classList.remove('active');
             });
             
-            // Show selected tab
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
         }
@@ -76,7 +97,6 @@
             try {
                 let url = SUPABASE_URL + '/rest/v1/' + tableName;
                 
-                // Add query parameters if provided
                 if (options.query) {
                     url += '?' + new URLSearchParams(options.query).toString();
                 }
@@ -199,7 +219,6 @@
             }
         }
 
-        // Load initial data
         loadReports();
     </script>
 </body>
