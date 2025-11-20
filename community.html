@@ -2,7 +2,15 @@
 <html>
 <head>
     <title>Community Support - GBV Safe Corner</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#6A0DAD">
+    
+    <!-- ANALYTICS INTEGRATED -->
+    <script src="analytics.js"></script>
+    
     <style>
+        * { box-sizing: border-box; }
         body { 
             font-family: Arial, sans-serif; 
             max-width: 900px; 
@@ -59,36 +67,28 @@
             padding: 20px; 
             margin: 15px 0; 
             border-radius: 8px; 
-            border-left: 4px solid #6A0DAD;
         }
         .advice-box { 
             background: #f0f8f0; 
             padding: 15px; 
             margin: 10px 0; 
             border-radius: 8px; 
-            border-left: 4px solid #4CAF50;
         }
         .submit-btn { 
             background: #6A0DAD; 
             color: white; 
             padding: 12px 30px; 
-            border: none; 
+            text-decoration: none; 
             border-radius: 5px; 
-            cursor: pointer; 
-            font-size: 16px; 
+            display: inline-block; 
             margin-top: 10px; 
-            text-decoration: none;
-            display: inline-block;
             transition: background 0.3s ease;
         }
         .submit-btn:hover {
             background: #8A2BE2;
         }
-        .purple-accent {
-            color: #6A0DAD;
-        }
         
-        /* Emergency Exit Button */
+        /* Enhanced Emergency Exit */
         .emergency-exit {
             position: fixed;
             bottom: 20px;
@@ -127,32 +127,111 @@
             font-size: 14px;
             cursor: pointer;
         }
+        
+        /* Accessibility */
+        :focus {
+            outline: 3px solid #6A0DAD;
+            outline-offset: 2px;
+        }
     </style>
-    
+</head>
+<body>
+    <div class="header">
+        <div class="logo-text">
+            <span>GBV</span>
+            <span>SAFE</span>
+            <span>CORNER</span>
+        </div>
+        <p>Community Support & Advice</p>
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html" data-translate="home">Home</a>
+        <a href="report.html" data-translate="report">Report Anonymously</a>
+        <a href="support.html" data-translate="support">Support Directory</a>
+        <a href="stories.html" data-translate="stories">Share Your Story</a>
+        <a href="library.html" data-translate="library">GBV Resources</a>
+        <a href="community.html" data-translate="community">Community Support</a>
+        <a href="events.html" data-translate="events">Events & Marches</a>
+        <a href="about.html" data-translate="about">About Our Mission</a>
+        <a href="safety-plan.html" data-translate="safety">Safety Planning</a>
+        <a href="risk-assessment.html" data-translate="assessment">Risk Assessment</a>
+        <a href="education-hub.html" data-translate="education">Education Hub</a>
+        <a href="login.html" data-translate="login">Admin Login</a>
+    </div>
+
+    <div class="content-section">
+        <h2>💬 Ask the Community</h2>
+        <p>Have a question? Need advice? Looking for support from people who understand?</p>
+        
+        <div class="question-box">
+            <p><strong>Submit your question anonymously:</strong></p>
+            <p><em>We're building our community Q&A system. For now, you can share your questions through our Stories page, and our community will respond with support and advice.</em></p>
+            <a href="stories.html" class="submit-btn" style="text-decoration: none; display: inline-block;">Share Your Question</a>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>🌟 Community Q&A</h2>
+        
+        <div class="question-box">
+            <p><strong>Anonymous:</strong> "How do I deal with seeing my abuser regularly? It's triggering and I feel unsafe."</p>
+        </div>
+        <div class="advice-box">
+            <p><strong>Community Advice:</strong> "That sounds really difficult. Have you considered talking to security about creating distance? Also, having a friend with you might help. You deserve to feel safe."</p>
+        </div>
+
+        <div class="question-box">
+            <p><strong>Anonymous:</strong> "I'm struggling with guilt and shame after what happened. How do others cope?"</p>
+        </div>
+        <div class="advice-box">
+            <p><strong>Community Support:</strong> "The shame belongs to the perpetrator, never the survivor. Many of us feel this way. Talking to a counselor helped me separate what happened from who I am."</p>
+        </div>
+
+        <div class="question-box">
+            <p><strong>Anonymous:</strong> "What are some grounding techniques for when I feel overwhelmed or triggered?"</p>
+        </div>
+        <div class="advice-box">
+            <p><strong>Community Tips:</strong> "The 5-4-3-2-1 method helps me: Name 5 things you see, 4 things you feel, 3 things you hear, 2 things you smell, 1 thing you taste. Also, carrying a small comforting object."</p>
+        </div>
+    </div>
+
     <script>
-        // Browser History Protection
+        // Enhanced Security & Privacy
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.pathname);
         }
         
-        // Emergency Exit Functionality
+        // Enhanced Emergency Exit
         document.addEventListener('DOMContentLoaded', function() {
             // Create emergency exit button
             const emergencyExit = document.createElement('div');
             emergencyExit.className = 'emergency-exit';
             emergencyExit.innerHTML = `
-                <button onclick="window.location.href='https://www.google.com/search?q=weather'" 
-                        title="Quickly leaves this site"
+                <button onclick="emergencyRedirect()" 
+                        title="Quickly leaves this site and clears data"
                         class="emergency-exit-btn">
                     🚨 Quick Exit
                 </button>
             `;
             document.body.appendChild(emergencyExit);
 
-            // Add keyboard shortcut (Esc key)
+            // Enhanced emergency redirect
+            window.emergencyRedirect = function() {
+                // Clear sensitive data
+                localStorage.removeItem('safetyPlanProgress');
+                sessionStorage.clear();
+                document.querySelectorAll('input, textarea').forEach(element => {
+                    element.value = '';
+                });
+                // Redirect to safe page
+                window.location.href = 'https://www.google.com/search?q=weather';
+            };
+
+            // Keyboard shortcuts
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    window.location.href = 'https://www.google.com/search?q=weather';
+                if (e.key === 'Escape' || (e.ctrlKey && e.key === 'q')) {
+                    emergencyRedirect();
                 }
             });
             
@@ -171,6 +250,12 @@
             // Initialize language
             const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
             changeLanguage(savedLanguage);
+            
+            // ANALYTICS TRACKING - INTEGRATED
+            if (typeof analytics !== 'undefined') {
+                analytics.trackPageView('community.html');
+                analytics.trackFeatureUse('community_loaded');
+            }
         });
         
         // Language Support
@@ -259,66 +344,5 @@
             }
         }
     </script>
-</head>
-<body>
-    <div class="header">
-        <div class="logo-text">
-            <span>GBV</span>
-            <span>SAFE</span>
-            <span>CORNER</span>
-        </div>
-        <p>Community Support & Advice</p>
-    </div>
-
-    <div class="nav-links">
-        <a href="index.html" data-translate="home">Home</a>
-        <a href="report.html" data-translate="report">Report Anonymously</a>
-        <a href="support.html" data-translate="support">Support Directory</a>
-        <a href="stories.html" data-translate="stories">Share Your Story</a>
-        <a href="library.html" data-translate="library">GBV Resources</a>
-        <a href="community.html" data-translate="community">Community Support</a>
-        <a href="events.html" data-translate="events">Events & Marches</a>
-        <a href="about.html" data-translate="about">About Our Mission</a>
-        <a href="safety-plan.html" data-translate="safety">Safety Planning</a>
-        <a href="risk-assessment.html" data-translate="assessment">Risk Assessment</a>
-        <a href="education-hub.html" data-translate="education">Education Hub</a>
-        <a href="login.html" data-translate="login">Admin Login</a>
-    </div>
-
-    <div class="content-section">
-        <h2 class="purple-accent">💬 Ask the Community</h2>
-        <p>Have a question? Need advice? Looking for support from people who understand?</p>
-        
-        <div class="question-box">
-            <p><strong>Submit your question anonymously:</strong></p>
-            <p><em>We're building our community Q&A system. For now, you can share your questions through our Stories page, and our community will respond with support and advice.</em></p>
-            <a href="stories.html" class="submit-btn">Share Your Question</a>
-        </div>
-    </div>
-
-    <div class="content-section">
-        <h2 class="purple-accent">🌟 Community Q&A</h2>
-        
-        <div class="question-box">
-            <p><strong>Anonymous:</strong> "How do I deal with seeing my abuser regularly? It's triggering and I feel unsafe."</p>
-        </div>
-        <div class="advice-box">
-            <p><strong>Community Advice:</strong> "That sounds really difficult. Have you considered talking to security about creating distance? Also, having a friend with you might help. You deserve to feel safe."</p>
-        </div>
-
-        <div class="question-box">
-            <p><strong>Anonymous:</strong> "I'm struggling with guilt and shame after what happened. How do others cope?"</p>
-        </div>
-        <div class="advice-box">
-            <p><strong>Community Support:</strong> "The shame belongs to the perpetrator, never the survivor. Many of us feel this way. Talking to a counselor helped me separate what happened from who I am."</p>
-        </div>
-
-        <div class="question-box">
-            <p><strong>Anonymous:</strong> "What are some grounding techniques for when I feel overwhelmed or triggered?"</p>
-        </div>
-        <div class="advice-box">
-            <p><strong>Community Tips:</strong> "The 5-4-3-2-1 method helps me: Name 5 things you see, 4 things you feel, 3 things you hear, 2 things you smell, 1 thing you taste. Also, carrying a small comforting object."</p>
-        </div>
-    </div>
 </body>
 </html>
