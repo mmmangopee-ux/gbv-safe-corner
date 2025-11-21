@@ -19,9 +19,6 @@
     <!-- Emergency Services Integration -->
     <script src="emergency-services.js"></script>
 
-    <!-- Voice Recognition -->
-    <script src="voice-support.js"></script>
-
     <style>
         * { 
             box-sizing: border-box; 
@@ -187,34 +184,6 @@
             box-shadow: 0 0 0 3px rgba(106, 13, 173, 0.1);
         }
 
-        /* Voice Recognition */
-        .voice-recognition {
-            position: fixed;
-            bottom: 180px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--secondary), #42a5f5);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: var(--shadow);
-            z-index: 1001;
-            transition: var(--transition);
-        }
-
-        .voice-recognition.listening {
-            background: linear-gradient(135deg, var(--accent), #ff5252);
-            animation: pulse 1s infinite;
-        }
-
-        .voice-recognition:hover {
-            transform: scale(1.1);
-        }
-
         /* Quick Action Buttons */
         .quick-actions-container {
             display: grid;
@@ -356,120 +325,6 @@
             box-shadow: 0 8px 25px rgba(106, 13, 173, 0.4);
         }
 
-        /* Blockchain Evidence Section */
-        .blockchain-evidence {
-            background: white;
-            border-radius: var(--radius);
-            padding: 2rem;
-            margin: 2rem 0;
-            box-shadow: var(--shadow);
-            border-left: 4px solid var(--primary);
-        }
-
-        .evidence-log {
-            background: var(--light);
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin-top: 1rem;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .evidence-item {
-            padding: 0.75rem;
-            border-bottom: 1px solid #e1e8ed;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .evidence-item:last-child {
-            border-bottom: none;
-        }
-
-        /* Risk Assessment */
-        .risk-assessment {
-            background: white;
-            border-radius: var(--radius);
-            padding: 2rem;
-            margin: 2rem 0;
-            box-shadow: var(--shadow);
-        }
-
-        .risk-meter {
-            height: 20px;
-            background: #e0e0e0;
-            border-radius: 10px;
-            margin: 1rem 0;
-            overflow: hidden;
-        }
-
-        .risk-level {
-            height: 100%;
-            border-radius: 10px;
-            transition: width 0.5s ease;
-        }
-
-        .risk-low { background: var(--success); width: 25%; }
-        .risk-medium { background: var(--warning); width: 50%; }
-        .risk-high { background: var(--accent); width: 75%; }
-        .risk-critical { background: #d32f2f; width: 95%; }
-
-        /* AR Navigation Preview */
-        .ar-navigation {
-            background: white;
-            border-radius: var(--radius);
-            padding: 2rem;
-            margin: 2rem 0;
-            box-shadow: var(--shadow);
-            text-align: center;
-        }
-
-        .ar-preview {
-            height: 200px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            margin: 1rem 0;
-        }
-
-        /* Biometric Auth */
-        .biometric-auth {
-            background: white;
-            border-radius: var(--radius);
-            padding: 2rem;
-            margin: 2rem 0;
-            box-shadow: var(--shadow);
-            text-align: center;
-        }
-
-        .biometric-options {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 1rem;
-        }
-
-        .biometric-btn {
-            padding: 1rem 1.5rem;
-            border: 2px solid var(--primary);
-            background: white;
-            color: var(--primary);
-            border-radius: var(--radius);
-            cursor: pointer;
-            transition: var(--transition);
-            font-weight: 600;
-        }
-
-        .biometric-btn:hover {
-            background: var(--primary);
-            color: white;
-        }
-
         /* Animations */
         @keyframes slideUp {
             from {
@@ -509,15 +364,11 @@
                 border-radius: 0;
             }
 
-            .ai-support-trigger, .voice-recognition {
+            .ai-support-trigger {
                 bottom: 100px;
                 right: 20px;
                 width: 60px;
                 height: 60px;
-            }
-
-            .voice-recognition {
-                bottom: 170px;
             }
 
             .emergency-bar {
@@ -533,10 +384,6 @@
             .safety-tools-grid {
                 grid-template-columns: 1fr;
             }
-
-            .biometric-options {
-                flex-direction: column;
-            }
         }
 
         /* Dark Mode Support */
@@ -548,11 +395,7 @@
 
             .ai-support-widget,
             .safety-tool-card,
-            .emergency-map,
-            .blockchain-evidence,
-            .risk-assessment,
-            .ar-navigation,
-            .biometric-auth {
+            .emergency-map {
                 background: #2d3748;
                 color: #e0e0e0;
             }
@@ -567,17 +410,6 @@
                 background: #4a5568;
                 border-color: #4a5568;
                 color: #e0e0e0;
-            }
-
-            .quick-action-btn,
-            .biometric-btn {
-                background: #4a5568;
-                color: #e0e0e0;
-                border-color: #6A0DAD;
-            }
-
-            .evidence-log {
-                background: #4a5568;
             }
         }
     </style>
@@ -627,11 +459,6 @@
         </div>
     </div>
 
-    <!-- Voice Recognition -->
-    <div class="voice-recognition" id="voiceRecognition" title="Voice Support">
-        <span style="font-size: 1.5rem;">🎤</span>
-    </div>
-
     <!-- AI Support Trigger -->
     <div class="ai-support-trigger" onclick="toggleAIChat()">
         <span style="font-size: 1.5rem;">💬</span>
@@ -662,28 +489,9 @@
             </div>
         </section>
 
-        <!-- Risk Assessment -->
-        <section class="risk-assessment">
-            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">AI Risk Assessment</h2>
-            <p>Our AI will assess your current situation and provide personalized safety recommendations.</p>
-            
-            <div class="risk-meter">
-                <div class="risk-level risk-low" id="riskLevel"></div>
-            </div>
-            
-            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
-                <span>Low Risk</span>
-                <span>Critical Risk</span>
-            </div>
-            
-            <button class="emergency-btn" onclick="startRiskAssessment()" style="background: var(--primary); color: white; border: none;">
-                Start Risk Assessment
-            </button>
-        </section>
-
         <!-- Emergency Services Map -->
         <section class="emergency-map">
-            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">Live Safe Location Map</h2>
+            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">Nearby Emergency Services</h2>
             <div class="map-placeholder" id="emergencyMap">
                 <div style="text-align: center;">
                     <div style="font-size: 3rem; margin-bottom: 1rem;">🗺️</div>
@@ -692,55 +500,6 @@
                         Enable Location Services
                     </button>
                 </div>
-            </div>
-        </section>
-
-        <!-- Blockchain Evidence Storage -->
-        <section class="blockchain-evidence">
-            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">🔒 Blockchain Evidence Storage</h2>
-            <p>Securely store incident evidence with blockchain technology. Tamper-proof and legally admissible.</p>
-            
-            <div class="evidence-log" id="evidenceLog">
-                <div class="evidence-item">
-                    <span>No evidence stored yet</span>
-                    <span style="color: var(--gray); font-size: 0.9rem;">--</span>
-                </div>
-            </div>
-            
-            <button class="emergency-btn" onclick="addEvidence()" style="margin-top: 1rem; background: var(--primary); color: white; border: none;">
-                + Add New Evidence
-            </button>
-        </section>
-
-        <!-- AR Navigation -->
-        <section class="ar-navigation">
-            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">🧭 AR Safe Route Navigation</h2>
-            <p>Use augmented reality to find the safest route to your destination.</p>
-            
-            <div class="ar-preview">
-                <div style="text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">📱</div>
-                    <p>Point your camera to see safe routes</p>
-                </div>
-            </div>
-            
-            <button class="emergency-btn" onclick="startARNavigation()" style="background: var(--primary); color: white; border: none;">
-                Start AR Navigation
-            </button>
-        </section>
-
-        <!-- Biometric Authentication -->
-        <section class="biometric-auth">
-            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">🔐 Biometric Security</h2>
-            <p>Secure access using your fingerprint or face recognition. No passwords needed.</p>
-            
-            <div class="biometric-options">
-                <button class="biometric-btn" onclick="authenticateFingerprint()">
-                    👆 Fingerprint
-                </button>
-                <button class="biometric-btn" onclick="authenticateFace()">
-                    📷 Face ID
-                </button>
             </div>
         </section>
 
@@ -794,7 +553,6 @@
             init() {
                 this.loadConversation();
                 this.setupAIResponses();
-                this.setupVoiceRecognition();
             },
             
             toggleChat() {
@@ -925,46 +683,6 @@
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
             },
             
-            setupVoiceRecognition() {
-                const voiceBtn = document.getElementById('voiceRecognition');
-                let recognition = null;
-                
-                if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-                    recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-                    recognition.continuous = false;
-                    recognition.interimResults = false;
-                    recognition.lang = 'en-ZA';
-                    
-                    recognition.onstart = function() {
-                        voiceBtn.classList.add('listening');
-                        aiSupport.addMessage("🎤 I'm listening...", 'ai');
-                    };
-                    
-                    recognition.onresult = function(event) {
-                        const transcript = event.results[0][0].transcript;
-                        voiceBtn.classList.remove('listening');
-                        aiSupport.addMessage(transcript, 'user');
-                        aiSupport.processUserMessage(transcript);
-                    };
-                    
-                    recognition.onerror = function() {
-                        voiceBtn.classList.remove('listening');
-                        aiSupport.addMessage("Sorry, I couldn't understand that. Please try again.", 'ai');
-                    };
-                    
-                    voiceBtn.addEventListener('click', function() {
-                        if (voiceBtn.classList.contains('listening')) {
-                            recognition.stop();
-                            voiceBtn.classList.remove('listening');
-                        } else {
-                            recognition.start();
-                        }
-                    });
-                } else {
-                    voiceBtn.style.display = 'none';
-                }
-            },
-            
             getRandomResponse(responses) {
                 return responses[Math.floor(Math.random() * responses.length)];
             },
@@ -986,128 +704,11 @@
                     this.conversation = JSON.parse(saved);
                     // Optionally reload conversation UI
                 }
-            }
-        };
-
-        // Blockchain Evidence System
-        const blockchainEvidence = {
-            evidence: [],
-            
-            init() {
-                this.loadEvidence();
-                this.updateEvidenceDisplay();
             },
             
-            addEvidence() {
-                const description = prompt('Describe the incident or evidence:');
-                if (description) {
-                    const evidence = {
-                        id: this.generateHash(description + Date.now()),
-                        description: description,
-                        timestamp: new Date().toISOString(),
-                        location: this.getCurrentLocation(),
-                        hash: this.generateHash(description + Date.now() + Math.random())
-                    };
-                    
-                    this.evidence.push(evidence);
-                    this.saveEvidence();
-                    this.updateEvidenceDisplay();
-                    
-                    alert('✅ Evidence securely stored on blockchain!\n\nHash: ' + evidence.hash);
-                }
-            },
-            
-            generateHash(text) {
-                // Simplified hash generation for demo
-                let hash = 0;
-                for (let i = 0; i < text.length; i++) {
-                    const char = text.charCodeAt(i);
-                    hash = ((hash << 5) - hash) + char;
-                    hash = hash & hash;
-                }
-                return '0x' + Math.abs(hash).toString(16).substring(0, 16);
-            },
-            
-            getCurrentLocation() {
-                if (navigator.geolocation) {
-                    return "Location available";
-                }
-                return "Location not available";
-            },
-            
-            saveEvidence() {
-                localStorage.setItem('blockchainEvidence', JSON.stringify(this.evidence));
-            },
-            
-            loadEvidence() {
-                const saved = localStorage.getItem('blockchainEvidence');
-                if (saved) {
-                    this.evidence = JSON.parse(saved);
-                }
-            },
-            
-            updateEvidenceDisplay() {
-                const log = document.getElementById('evidenceLog');
-                
-                if (this.evidence.length === 0) {
-                    log.innerHTML = '<div class="evidence-item"><span>No evidence stored yet</span><span style="color: var(--gray); font-size: 0.9rem;">--</span></div>';
-                    return;
-                }
-                
-                log.innerHTML = this.evidence.map(evidence => `
-                    <div class="evidence-item">
-                        <span>${evidence.description}</span>
-                        <span style="color: var(--gray); font-size: 0.9rem;">${new Date(evidence.timestamp).toLocaleDateString()}</span>
-                    </div>
-                `).join('');
-            }
-        };
-
-        // Risk Assessment System
-        const riskAssessment = {
-            async assessRisk() {
-                // Simulate AI risk assessment
-                const questions = [
-                    "Are you in immediate physical danger?",
-                    "Do you feel threatened right now?",
-                    "Is the person who harmed you nearby?",
-                    "Do you have a safe place to go?",
-                    "Are you experiencing severe emotional distress?"
-                ];
-                
-                let riskScore = 0;
-                
-                for (let question of questions) {
-                    if (confirm(question + "\n\nClick OK for Yes, Cancel for No")) {
-                        riskScore += 20;
-                    }
-                }
-                
-                this.displayRiskResult(riskScore);
-            },
-            
-            displayRiskResult(score) {
-                const riskLevel = document.getElementById('riskLevel');
-                riskLevel.className = 'risk-level';
-                
-                if (score <= 25) {
-                    riskLevel.classList.add('risk-low');
-                    riskLevel.style.width = '25%';
-                    alert('🟢 Low Risk: Continue with safety planning and regular check-ins.');
-                } else if (score <= 50) {
-                    riskLevel.classList.add('risk-medium');
-                    riskLevel.style.width = '50%';
-                    alert('🟡 Medium Risk: Consider reaching out to support services soon.');
-                } else if (score <= 75) {
-                    riskLevel.classList.add('risk-high');
-                    riskLevel.style.width = '75%';
-                    alert('🟠 High Risk: Please contact support services immediately.');
-                } else {
-                    riskLevel.classList.add('risk-critical');
-                    riskLevel.style.width = '95%';
-                    alert('🔴 CRITICAL RISK: Call emergency services NOW: 10111');
-                    aiSupport.triggerEmergencySupport();
-                }
+            setupAIResponses() {
+                // Pre-load common emergency resources
+                console.log("AI Support System Initialized");
             }
         };
 
@@ -1135,7 +736,6 @@
             if (confirm('This will immediately clear your browsing history and redirect to a safe page. Continue?')) {
                 // Clear sensitive data
                 localStorage.removeItem('aiConversation');
-                localStorage.removeItem('blockchainEvidence');
                 sessionStorage.clear();
                 
                 // Redirect to safe page
@@ -1192,38 +792,9 @@
             alert('📝 Opening secure incident logger...\n\nThis tool helps you document incidents with timestamps and location data.');
         }
 
-        function addEvidence() {
-            blockchainEvidence.addEvidence();
-        }
-
-        function startRiskAssessment() {
-            riskAssessment.assessRisk();
-        }
-
-        function startARNavigation() {
-            alert('🧭 Starting AR Navigation...\n\nPoint your camera to see safe routes highlighted in augmented reality.');
-        }
-
-        function authenticateFingerprint() {
-            if (window.PublicKeyCredential) {
-                alert('👆 Fingerprint authentication available!\n\nPlace your finger on the sensor to securely access your account.');
-            } else {
-                alert('🔒 Biometric authentication not supported on this device.\n\nUsing secure password fallback.');
-            }
-        }
-
-        function authenticateFace() {
-            if (window.PublicKeyCredential) {
-                alert('📷 Face ID authentication available!\n\nLook at your camera to securely access your account.');
-            } else {
-                alert('🔒 Face recognition not supported on this device.\n\nUsing secure password fallback.');
-            }
-        }
-
         // Initialize when page loads
         document.addEventListener('DOMContentLoaded', function() {
             aiSupport.init();
-            blockchainEvidence.init();
             
             // PWA Installation Prompt
             if ('serviceWorker' in navigator) {
@@ -1236,8 +807,6 @@
             if (typeof analytics !== 'undefined') {
                 analytics.trackPageView('enhanced-homepage');
                 analytics.trackFeatureUse('ai_support_loaded');
-                analytics.trackFeatureUse('blockchain_evidence_loaded');
-                analytics.trackFeatureUse('risk_assessment_loaded');
             }
         });
 
@@ -1249,10 +818,6 @@
             if (e.ctrlKey && e.key === 'k') {
                 e.preventDefault();
                 toggleAIChat();
-            }
-            if (e.ctrlKey && e.key === 'l') {
-                e.preventDefault();
-                document.getElementById('voiceRecognition').click();
             }
         });
     </script>
