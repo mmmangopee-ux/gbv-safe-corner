@@ -1,825 +1,808 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>GBV Safe Corner - AI Support & Emergency Help</title>
+    <title>GBV Safe Corner - GBV Support Platform</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#6A0DAD">
+    <meta name="description" content="Anonymous GBV Support Platform providing resources, reporting, and community support">
     
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="manifest.json">
-    
-    <!-- Enhanced Analytics -->
+    <!-- ANALYTICS INTEGRATED -->
     <script src="analytics.js"></script>
     <script src="navigation.js"></script>
     
-    <!-- AI Support System -->
-    <script src="ai-support.js"></script>
-    
-    <!-- Emergency Services Integration -->
-    <script src="emergency-services.js"></script>
-
     <style>
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-        }
-        
-        :root {
-            --primary: #6A0DAD;
-            --primary-dark: #5a0a9a;
-            --primary-light: #8A2BE2;
-            --secondary: #2196F3;
-            --accent: #FF6B6B;
-            --success: #4CAF50;
-            --warning: #FF9800;
-            --light: #f8f9fa;
-            --dark: #2c3e50;
-            --gray: #6c757d;
-            --shadow: 0 8px 30px rgba(0,0,0,0.12);
-            --radius: 16px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e8f4fd 100%);
-            min-height: 100vh;
-            line-height: 1.6;
-            color: var(--dark);
-            overflow-x: hidden;
-        }
-
-        /* Enhanced Header */
-        .main-header {
-            background: white;
-            padding: 1rem 2rem;
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-
-        .header-content {
-            max-width: 1400px;
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
             margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 20px;
+            background-color: #f8f8f8;
+            line-height: 1.6;
         }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        /* AI Support Chat Interface */
-        .ai-support-widget {
-            position: fixed;
-            bottom: 100px;
-            right: 30px;
-            width: 380px;
-            height: 600px;
-            background: white;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            z-index: 1002;
-            display: none;
-            flex-direction: column;
-            transition: var(--transition);
-        }
-
-        .ai-support-visible {
-            display: flex;
-            animation: slideUp 0.4s ease-out;
-        }
-
-        .ai-chat-header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+        .header {
+            background: linear-gradient(135deg, #6A0DAD, #8A2BE2);
             color: white;
-            padding: 1.5rem;
-            border-radius: var(--radius) var(--radius) 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 40px;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 30px;
         }
-
-        .ai-avatar {
-            width: 50px;
-            height: 50px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
+        .logo-text {
+            font-size: 2em;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.2;
+            margin-bottom: 10px;
         }
-
-        .ai-chat-messages {
-            flex: 1;
-            padding: 1.5rem;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            background: var(--light);
+        .logo-text span {
+            display: block;
         }
-
-        .message {
-            padding: 1rem 1.25rem;
-            border-radius: var(--radius);
-            max-width: 85%;
-            animation: messageSlide 0.3s ease-out;
-        }
-
-        .message.user {
-            background: var(--primary);
+        .emergency-banner {
+            background: #FF6B6B;
             color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
-
-        .message.ai {
-            background: white;
-            border: 1px solid #e1e8ed;
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-
-        .message.emergency {
-            background: linear-gradient(135deg, var(--accent), #ff5252);
-            color: white;
-            border: none;
+            padding: 15px;
+            text-align: center;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(255,0,0,0.3);
             animation: pulse 2s infinite;
         }
-
-        .ai-chat-input {
-            display: flex;
-            padding: 1.25rem;
-            border-top: 1px solid #e1e8ed;
-            background: white;
-            border-radius: 0 0 var(--radius) var(--radius);
-        }
-
-        .ai-chat-input input {
-            flex: 1;
-            padding: 0.75rem 1rem;
-            border: 1px solid #e1e8ed;
-            border-radius: 25px;
-            margin-right: 0.75rem;
-            font-size: 0.95rem;
-            transition: var(--transition);
-        }
-
-        .ai-chat-input input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(106, 13, 173, 0.1);
-        }
-
-        /* Quick Action Buttons */
-        .quick-actions-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-
-        .quick-action-btn {
-            background: white;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            padding: 1rem;
-            border-radius: var(--radius);
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-            font-weight: 600;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .quick-action-btn:hover {
-            background: var(--primary);
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(106, 13, 173, 0.3);
-        }
-
-        /* Emergency Services Map */
-        .emergency-map {
-            background: white;
-            border-radius: var(--radius);
-            padding: 2rem;
-            margin: 2rem 0;
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .map-placeholder {
-            height: 300px;
-            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gray);
-            font-weight: 600;
-        }
-
-        /* Safety Tools */
-        .safety-tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .safety-tool-card {
-            background: white;
-            padding: 2rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            text-align: center;
-            transition: var(--transition);
-            border: 2px solid transparent;
-        }
-
-        .safety-tool-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            box-shadow: 0 12px 35px rgba(106, 13, 173, 0.15);
-        }
-
-        .tool-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        /* Enhanced Emergency Bar */
-        .emergency-bar {
-            background: linear-gradient(135deg, var(--accent), #ff5252);
-            color: white;
-            padding: 1rem 2rem;
-            text-align: center;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 1001;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 -4px 20px rgba(255, 107, 107, 0.4);
-        }
-
-        .emergency-btn {
-            background: rgba(255,255,255,0.2);
-            border: 2px solid white;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 25px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .emergency-btn:hover {
-            background: white;
-            color: var(--accent);
-            transform: scale(1.05);
-        }
-
-        /* AI Support Trigger */
-        .ai-support-trigger {
-            position: fixed;
-            bottom: 120px;
-            right: 30px;
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: var(--shadow);
-            z-index: 1001;
-            transition: var(--transition);
-            animation: pulse 2s infinite;
-        }
-
-        .ai-support-trigger:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 25px rgba(106, 13, 173, 0.4);
-        }
-
-        /* Animations */
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px) scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        @keyframes messageSlide {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            50% { transform: scale(1.02); }
             100% { transform: scale(1); }
         }
-
-        /* Mobile Optimizations */
+        .mission-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+            box-shadow: 0 4px 8px rgba(106, 13, 173, 0.1);
+            text-align: center;
+        }
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .action-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(106, 13, 173, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(106, 13, 173, 0.2);
+            border-color: #6A0DAD;
+        }
+        .action-button {
+            background: #6A0DAD;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 8px;
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: 2px solid #6A0DAD;
+        }
+        .action-button:hover {
+            background: #8A2BE2;
+            border-color: #8A2BE2;
+            transform: translateY(-2px);
+        }
+        .resources {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            box-shadow: 0 4px 8px rgba(106, 13, 173, 0.1);
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            border-top: 2px solid #ddd;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #6A0DAD;
+            display: block;
+        }
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        /* NEW: Fake Call Generator Styles */
+        .fake-call-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+            box-shadow: 0 4px 8px rgba(106, 13, 173, 0.1);
+            text-align: center;
+        }
+        
+        .fake-call-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .fake-call-option {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #6A0DAD;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .fake-call-option:hover {
+            background: #f0f0f0;
+            transform: translateY(-3px);
+        }
+        
+        .fake-call-timer {
+            font-size: 2em;
+            font-weight: bold;
+            color: #6A0DAD;
+            margin: 20px 0;
+        }
+        
+        .fake-call-active {
+            background: #e8f5e8;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 2px solid #4CAF50;
+            text-align: center;
+            display: none;
+        }
+        
+        .fake-call-phone {
+            font-size: 3em;
+            margin: 20px 0;
+            animation: ring 1.5s infinite;
+        }
+        
+        @keyframes ring {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            50% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+            100% { transform: rotate(0deg); }
+        }
+        
+        .fake-call-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .fake-call-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .fake-call-btn.answer {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .fake-call-btn.decline {
+            background: #FF6B6B;
+            color: white;
+        }
+        
+        .fake-call-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Enhanced Emergency Exit */
+        .emergency-exit {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10000;
+        }
+        .emergency-exit-btn {
+            background: #FF6B6B;
+            color: white;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(255,0,0,0.4);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .emergency-exit-btn:hover {
+            background: #ff5252;
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(255,0,0,0.5);
+        }
+        
+        /* Language Selector */
+        #languageSelector {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 2px solid #6A0DAD;
+            background: white;
+            color: #6A0DAD;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #languageSelector:hover {
+            background: #6A0DAD;
+            color: white;
+        }
+        
+        /* Accessibility */
+        :focus {
+            outline: 3px solid #6A0DAD;
+            outline-offset: 2px;
+        }
+        
+        /* Mobile Responsive */
         @media (max-width: 768px) {
-            .ai-support-widget {
-                width: 100vw;
-                height: 100vh;
-                bottom: 0;
-                right: 0;
-                border-radius: 0;
+            .header {
+                padding: 20px;
             }
-
-            .ai-support-trigger {
-                bottom: 100px;
-                right: 20px;
-                width: 60px;
-                height: 60px;
+            
+            .logo-text {
+                font-size: 1.5em;
             }
-
-            .emergency-bar {
-                padding: 1rem;
-                flex-direction: column;
-                gap: 0.75rem;
-            }
-
-            .quick-actions-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .safety-tools-grid {
+            
+            .action-grid {
                 grid-template-columns: 1fr;
             }
-        }
-
-        /* Dark Mode Support */
-        @media (prefers-color-scheme: dark) {
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .fake-call-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .fake-call-controls {
+                flex-direction: column;
+            }
+            
             body {
-                background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-                color: #e0e0e0;
-            }
-
-            .ai-support-widget,
-            .safety-tool-card,
-            .emergency-map {
-                background: #2d3748;
-                color: #e0e0e0;
-            }
-
-            .message.ai {
-                background: #4a5568;
-                color: #e0e0e0;
-                border-color: #4a5568;
-            }
-
-            .ai-chat-input input {
-                background: #4a5568;
-                border-color: #4a5568;
-                color: #e0e0e0;
+                padding: 10px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Enhanced Header -->
-    <header class="main-header">
-        <div class="header-content">
-            <div class="logo">
-                <span>🛡️</span>
-                GBV Safe Corner
-            </div>
-            <nav class="main-nav">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="community.html" class="nav-link">Community</a>
-                <a href="support.html" class="nav-link">Support</a>
-                <a href="resources.html" class="nav-link">Resources</a>
-            </nav>
-        </div>
-    </header>
+    <!-- Emergency Banner -->
+    <div class="emergency-banner">
+        🚨 24/7 EMERGENCY: GBV COMMAND CENTRE 0800 428 428 • POLICE 10111 • LIFELINE 0861 322 322 🚨
+    </div>
 
-    <!-- AI Support Widget -->
-    <div class="ai-support-widget" id="aiSupportWidget">
-        <div class="ai-chat-header">
-            <div style="display: flex; align-items: center; gap: 1rem;">
-                <div class="ai-avatar">🤖</div>
-                <div>
-                    <h3 style="margin: 0;">Hope AI Assistant</h3>
-                    <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">24/7 Emotional Support</p>
-                </div>
-            </div>
-            <button class="close-btn" onclick="closeAIChat()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">×</button>
+    <!-- Main Header -->
+    <div class="header">
+        <div class="logo-text">
+            <span>GBV</span>
+            <span>SAFE</span>
+            <span>CORNER</span>
         </div>
-        
-        <div class="ai-chat-messages" id="aiChatMessages">
-            <div class="message ai">
-                <strong>Hope AI:</strong> Hello, I'm here to support you. This is a safe space. How can I help you today?
-            </div>
-            <div class="message emergency">
-                <strong>⚠️ Emergency:</strong> If you're in immediate danger, please call 10111 or use the emergency button below.
-            </div>
+        <p>Anonymous GBV Reporting & Support Platform</p>
+        <p style="margin-top: 15px; font-size: 18px; opacity: 0.9;">
+            Your Safe Space • Verified Help • Community Support
+        </p>
+    </div>
+
+    <!-- Navigation auto-loaded here by navigation.js -->
+
+    <!-- Mission Statement -->
+    <div class="mission-box">
+        <h2>Our Mission</h2>
+        <p>GBV Safe Corner provides a safe, anonymous space for anyone affected by gender-based violence. We connect you to verified help and supportive communities with complete privacy protection.</p>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-number">24/7</span>
+            <span class="stat-label">Emergency Support</span>
         </div>
-        
-        <div class="ai-chat-input">
-            <input type="text" id="aiChatInput" placeholder="Type your message... (I'm here to listen)" onkeypress="handleAIInput(event)">
-            <button class="emergency-btn" onclick="sendAIMessage()" style="padding: 0.75rem 1.5rem;">Send</button>
+        <div class="stat-card">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">Anonymous</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">Verified</span>
+            <span class="stat-label">Support Services</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">Safe</span>
+            <span class="stat-label">Community Space</span>
         </div>
     </div>
 
-    <!-- AI Support Trigger -->
-    <div class="ai-support-trigger" onclick="toggleAIChat()">
-        <span style="font-size: 1.5rem;">💬</span>
+    <!-- NEW: Fake Call Generator -->
+    <div class="fake-call-container">
+        <h2>📞 Fake Call Generator</h2>
+        <p>Schedule a fake emergency call to help you leave uncomfortable situations safely and discreetly.</p>
+        
+        <div class="fake-call-options">
+            <div class="fake-call-option" onclick="scheduleFakeCall(1)">
+                <h3>🚗 Urgent Ride Needed</h3>
+                <p>"Your ride is here early" - Call in 1 minute</p>
+            </div>
+            
+            <div class="fake-call-option" onclick="scheduleFakeCall(3)">
+                <h3>🏠 Family Emergency</h3>
+                <p>"Family needs you home" - Call in 3 minutes</p>
+            </div>
+            
+            <div class="fake-call-option" onclick="scheduleFakeCall(5)">
+                <h3>💼 Work Emergency</h3>
+                <p>"Urgent work matter" - Call in 5 minutes</p>
+            </div>
+            
+            <div class="fake-call-option" onclick="showCustomTimer()">
+                <h3>⏰ Custom Timer</h3>
+                <p>Set your own timing</p>
+            </div>
+        </div>
+        
+        <div id="customTimer" style="display: none; margin: 20px 0;">
+            <h3>Set Custom Timer</h3>
+            <div style="display: flex; gap: 10px; justify-content: center; align-items: center; margin: 15px 0;">
+                <input type="number" id="customMinutes" min="1" max="60" placeholder="Minutes" style="padding: 10px; border: 2px solid #6A0DAD; border-radius: 5px; width: 100px;">
+                <span>minutes</span>
+                <button class="action-button" onclick="scheduleCustomFakeCall()">Set Timer</button>
+            </div>
+        </div>
+        
+        <div class="fake-call-active" id="fakeCallActive">
+            <div class="fake-call-timer" id="fakeCallTimer">01:00</div>
+            <p>Your fake call will arrive in:</p>
+            <button class="action-button" onclick="cancelFakeCall()" style="background: #FF6B6B; border-color: #FF6B6B;">Cancel Call</button>
+        </div>
+        
+        <div class="fake-call-active" id="fakeCallIncoming">
+            <div class="fake-call-phone">📞</div>
+            <h3>Incoming Call: Emergency Contact</h3>
+            <p>Your scheduled fake call is here!</p>
+            <div class="fake-call-controls">
+                <button class="fake-call-btn answer" onclick="answerFakeCall()">Answer</button>
+                <button class="fake-call-btn decline" onclick="declineFakeCall()">Decline</button>
+            </div>
+        </div>
     </div>
 
-    <!-- Main Content -->
-    <main style="max-width: 1200px; margin: 0 auto; padding: 2rem;">
-        <!-- Quick Actions -->
-        <section>
-            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">Quick Safety Actions</h2>
-            <div class="quick-actions-container">
-                <div class="quick-action-btn" onclick="triggerEmergencyProtocol()">
-                    <span style="font-size: 2rem;">🚨</span>
-                    Emergency Help
-                </div>
-                <div class="quick-action-btn" onclick="findSafeLocation()">
-                    <span style="font-size: 2rem;">📍</span>
-                    Find Safe Place
-                </div>
-                <div class="quick-action-btn" onclick="startSafetyPlan()">
-                    <span style="font-size: 2rem;">🛡️</span>
-                    Safety Plan
-                </div>
-                <div class="quick-action-btn" onclick="connectToCounselor()">
-                    <span style="font-size: 2rem;">👩‍💼</span>
-                    Live Counselor
-                </div>
-            </div>
-        </section>
+    <!-- Action Grid -->
+    <div class="action-grid">
+        <div class="action-card">
+            <h3>📝 Report Anonymously</h3>
+            <p>Safe, confidential reporting with complete privacy protection. No personal data collected.</p>
+            <a href="report.html" class="action-button">Make a Report</a>
+        </div>
 
-        <!-- Emergency Services Map -->
-        <section class="emergency-map">
-            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">Nearby Emergency Services</h2>
-            <div class="map-placeholder" id="emergencyMap">
-                <div style="text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">🗺️</div>
-                    <p>Loading safe locations near you...</p>
-                    <button class="emergency-btn" onclick="loadUserLocation()" style="margin-top: 1rem; background: var(--primary); color: white; border: none;">
-                        Enable Location Services
-                    </button>
-                </div>
-            </div>
-        </section>
+        <div class="action-card">
+            <h3>💬 Support Network</h3>
+            <p>Find verified counselors, shelters, legal aid, and support services in your area.</p>
+            <a href="support.html" class="action-button">Find Help</a>
+        </div>
 
-        <!-- Safety Tools -->
-        <section>
-            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">Safety & Protection Tools</h2>
-            <div class="safety-tools-grid">
-                <div class="safety-tool-card">
-                    <div class="tool-icon">📱</div>
-                    <h3>Fake Call Generator</h3>
-                    <p>Schedule emergency exit calls to leave uncomfortable situations safely</p>
-                    <button class="emergency-btn" onclick="startFakeCall()" style="margin-top: 1rem; background: var(--primary); color: white; border: none;">
-                        Set Up Fake Call
-                    </button>
-                </div>
-                
-                <div class="safety-tool-card">
-                    <div class="tool-icon">🔒</div>
-                    <h3>Digital Safety Scan</h3>
-                    <p>Check your device for tracking software and secure your digital footprint</p>
-                    <button class="emergency-btn" onclick="startSafetyScan()" style="margin-top: 1rem; background: var(--primary); color: white; border: none;">
-                        Scan Device
-                    </button>
-                </div>
-                
-                <div class="safety-tool-card">
-                    <div class="tool-icon">📝</div>
-                    <h3>Incident Logger</h3>
-                    <p>Securely document incidents with timestamp and location data</p>
-                    <button class="emergency-btn" onclick="startIncidentLog()" style="margin-top: 1rem; background: var(--primary); color: white; border: none;">
-                        Log Incident
-                    </button>
-                </div>
-            </div>
-        </section>
-    </main>
+        <div class="action-card">
+            <h3>📢 Events & Campaigns</h3>
+            <p>Join marches, vigils, awareness events, and support groups in your community.</p>
+            <a href="events.html" class="action-button">See Events</a>
+        </div>
 
-    <!-- Emergency Bar -->
-    <div class="emergency-bar">
-        <div>🚨 24/7 EMERGENCY: GBV Command Centre 0800 428 428 • Police 10111</div>
-        <button class="emergency-btn" onclick="emergencyRedirect()">Quick Exit & Get Help</button>
+        <div class="action-card">
+            <h3>🛡️ Trusted Resources</h3>
+            <p>Access verified GBV information, rights, survival guides, and educational materials.</p>
+            <a href="library.html" class="action-button">Access Resources</a>
+        </div>
+
+        <div class="action-card">
+            <h3>🔍 Safety Planning</h3>
+            <p>Create personalized safety plans with printable checklists and emergency protocols.</p>
+            <a href="safety-plan.html" class="action-button">Safety Tools</a>
+        </div>
+
+        <div class="action-card">
+            <h3>🤝 Community Support</h3>
+            <p>Connect with others, share stories, and find peer support in a safe environment.</p>
+            <a href="community.html" class="action-button">Join Community</a>
+        </div>
+    </div>
+
+    <!-- Emergency Resources -->
+    <div class="resources">
+        <h2>🆘 24/7 Emergency Contacts</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0;">
+            <div>
+                <p><strong>GBV Command Centre:</strong><br>0800 428 428 (Free)<br>Call *120*7355#</p>
+            </div>
+            <div>
+                <p><strong>Lifeline Counseling:</strong><br>0861 322 322<br>24/7 emotional support</p>
+            </div>
+            <div>
+                <p><strong>Suicide Crisis Line:</strong><br>0800 567 567<br>Immediate crisis support</p>
+            </div>
+            <div>
+                <p><strong>Police Emergency:</strong><br>10111<br>Emergency response</p>
+            </div>
+            <div>
+                <p><strong>Childline:</strong><br>0800 055 555<br>Child protection</p>
+            </div>
+            <div>
+                <p><strong>Stop Gender Violence:</strong><br>*120*7355#<br>USSD help line</p>
+            </div>
+        </div>
+        <p><em>All services available in multiple languages. Calls are confidential and free.</em></p>
+    </div>
+
+    <!-- How It Works -->
+    <div class="mission-box">
+        <h2>How It Works</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; text-align: left; margin-top: 20px;">
+            <div>
+                <h4>1. Report Safely</h4>
+                <p>Anonymous reporting with privacy protection and no data tracking</p>
+            </div>
+            <div>
+                <h4>2. Find Help</h4>
+                <p>Connect with verified support services and professionals</p>
+            </div>
+            <div>
+                <h4>3. Join Community</h4>
+                <p>Share experiences and find support from others who understand</p>
+            </div>
+            <div>
+                <h4>4. Create Change</h4>
+                <p>Participate in awareness campaigns and prevention efforts</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p><strong>GBV Safe Corner</strong> - Safe GBV Support Platform</p>
+        <p>Anonymous • Verified • Community-Driven • Privacy-First</p>
+        <p style="margin-top: 15px; font-size: 14px; color: #888;">
+            For anyone affected by gender-based violence. You are not alone.
+        </p>
     </div>
 
     <script>
-        // AI Support System
-        const aiSupport = {
-            isOpen: false,
-            conversation: [],
-            emergencyKeywords: ['help', 'emergency', 'danger', 'hurt', 'scared', 'suicide', 'abuse'],
-            
-            init() {
-                this.loadConversation();
-                this.setupAIResponses();
-            },
-            
-            toggleChat() {
-                const widget = document.getElementById('aiSupportWidget');
-                this.isOpen = !this.isOpen;
-                
-                if (this.isOpen) {
-                    widget.classList.add('ai-support-visible');
-                    document.getElementById('aiChatInput').focus();
-                } else {
-                    widget.classList.remove('ai-support-visible');
-                }
-            },
-            
-            sendMessage() {
-                const input = document.getElementById('aiChatInput');
-                const message = input.value.trim();
-                
-                if (message) {
-                    this.addMessage(message, 'user');
-                    this.processUserMessage(message);
-                    input.value = '';
-                }
-            },
-            
-            addMessage(text, sender) {
-                const messagesContainer = document.getElementById('aiChatMessages');
-                const messageDiv = document.createElement('div');
-                messageDiv.className = `message ${sender}`;
-                
-                if (sender === 'user') {
-                    messageDiv.innerHTML = `<strong>You:</strong> ${this.sanitizeText(text)}`;
-                } else if (sender === 'ai') {
-                    messageDiv.innerHTML = `<strong>Hope AI:</strong> ${text}`;
-                } else if (sender === 'emergency') {
-                    messageDiv.innerHTML = `<strong>⚠️ Emergency:</strong> ${text}`;
-                }
-                
-                messagesContainer.appendChild(messageDiv);
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                
-                // Save to conversation history
-                this.conversation.push({ sender, text, timestamp: new Date() });
-                this.saveConversation();
-            },
-            
-            processUserMessage(message) {
-                const lowerMessage = message.toLowerCase();
-                
-                // Check for emergency keywords
-                if (this.emergencyKeywords.some(keyword => lowerMessage.includes(keyword))) {
-                    this.handleEmergencySituation(message);
-                    return;
-                }
-                
-                // Generate AI response
-                setTimeout(() => {
-                    const response = this.generateAIResponse(message);
-                    this.addMessage(response, 'ai');
-                }, 1000);
-            },
-            
-            generateAIResponse(message) {
-                const responses = {
-                    greeting: [
-                        "I'm here to listen. You're in a safe space. How are you feeling right now?",
-                        "Thank you for reaching out. I'm here to support you. What's on your mind?",
-                        "Hello, I'm Hope. This is a judgment-free zone. How can I help you today?"
-                    ],
-                    support: [
-                        "That sounds really difficult. You're showing courage by talking about it.",
-                        "I understand this must be painful. Remember, you're not alone in this.",
-                        "Thank you for sharing that with me. It takes strength to open up."
-                    ],
-                    resources: [
-                        "Would you like me to connect you with a professional counselor?",
-                        "I can help you find local support services in your area.",
-                        "There are trained professionals available 24/7 who can provide immediate support."
-                    ],
-                    default: [
-                        "I'm here to listen and support you. Could you tell me more about what you're experiencing?",
-                        "Your feelings are valid. Would you like to talk more about what's happening?",
-                        "I understand this is difficult. Remember, reaching out for help is a sign of strength."
-                    ]
-                };
-                
-                // Simple keyword-based response selection
-                if (message.match(/\b(hi|hello|hey)\b/i)) {
-                    return this.getRandomResponse(responses.greeting);
-                } else if (message.match(/\b(sad|hurt|scared|anxious|worried)\b/i)) {
-                    return this.getRandomResponse(responses.support);
-                } else if (message.match(/\b(help|support|counselor|therapist)\b/i)) {
-                    return this.getRandomResponse(responses.resources);
-                } else {
-                    return this.getRandomResponse(responses.default);
-                }
-            },
-            
-            handleEmergencySituation(message) {
-                // Immediate emergency response
-                this.addMessage("I've detected this might be an emergency situation. Please know that help is available immediately.", 'emergency');
-                this.addMessage("Call 10111 for police or 0800 428 428 for GBV emergency support. Would you like me to connect you to a live counselor right now?", 'emergency');
-                
-                // Trigger emergency protocols
-                this.triggerEmergencySupport();
-            },
-            
-            triggerEmergencySupport() {
-                // Show emergency contact overlay
-                const emergencyContacts = [
-                    { name: "Police Emergency", number: "10111" },
-                    { name: "GBV Command Centre", number: "0800 428 428" },
-                    { name: "Lifeline Counseling", number: "0861 322 322" },
-                    { name: "Suicide Crisis Line", number: "0800 567 567" }
-                ];
-                
-                let emergencyHTML = "<div style='background: #fff3f3; padding: 1rem; border-radius: 8px; margin: 1rem 0;'>";
-                emergencyHTML += "<h4 style='color: #d32f2f; margin-bottom: 0.5rem;'>🚨 Immediate Emergency Contacts:</h4>";
-                emergencyContacts.forEach(contact => {
-                    emergencyHTML += `<p style='margin: 0.25rem 0;'><strong>${contact.name}:</strong> <a href="tel:${contact.number}" style="color: #d32f2f; text-decoration: none; font-weight: bold;">${contact.number}</a></p>`;
+        // Enhanced Security & Privacy
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.pathname);
+        }
+        
+        // Fake Call Generator Variables
+        let fakeCallTimer = null;
+        let fakeCallTimeout = null;
+        let remainingTime = 0;
+        
+        // Enhanced Emergency Exit
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create emergency exit button
+            const emergencyExit = document.createElement('div');
+            emergencyExit.className = 'emergency-exit';
+            emergencyExit.innerHTML = `
+                <button onclick="emergencyRedirect()" 
+                        title="Quickly leaves this site and clears data"
+                        class="emergency-exit-btn">
+                    🚨 Quick Exit
+                </button>
+            `;
+            document.body.appendChild(emergencyExit);
+
+            // Enhanced emergency redirect
+            window.emergencyRedirect = function() {
+                // Clear sensitive data
+                localStorage.removeItem('safetyPlanProgress');
+                sessionStorage.clear();
+                document.querySelectorAll('input, textarea').forEach(element => {
+                    element.value = '';
                 });
-                emergencyHTML += "</div>";
-                
-                const messagesContainer = document.getElementById('aiChatMessages');
-                const emergencyDiv = document.createElement('div');
-                emergencyDiv.innerHTML = emergencyHTML;
-                messagesContainer.appendChild(emergencyDiv);
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            },
-            
-            getRandomResponse(responses) {
-                return responses[Math.floor(Math.random() * responses.length)];
-            },
-            
-            sanitizeText(text) {
-                // Basic sanitization to prevent XSS
-                const div = document.createElement('div');
-                div.textContent = text;
-                return div.innerHTML;
-            },
-            
-            saveConversation() {
-                localStorage.setItem('aiConversation', JSON.stringify(this.conversation));
-            },
-            
-            loadConversation() {
-                const saved = localStorage.getItem('aiConversation');
-                if (saved) {
-                    this.conversation = JSON.parse(saved);
-                    // Optionally reload conversation UI
+                // Cancel any pending fake calls
+                cancelFakeCall();
+                // Redirect to safe page
+                window.location.href = 'https://www.google.com/search?q=weather';
+            };
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' || (e.ctrlKey && e.key === 'q')) {
+                    emergencyRedirect();
                 }
-            },
+            });
             
-            setupAIResponses() {
-                // Pre-load common emergency resources
-                console.log("AI Support System Initialized");
+            // Create Language Selector
+            const languageSelector = document.createElement('select');
+            languageSelector.id = 'languageSelector';
+            languageSelector.innerHTML = `
+                <option value="en">English</option>
+                <option value="zu">Zulu</option>
+                <option value="xh">Xhosa</option>
+                <option value="af">Afrikaans</option>
+            `;
+            languageSelector.onchange = (e) => changeLanguage(e.target.value);
+            document.body.appendChild(languageSelector);
+            
+            // Initialize language
+            const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
+            changeLanguage(savedLanguage);
+            
+            // ANALYTICS TRACKING - INTEGRATED
+            if (typeof analytics !== 'undefined') {
+                analytics.trackPageView('index.html');
+                analytics.trackFeatureUse('homepage_loaded');
+            }
+        });
+        
+        // Language Support
+        const translations = {
+            en: {
+                'home': 'Home',
+                'report': 'Report',
+                'support': 'Support',
+                'stories': 'Stories',
+                'library': 'Resources',
+                'community': 'Community',
+                'events': 'Events',
+                'about': 'About',
+                'safety': 'Safety',
+                'assessment': 'Risk Check',
+                'education': 'Education',
+                'login': 'Admin'
+            },
+            zu: {
+                'home': 'Ikhaya',
+                'report': 'Bika',
+                'support': 'Usizo',
+                'stories': 'Izindaba',
+                'library': 'Izinsiza',
+                'community': 'Umphakathi',
+                'events': 'Imicimbi',
+                'about': 'Mayelana',
+                'safety': 'Ukuphepha',
+                'assessment': 'Ukuhlola',
+                'education': 'Imfundo',
+                'login': 'Admin'
+            },
+            xh: {
+                'home': 'Ekhaya',
+                'report': 'Xela',
+                'support': 'Uncedo',
+                'stories': 'Iimbali',
+                'library': 'Iindlela',
+                'community': 'Uluntu',
+                'events': 'Iivenkile',
+                'about': 'Malunga',
+                'safety': 'Ukhuseleko',
+                'assessment': 'Uvavanyo',
+                'education': 'Imfundo',
+                'login': 'Admin'
+            },
+            af: {
+                'home': 'Tuis',
+                'report': 'Rapporteer',
+                'support': 'Ondersteuning',
+                'stories': 'Stories',
+                'library': 'Hulpbronne',
+                'community': 'Gemeenskap',
+                'events': 'Gebeure',
+                'about': 'Oor',
+                'safety': 'Veiligheid',
+                'assessment': 'Risiko',
+                'education': 'Onderrig',
+                'login': 'Admin'
             }
         };
 
-        // Global Functions
-        function toggleAIChat() {
-            aiSupport.toggleChat();
-        }
+        let currentLanguage = 'en';
 
-        function closeAIChat() {
-            aiSupport.isOpen = false;
-            document.getElementById('aiSupportWidget').classList.remove('ai-support-visible');
-        }
-
-        function sendAIMessage() {
-            aiSupport.sendMessage();
-        }
-
-        function handleAIInput(event) {
-            if (event.key === 'Enter') {
-                sendAIMessage();
-            }
-        }
-
-        function emergencyRedirect() {
-            if (confirm('This will immediately clear your browsing history and redirect to a safe page. Continue?')) {
-                // Clear sensitive data
-                localStorage.removeItem('aiConversation');
-                sessionStorage.clear();
-                
-                // Redirect to safe page
-                window.location.href = 'https://www.google.com/search?q=weather+South+Africa';
-            }
-        }
-
-        function triggerEmergencyProtocol() {
-            aiSupport.toggleChat();
-            aiSupport.addMessage("I need emergency help immediately!", 'user');
-            aiSupport.handleEmergencySituation("emergency");
-        }
-
-        function findSafeLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    position => {
-                        const { latitude, longitude } = position.coords;
-                        alert(`📍 Finding safe locations near you...\nCoordinates: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}\n\nThis would show nearby police stations, shelters, and hospitals.`);
-                    },
-                    error => {
-                        alert('📍 Please enable location services to find safe places near you.');
-                    }
-                );
-            } else {
-                alert('📍 Location services not available on this device.');
-            }
-        }
-
-        function startSafetyPlan() {
-            alert('🛡️ Opening Safety Planning Tool...\n\nThis helps you create a personalized safety plan for different situations.');
-        }
-
-        function connectToCounselor() {
-            alert('👩‍💼 Connecting you with a trained counselor...\n\nYou will be connected to a professional who can provide immediate support.');
-        }
-
-        function loadUserLocation() {
-            findSafeLocation();
-        }
-
-        function startFakeCall() {
-            const minutes = prompt('Set fake call in how many minutes? (1-10)', '3');
-            if (minutes && minutes > 0 && minutes <= 10) {
-                alert(`📱 Fake call scheduled in ${minutes} minutes.\n\nYour phone will ring with a fake "Emergency" call to help you exit safely.`);
-            }
-        }
-
-        function startSafetyScan() {
-            alert('🔒 Starting digital safety scan...\n\nChecking for tracking software and securing your digital privacy.');
-        }
-
-        function startIncidentLog() {
-            alert('📝 Opening secure incident logger...\n\nThis tool helps you document incidents with timestamps and location data.');
-        }
-
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            aiSupport.init();
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('preferredLanguage', lang);
+            applyTranslations();
+            updateLanguageSelector();
             
-            // PWA Installation Prompt
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => console.log('SW registered for offline support'))
-                    .catch(error => console.log('SW registration failed'));
-            }
-            
-            // Enhanced analytics
+            // ANALYTICS TRACKING
             if (typeof analytics !== 'undefined') {
-                analytics.trackPageView('enhanced-homepage');
-                analytics.trackFeatureUse('ai_support_loaded');
+                analytics.trackFeatureUse('language_changed_' + lang);
             }
-        });
+        }
 
-        // Keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeAIChat();
+        function applyTranslations() {
+            const elements = document.querySelectorAll('[data-translate]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[currentLanguage] && translations[currentLanguage][key]) {
+                    element.textContent = translations[currentLanguage][key];
+                }
+            });
+        }
+
+        function updateLanguageSelector() {
+            const selector = document.getElementById('languageSelector');
+            if (selector) {
+                selector.value = currentLanguage;
             }
-            if (e.ctrlKey && e.key === 'k') {
-                e.preventDefault();
-                toggleAIChat();
+        }
+
+        // NEW: Fake Call Generator Functions
+        function scheduleFakeCall(minutes) {
+            // Cancel any existing call
+            cancelFakeCall();
+            
+            // Set the timer
+            remainingTime = minutes * 60; // Convert to seconds
+            document.getElementById('fakeCallActive').style.display = 'block';
+            updateFakeCallTimer();
+            
+            // Start the countdown
+            fakeCallTimer = setInterval(updateFakeCallTimer, 1000);
+            
+            // Set the timeout for the actual call
+            fakeCallTimeout = setTimeout(triggerFakeCall, minutes * 60 * 1000);
+            
+            // ANALYTICS TRACKING
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse('fake_call_scheduled_' + minutes + 'min');
             }
-        });
+            
+            // Show confirmation
+            alert(`Fake call scheduled! You will receive a call in ${minutes} minute${minutes > 1 ? 's' : ''}.`);
+        }
+
+        function scheduleCustomFakeCall() {
+            const minutes = parseInt(document.getElementById('customMinutes').value);
+            if (minutes && minutes > 0 && minutes <= 60) {
+                scheduleFakeCall(minutes);
+                hideCustomTimer();
+            } else {
+                alert('Please enter a valid number between 1 and 60 minutes.');
+            }
+        }
+
+        function showCustomTimer() {
+            document.getElementById('customTimer').style.display = 'block';
+        }
+
+        function hideCustomTimer() {
+            document.getElementById('customTimer').style.display = 'none';
+        }
+
+        function updateFakeCallTimer() {
+            if (remainingTime <= 0) {
+                clearInterval(fakeCallTimer);
+                return;
+            }
+            
+            remainingTime--;
+            const minutes = Math.floor(remainingTime / 60);
+            const seconds = remainingTime % 60;
+            document.getElementById('fakeCallTimer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function triggerFakeCall() {
+            // Stop the timer
+            clearInterval(fakeCallTimer);
+            
+            // Hide the timer display
+            document.getElementById('fakeCallActive').style.display = 'none';
+            
+            // Show the incoming call
+            document.getElementById('fakeCallIncoming').style.display = 'block';
+            
+            // Play ringtone (simulated)
+            playRingtone();
+            
+            // ANALYTICS TRACKING
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse('fake_call_triggered');
+            }
+        }
+
+        function playRingtone() {
+            // In a real implementation, this would play an audio file
+            // For now, we'll just log it
+            console.log('Playing ringtone...');
+        }
+
+        function answerFakeCall() {
+            // Stop the ringtone
+            console.log('Ringtone stopped');
+            
+            // Show call screen
+            alert("📞 Fake Call Active\n\nYou can now pretend to have a conversation. When ready, end the call and use it as an excuse to leave.\n\nExample script:\n'Hello? Oh no, really? I need to come right away. I'll be there soon.'");
+            
+            // Hide the incoming call
+            document.getElementById('fakeCallIncoming').style.display = 'none';
+            
+            // ANALYTICS TRACKING
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse('fake_call_answered');
+            }
+        }
+
+        function declineFakeCall() {
+            // Stop the ringtone
+            console.log('Ringtone stopped');
+            
+            // Hide the incoming call
+            document.getElementById('fakeCallIncoming').style.display = 'none';
+            
+            // Show message
+            alert("Call declined. You can schedule another fake call if needed.");
+            
+            // ANALYTICS TRACKING
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse('fake_call_declined');
+            }
+        }
+
+        function cancelFakeCall() {
+            // Clear timers
+            clearInterval(fakeCallTimer);
+            clearTimeout(fakeCallTimeout);
+            
+            // Hide displays
+            document.getElementById('fakeCallActive').style.display = 'none';
+            document.getElementById('fakeCallIncoming').style.display = 'none';
+            
+            // Reset variables
+            remainingTime = 0;
+            
+            // Show confirmation
+            alert("Fake call cancelled.");
+            
+            // ANALYTICS TRACKING
+            if (typeof analytics !== 'undefined') {
+                analytics.trackFeatureUse('fake_call_cancelled');
+            }
+        }
     </script>
 </body>
 </html>
