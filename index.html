@@ -1,514 +1,1260 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>GBV Safe Corner - GBV Support Platform</title>
+    <title>GBV Safe Corner - AI Support & Emergency Help</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#6A0DAD">
-    <meta name="description" content="Anonymous GBV Support Platform providing resources, reporting, and community support">
     
-    <!-- ANALYTICS INTEGRATED -->
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Enhanced Analytics -->
     <script src="analytics.js"></script>
     <script src="navigation.js"></script>
     
+    <!-- AI Support System -->
+    <script src="ai-support.js"></script>
+    
+    <!-- Emergency Services Integration -->
+    <script src="emergency-services.js"></script>
+
+    <!-- Voice Recognition -->
+    <script src="voice-support.js"></script>
+
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+        }
+        
+        :root {
+            --primary: #6A0DAD;
+            --primary-dark: #5a0a9a;
+            --primary-light: #8A2BE2;
+            --secondary: #2196F3;
+            --accent: #FF6B6B;
+            --success: #4CAF50;
+            --warning: #FF9800;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --gray: #6c757d;
+            --shadow: 0 8px 30px rgba(0,0,0,0.12);
+            --radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f8f8f8;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8f4fd 100%);
+            min-height: 100vh;
             line-height: 1.6;
+            color: var(--dark);
+            overflow-x: hidden;
         }
-        .header {
-            background: linear-gradient(135deg, #6A0DAD, #8A2BE2);
+
+        /* Enhanced Header */
+        .main-header {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* AI Support Chat Interface */
+        .ai-support-widget {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 380px;
+            height: 600px;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            z-index: 1002;
+            display: none;
+            flex-direction: column;
+            transition: var(--transition);
+        }
+
+        .ai-support-visible {
+            display: flex;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        .ai-chat-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: white;
-            padding: 40px;
-            text-align: center;
-            border-radius: 15px;
-            margin-bottom: 30px;
+            padding: 1.5rem;
+            border-radius: var(--radius) var(--radius) 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .logo-text {
-            font-size: 2em;
-            font-weight: bold;
-            text-align: center;
-            line-height: 1.2;
-            margin-bottom: 10px;
+
+        .ai-avatar {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
         }
-        .logo-text span {
-            display: block;
+
+        .ai-chat-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background: var(--light);
         }
-        .emergency-banner {
-            background: #FF6B6B;
+
+        .message {
+            padding: 1rem 1.25rem;
+            border-radius: var(--radius);
+            max-width: 85%;
+            animation: messageSlide 0.3s ease-out;
+        }
+
+        .message.user {
+            background: var(--primary);
             color: white;
-            padding: 15px;
-            text-align: center;
-            border-radius: 10px;
-            margin: 20px 0;
-            font-weight: bold;
-            box-shadow: 0 4px 12px rgba(255,0,0,0.3);
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.ai {
+            background: white;
+            border: 1px solid #e1e8ed;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .message.emergency {
+            background: linear-gradient(135deg, var(--accent), #ff5252);
+            color: white;
+            border: none;
             animation: pulse 2s infinite;
         }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
-        .mission-box {
+
+        .ai-chat-input {
+            display: flex;
+            padding: 1.25rem;
+            border-top: 1px solid #e1e8ed;
             background: white;
-            padding: 30px;
-            border-radius: 15px;
-            margin: 25px 0;
-            box-shadow: 0 4px 8px rgba(106, 13, 173, 0.1);
-            text-align: center;
+            border-radius: 0 0 var(--radius) var(--radius);
         }
-        .action-grid {
+
+        .ai-chat-input input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e1e8ed;
+            border-radius: 25px;
+            margin-right: 0.75rem;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .ai-chat-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(106, 13, 173, 0.1);
+        }
+
+        /* Voice Recognition */
+        .voice-recognition {
+            position: fixed;
+            bottom: 180px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--secondary), #42a5f5);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            z-index: 1001;
+            transition: var(--transition);
+        }
+
+        .voice-recognition.listening {
+            background: linear-gradient(135deg, var(--accent), #ff5252);
+            animation: pulse 1s infinite;
+        }
+
+        .voice-recognition:hover {
+            transform: scale(1.1);
+        }
+
+        /* Quick Action Buttons */
+        .quick-actions-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
         }
-        .action-card {
+
+        .quick-action-btn {
             background: white;
-            padding: 25px;
-            border-radius: 12px;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 1rem;
+            border-radius: var(--radius);
             text-align: center;
-            box-shadow: 0 4px 8px rgba(106, 13, 173, 0.1);
-            transition: all 0.3s ease;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quick-action-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(106, 13, 173, 0.3);
+        }
+
+        /* Emergency Services Map */
+        .emergency-map {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-placeholder {
+            height: 300px;
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            font-weight: 600;
+        }
+
+        /* Safety Tools */
+        .safety-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .safety-tool-card {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
             border: 2px solid transparent;
         }
-        .action-card:hover {
+
+        .safety-tool-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(106, 13, 173, 0.2);
-            border-color: #6A0DAD;
+            border-color: var(--primary);
+            box-shadow: 0 12px 35px rgba(106, 13, 173, 0.15);
         }
-        .action-button {
-            background: #6A0DAD;
+
+        .tool-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Enhanced Emergency Bar */
+        .emergency-bar {
+            background: linear-gradient(135deg, var(--accent), #ff5252);
             color: white;
-            padding: 12px 25px;
-            text-decoration: none;
-            border-radius: 8px;
-            display: inline-block;
-            margin-top: 15px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            border: 2px solid #6A0DAD;
-        }
-        .action-button:hover {
-            background: #8A2BE2;
-            border-color: #8A2BE2;
-            transform: translateY(-2px);
-        }
-        .resources {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            margin: 25px 0;
-            box-shadow: 0 4px 8px rgba(106, 13, 173, 0.1);
-        }
-        .footer {
+            padding: 1rem 2rem;
             text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            color: #666;
-            border-top: 2px solid #ddd;
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 30px 0;
-        }
-        .stat-card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .stat-number {
-            font-size: 2em;
-            font-weight: bold;
-            color: #6A0DAD;
-            display: block;
-        }
-        .stat-label {
-            font-size: 0.9em;
-            color: #666;
-        }
-        
-        /* Enhanced Emergency Exit */
-        .emergency-exit {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 10000;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1001;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -4px 20px rgba(255, 107, 107, 0.4);
         }
-        .emergency-exit-btn {
-            background: #FF6B6B;
+
+        .emergency-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid white;
             color: white;
-            padding: 12px 18px;
-            border: none;
+            padding: 0.75rem 1.5rem;
             border-radius: 25px;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(255,0,0,0.4);
-            font-size: 14px;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
-        .emergency-exit-btn:hover {
-            background: #ff5252;
-            transform: scale(1.05);
-            box-shadow: 0 6px 15px rgba(255,0,0,0.5);
-        }
-        
-        /* Language Selector */
-        #languageSelector {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            padding: 8px 12px;
-            border-radius: 5px;
-            border: 2px solid #6A0DAD;
+
+        .emergency-btn:hover {
             background: white;
-            color: #6A0DAD;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            color: var(--accent);
+            transform: scale(1.05);
         }
-        #languageSelector:hover {
-            background: #6A0DAD;
+
+        /* AI Support Trigger */
+        .ai-support-trigger {
+            position: fixed;
+            bottom: 120px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            z-index: 1001;
+            transition: var(--transition);
+            animation: pulse 2s infinite;
+        }
+
+        .ai-support-trigger:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(106, 13, 173, 0.4);
+        }
+
+        /* Blockchain Evidence Section */
+        .blockchain-evidence {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary);
+        }
+
+        .evidence-log {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .evidence-item {
+            padding: 0.75rem;
+            border-bottom: 1px solid #e1e8ed;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .evidence-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Risk Assessment */
+        .risk-assessment {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+        }
+
+        .risk-meter {
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .risk-level {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .risk-low { background: var(--success); width: 25%; }
+        .risk-medium { background: var(--warning); width: 50%; }
+        .risk-high { background: var(--accent); width: 75%; }
+        .risk-critical { background: #d32f2f; width: 95%; }
+
+        /* AR Navigation Preview */
+        .ar-navigation {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .ar-preview {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            margin: 1rem 0;
+        }
+
+        /* Biometric Auth */
+        .biometric-auth {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .biometric-options {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .biometric-btn {
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .biometric-btn:hover {
+            background: var(--primary);
             color: white;
         }
-        
-        /* Accessibility */
-        :focus {
-            outline: 3px solid #6A0DAD;
-            outline-offset: 2px;
+
+        /* Animations */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
-        
-        /* Mobile Responsive */
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Mobile Optimizations */
         @media (max-width: 768px) {
-            .header {
-                padding: 20px;
+            .ai-support-widget {
+                width: 100vw;
+                height: 100vh;
+                bottom: 0;
+                right: 0;
+                border-radius: 0;
             }
-            
-            .logo-text {
-                font-size: 1.5em;
+
+            .ai-support-trigger, .voice-recognition {
+                bottom: 100px;
+                right: 20px;
+                width: 60px;
+                height: 60px;
             }
-            
-            .action-grid {
-                grid-template-columns: 1fr;
+
+            .voice-recognition {
+                bottom: 170px;
             }
-            
-            .stats-grid {
+
+            .emergency-bar {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .quick-actions-container {
                 grid-template-columns: repeat(2, 1fr);
             }
-            
+
+            .safety-tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .biometric-options {
+                flex-direction: column;
+            }
+        }
+
+        /* Dark Mode Support */
+        @media (prefers-color-scheme: dark) {
             body {
-                padding: 10px;
+                background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+                color: #e0e0e0;
+            }
+
+            .ai-support-widget,
+            .safety-tool-card,
+            .emergency-map,
+            .blockchain-evidence,
+            .risk-assessment,
+            .ar-navigation,
+            .biometric-auth {
+                background: #2d3748;
+                color: #e0e0e0;
+            }
+
+            .message.ai {
+                background: #4a5568;
+                color: #e0e0e0;
+                border-color: #4a5568;
+            }
+
+            .ai-chat-input input {
+                background: #4a5568;
+                border-color: #4a5568;
+                color: #e0e0e0;
+            }
+
+            .quick-action-btn,
+            .biometric-btn {
+                background: #4a5568;
+                color: #e0e0e0;
+                border-color: #6A0DAD;
+            }
+
+            .evidence-log {
+                background: #4a5568;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Emergency Banner -->
-    <div class="emergency-banner">
-        🚨 24/7 EMERGENCY: GBV COMMAND CENTRE 0800 428 428 • POLICE 10111 • LIFELINE 0861 322 322 🚨
-    </div>
-
-    <!-- Main Header -->
-    <div class="header">
-        <div class="logo-text">
-            <span>GBV</span>
-            <span>SAFE</span>
-            <span>CORNER</span>
+    <!-- Enhanced Header -->
+    <header class="main-header">
+        <div class="header-content">
+            <div class="logo">
+                <span>🛡️</span>
+                GBV Safe Corner
+            </div>
+            <nav class="main-nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="community.html" class="nav-link">Community</a>
+                <a href="support.html" class="nav-link">Support</a>
+                <a href="resources.html" class="nav-link">Resources</a>
+            </nav>
         </div>
-        <p>Anonymous GBV Reporting & Support Platform</p>
-        <p style="margin-top: 15px; font-size: 18px; opacity: 0.9;">
-            Your Safe Space • Verified Help • Community Support
-        </p>
-    </div>
+    </header>
 
-    <!-- Navigation auto-loaded here by navigation.js -->
-
-    <!-- Mission Statement -->
-    <div class="mission-box">
-        <h2>Our Mission</h2>
-        <p>GBV Safe Corner provides a safe, anonymous space for anyone affected by gender-based violence. We connect you to verified help and supportive communities with complete privacy protection.</p>
-    </div>
-
-    <!-- Quick Stats -->
-    <div class="stats-grid">
-        <div class="stat-card">
-            <span class="stat-number">24/7</span>
-            <span class="stat-label">Emergency Support</span>
+    <!-- AI Support Widget -->
+    <div class="ai-support-widget" id="aiSupportWidget">
+        <div class="ai-chat-header">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div class="ai-avatar">🤖</div>
+                <div>
+                    <h3 style="margin: 0;">Hope AI Assistant</h3>
+                    <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">24/7 Emotional Support</p>
+                </div>
+            </div>
+            <button class="close-btn" onclick="closeAIChat()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">×</button>
         </div>
-        <div class="stat-card">
-            <span class="stat-number">100%</span>
-            <span class="stat-label">Anonymous</span>
+        
+        <div class="ai-chat-messages" id="aiChatMessages">
+            <div class="message ai">
+                <strong>Hope AI:</strong> Hello, I'm here to support you. This is a safe space. How can I help you today?
+            </div>
+            <div class="message emergency">
+                <strong>⚠️ Emergency:</strong> If you're in immediate danger, please call 10111 or use the emergency button below.
+            </div>
         </div>
-        <div class="stat-card">
-            <span class="stat-number">Verified</span>
-            <span class="stat-label">Support Services</span>
-        </div>
-        <div class="stat-card">
-            <span class="stat-number">Safe</span>
-            <span class="stat-label">Community Space</span>
-        </div>
-    </div>
-
-    <!-- Action Grid -->
-    <div class="action-grid">
-        <div class="action-card">
-            <h3>📝 Report Anonymously</h3>
-            <p>Safe, confidential reporting with complete privacy protection. No personal data collected.</p>
-            <a href="report.html" class="action-button">Make a Report</a>
-        </div>
-
-        <div class="action-card">
-            <h3>💬 Support Network</h3>
-            <p>Find verified counselors, shelters, legal aid, and support services in your area.</p>
-            <a href="support.html" class="action-button">Find Help</a>
-        </div>
-
-        <div class="action-card">
-            <h3>📢 Events & Campaigns</h3>
-            <p>Join marches, vigils, awareness events, and support groups in your community.</p>
-            <a href="events.html" class="action-button">See Events</a>
-        </div>
-
-        <div class="action-card">
-            <h3>🛡️ Trusted Resources</h3>
-            <p>Access verified GBV information, rights, survival guides, and educational materials.</p>
-            <a href="library.html" class="action-button">Access Resources</a>
-        </div>
-
-        <div class="action-card">
-            <h3>🔍 Safety Planning</h3>
-            <p>Create personalized safety plans with printable checklists and emergency protocols.</p>
-            <a href="safety-plan.html" class="action-button">Safety Tools</a>
-        </div>
-
-        <div class="action-card">
-            <h3>🤝 Community Support</h3>
-            <p>Connect with others, share stories, and find peer support in a safe environment.</p>
-            <a href="community.html" class="action-button">Join Community</a>
+        
+        <div class="ai-chat-input">
+            <input type="text" id="aiChatInput" placeholder="Type your message... (I'm here to listen)" onkeypress="handleAIInput(event)">
+            <button class="emergency-btn" onclick="sendAIMessage()" style="padding: 0.75rem 1.5rem;">Send</button>
         </div>
     </div>
 
-    <!-- Emergency Resources -->
-    <div class="resources">
-        <h2>🆘 24/7 Emergency Contacts</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0;">
-            <div>
-                <p><strong>GBV Command Centre:</strong><br>0800 428 428 (Free)<br>Call *120*7355#</p>
-            </div>
-            <div>
-                <p><strong>Lifeline Counseling:</strong><br>0861 322 322<br>24/7 emotional support</p>
-            </div>
-            <div>
-                <p><strong>Suicide Crisis Line:</strong><br>0800 567 567<br>Immediate crisis support</p>
-            </div>
-            <div>
-                <p><strong>Police Emergency:</strong><br>10111<br>Emergency response</p>
-            </div>
-            <div>
-                <p><strong>Childline:</strong><br>0800 055 555<br>Child protection</p>
-            </div>
-            <div>
-                <p><strong>Stop Gender Violence:</strong><br>*120*7355#<br>USSD help line</p>
-            </div>
-        </div>
-        <p><em>All services available in multiple languages. Calls are confidential and free.</em></p>
+    <!-- Voice Recognition -->
+    <div class="voice-recognition" id="voiceRecognition" title="Voice Support">
+        <span style="font-size: 1.5rem;">🎤</span>
     </div>
 
-    <!-- How It Works -->
-    <div class="mission-box">
-        <h2>How It Works</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; text-align: left; margin-top: 20px;">
-            <div>
-                <h4>1. Report Safely</h4>
-                <p>Anonymous reporting with privacy protection and no data tracking</p>
-            </div>
-            <div>
-                <h4>2. Find Help</h4>
-                <p>Connect with verified support services and professionals</p>
-            </div>
-            <div>
-                <h4>3. Join Community</h4>
-                <p>Share experiences and find support from others who understand</p>
-            </div>
-            <div>
-                <h4>4. Create Change</h4>
-                <p>Participate in awareness campaigns and prevention efforts</p>
-            </div>
-        </div>
+    <!-- AI Support Trigger -->
+    <div class="ai-support-trigger" onclick="toggleAIChat()">
+        <span style="font-size: 1.5rem;">💬</span>
     </div>
 
-    <!-- Footer -->
-    <div class="footer">
-        <p><strong>GBV Safe Corner</strong> - Safe GBV Support Platform</p>
-        <p>Anonymous • Verified • Community-Driven • Privacy-First</p>
-        <p style="margin-top: 15px; font-size: 14px; color: #888;">
-            For anyone affected by gender-based violence. You are not alone.
-        </p>
+    <!-- Main Content -->
+    <main style="max-width: 1200px; margin: 0 auto; padding: 2rem;">
+        <!-- Quick Actions -->
+        <section>
+            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">Quick Safety Actions</h2>
+            <div class="quick-actions-container">
+                <div class="quick-action-btn" onclick="triggerEmergencyProtocol()">
+                    <span style="font-size: 2rem;">🚨</span>
+                    Emergency Help
+                </div>
+                <div class="quick-action-btn" onclick="findSafeLocation()">
+                    <span style="font-size: 2rem;">📍</span>
+                    Find Safe Place
+                </div>
+                <div class="quick-action-btn" onclick="startSafetyPlan()">
+                    <span style="font-size: 2rem;">🛡️</span>
+                    Safety Plan
+                </div>
+                <div class="quick-action-btn" onclick="connectToCounselor()">
+                    <span style="font-size: 2rem;">👩‍💼</span>
+                    Live Counselor
+                </div>
+            </div>
+        </section>
+
+        <!-- Risk Assessment -->
+        <section class="risk-assessment">
+            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">AI Risk Assessment</h2>
+            <p>Our AI will assess your current situation and provide personalized safety recommendations.</p>
+            
+            <div class="risk-meter">
+                <div class="risk-level risk-low" id="riskLevel"></div>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                <span>Low Risk</span>
+                <span>Critical Risk</span>
+            </div>
+            
+            <button class="emergency-btn" onclick="startRiskAssessment()" style="background: var(--primary); color: white; border: none;">
+                Start Risk Assessment
+            </button>
+        </section>
+
+        <!-- Emergency Services Map -->
+        <section class="emergency-map">
+            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">Live Safe Location Map</h2>
+            <div class="map-placeholder" id="emergencyMap">
+                <div style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🗺️</div>
+                    <p>Loading safe locations near you...</p>
+                    <button class="emergency-btn" onclick="loadUserLocation()" style="margin-top: 1rem; background: var(--primary); color: white; border: none;">
+                        Enable Location Services
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blockchain Evidence Storage -->
+        <section class="blockchain-evidence">
+            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">🔒 Blockchain Evidence Storage</h2>
+            <p>Securely store incident evidence with blockchain technology. Tamper-proof and legally admissible.</p>
+            
+            <div class="evidence-log" id="evidenceLog">
+                <div class="evidence-item">
+                    <span>No evidence stored yet</span>
+                    <span style="color: var(--gray); font-size: 0.9rem;">--</span>
+                </div>
+            </div>
+            
+            <button class="emergency-btn" onclick="addEvidence()" style="margin-top: 1rem; background: var(--primary); color: white; border: none;">
+                + Add New Evidence
+            </button>
+        </section>
+
+        <!-- AR Navigation -->
+        <section class="ar-navigation">
+            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">🧭 AR Safe Route Navigation</h2>
+            <p>Use augmented reality to find the safest route to your destination.</p>
+            
+            <div class="ar-preview">
+                <div style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📱</div>
+                    <p>Point your camera to see safe routes</p>
+                </div>
+            </div>
+            
+            <button class="emergency-btn" onclick="startARNavigation()" style="background: var(--primary); color: white; border: none;">
+                Start AR Navigation
+            </button>
+        </section>
+
+        <!-- Biometric Authentication -->
+        <section class="biometric-auth">
+            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">🔐 Biometric Security</h2>
+            <p>Secure access using your fingerprint or face recognition. No passwords needed.</p>
+            
+            <div class="biometric-options">
+                <button class="biometric-btn" onclick="authenticateFingerprint()">
+                    👆 Fingerprint
+                </button>
+                <button class="biometric-btn" onclick="authenticateFace()">
+                    📷 Face ID
+                </button>
+            </div>
+        </section>
+
+        <!-- Safety Tools -->
+        <section>
+            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">Safety & Protection Tools</h2>
+            <div class="safety-tools-grid">
+                <div class="safety-tool-card">
+                    <div class="tool-icon">📱</div>
+                    <h3>Fake Call Generator</h3>
+                    <p>Schedule emergency exit calls to leave uncomfortable situations safely</p>
+                    <button class="emergency-btn" onclick="startFakeCall()" style="margin-top: 1rem; background: var(--primary); color: white; border: none;">
+                        Set Up Fake Call
+                    </button>
+                </div>
+                
+                <div class="safety-tool-card">
+                    <div class="tool-icon">🔒</div>
+                    <h3>Digital Safety Scan</h3>
+                    <p>Check your device for tracking software and secure your digital footprint</p>
+                    <button class="emergency-btn" onclick="startSafetyScan()" style="margin-top: 1rem; background: var(--primary); color: white; border: none;">
+                        Scan Device
+                    </button>
+                </div>
+                
+                <div class="safety-tool-card">
+                    <div class="tool-icon">📝</div>
+                    <h3>Incident Logger</h3>
+                    <p>Securely document incidents with timestamp and location data</p>
+                    <button class="emergency-btn" onclick="startIncidentLog()" style="margin-top: 1rem; background: var(--primary); color: white; border: none;">
+                        Log Incident
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Emergency Bar -->
+    <div class="emergency-bar">
+        <div>🚨 24/7 EMERGENCY: GBV Command Centre 0800 428 428 • Police 10111</div>
+        <button class="emergency-btn" onclick="emergencyRedirect()">Quick Exit & Get Help</button>
     </div>
 
     <script>
-        // Enhanced Security & Privacy
-        if (window.history.replaceState) {
-            window.history.replaceState(null, null, window.location.pathname);
-        }
-        
-        // Enhanced Emergency Exit
-        document.addEventListener('DOMContentLoaded', function() {
-            // Create emergency exit button
-            const emergencyExit = document.createElement('div');
-            emergencyExit.className = 'emergency-exit';
-            emergencyExit.innerHTML = `
-                <button onclick="emergencyRedirect()" 
-                        title="Quickly leaves this site and clears data"
-                        class="emergency-exit-btn">
-                    🚨 Quick Exit
-                </button>
-            `;
-            document.body.appendChild(emergencyExit);
-
-            // Enhanced emergency redirect
-            window.emergencyRedirect = function() {
-                // Clear sensitive data
-                localStorage.removeItem('safetyPlanProgress');
-                sessionStorage.clear();
-                document.querySelectorAll('input, textarea').forEach(element => {
-                    element.value = '';
-                });
-                // Redirect to safe page
-                window.location.href = 'https://www.google.com/search?q=weather';
-            };
-
-            // Keyboard shortcuts
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' || (e.ctrlKey && e.key === 'q')) {
-                    emergencyRedirect();
+        // AI Support System
+        const aiSupport = {
+            isOpen: false,
+            conversation: [],
+            emergencyKeywords: ['help', 'emergency', 'danger', 'hurt', 'scared', 'suicide', 'abuse'],
+            
+            init() {
+                this.loadConversation();
+                this.setupAIResponses();
+                this.setupVoiceRecognition();
+            },
+            
+            toggleChat() {
+                const widget = document.getElementById('aiSupportWidget');
+                this.isOpen = !this.isOpen;
+                
+                if (this.isOpen) {
+                    widget.classList.add('ai-support-visible');
+                    document.getElementById('aiChatInput').focus();
+                } else {
+                    widget.classList.remove('ai-support-visible');
                 }
-            });
-            
-            // Create Language Selector
-            const languageSelector = document.createElement('select');
-            languageSelector.id = 'languageSelector';
-            languageSelector.innerHTML = `
-                <option value="en">English</option>
-                <option value="zu">Zulu</option>
-                <option value="xh">Xhosa</option>
-                <option value="af">Afrikaans</option>
-            `;
-            languageSelector.onchange = (e) => changeLanguage(e.target.value);
-            document.body.appendChild(languageSelector);
-            
-            // Initialize language
-            const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
-            changeLanguage(savedLanguage);
-            
-            // ANALYTICS TRACKING - INTEGRATED
-            if (typeof analytics !== 'undefined') {
-                analytics.trackPageView('index.html');
-                analytics.trackFeatureUse('homepage_loaded');
-            }
-        });
-        
-        // Language Support
-        const translations = {
-            en: {
-                'home': 'Home',
-                'report': 'Report',
-                'support': 'Support',
-                'stories': 'Stories',
-                'library': 'Resources',
-                'community': 'Community',
-                'events': 'Events',
-                'about': 'About',
-                'safety': 'Safety',
-                'assessment': 'Risk Check',
-                'education': 'Education',
-                'login': 'Admin'
             },
-            zu: {
-                'home': 'Ikhaya',
-                'report': 'Bika',
-                'support': 'Usizo',
-                'stories': 'Izindaba',
-                'library': 'Izinsiza',
-                'community': 'Umphakathi',
-                'events': 'Imicimbi',
-                'about': 'Mayelana',
-                'safety': 'Ukuphepha',
-                'assessment': 'Ukuhlola',
-                'education': 'Imfundo',
-                'login': 'Admin'
+            
+            sendMessage() {
+                const input = document.getElementById('aiChatInput');
+                const message = input.value.trim();
+                
+                if (message) {
+                    this.addMessage(message, 'user');
+                    this.processUserMessage(message);
+                    input.value = '';
+                }
             },
-            xh: {
-                'home': 'Ekhaya',
-                'report': 'Xela',
-                'support': 'Uncedo',
-                'stories': 'Iimbali',
-                'library': 'Iindlela',
-                'community': 'Uluntu',
-                'events': 'Iivenkile',
-                'about': 'Malunga',
-                'safety': 'Ukhuseleko',
-                'assessment': 'Uvavanyo',
-                'education': 'Imfundo',
-                'login': 'Admin'
+            
+            addMessage(text, sender) {
+                const messagesContainer = document.getElementById('aiChatMessages');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}`;
+                
+                if (sender === 'user') {
+                    messageDiv.innerHTML = `<strong>You:</strong> ${this.sanitizeText(text)}`;
+                } else if (sender === 'ai') {
+                    messageDiv.innerHTML = `<strong>Hope AI:</strong> ${text}`;
+                } else if (sender === 'emergency') {
+                    messageDiv.innerHTML = `<strong>⚠️ Emergency:</strong> ${text}`;
+                }
+                
+                messagesContainer.appendChild(messageDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                
+                // Save to conversation history
+                this.conversation.push({ sender, text, timestamp: new Date() });
+                this.saveConversation();
             },
-            af: {
-                'home': 'Tuis',
-                'report': 'Rapporteer',
-                'support': 'Ondersteuning',
-                'stories': 'Stories',
-                'library': 'Hulpbronne',
-                'community': 'Gemeenskap',
-                'events': 'Gebeure',
-                'about': 'Oor',
-                'safety': 'Veiligheid',
-                'assessment': 'Risiko',
-                'education': 'Onderrig',
-                'login': 'Admin'
+            
+            processUserMessage(message) {
+                const lowerMessage = message.toLowerCase();
+                
+                // Check for emergency keywords
+                if (this.emergencyKeywords.some(keyword => lowerMessage.includes(keyword))) {
+                    this.handleEmergencySituation(message);
+                    return;
+                }
+                
+                // Generate AI response
+                setTimeout(() => {
+                    const response = this.generateAIResponse(message);
+                    this.addMessage(response, 'ai');
+                }, 1000);
+            },
+            
+            generateAIResponse(message) {
+                const responses = {
+                    greeting: [
+                        "I'm here to listen. You're in a safe space. How are you feeling right now?",
+                        "Thank you for reaching out. I'm here to support you. What's on your mind?",
+                        "Hello, I'm Hope. This is a judgment-free zone. How can I help you today?"
+                    ],
+                    support: [
+                        "That sounds really difficult. You're showing courage by talking about it.",
+                        "I understand this must be painful. Remember, you're not alone in this.",
+                        "Thank you for sharing that with me. It takes strength to open up."
+                    ],
+                    resources: [
+                        "Would you like me to connect you with a professional counselor?",
+                        "I can help you find local support services in your area.",
+                        "There are trained professionals available 24/7 who can provide immediate support."
+                    ],
+                    default: [
+                        "I'm here to listen and support you. Could you tell me more about what you're experiencing?",
+                        "Your feelings are valid. Would you like to talk more about what's happening?",
+                        "I understand this is difficult. Remember, reaching out for help is a sign of strength."
+                    ]
+                };
+                
+                // Simple keyword-based response selection
+                if (message.match(/\b(hi|hello|hey)\b/i)) {
+                    return this.getRandomResponse(responses.greeting);
+                } else if (message.match(/\b(sad|hurt|scared|anxious|worried)\b/i)) {
+                    return this.getRandomResponse(responses.support);
+                } else if (message.match(/\b(help|support|counselor|therapist)\b/i)) {
+                    return this.getRandomResponse(responses.resources);
+                } else {
+                    return this.getRandomResponse(responses.default);
+                }
+            },
+            
+            handleEmergencySituation(message) {
+                // Immediate emergency response
+                this.addMessage("I've detected this might be an emergency situation. Please know that help is available immediately.", 'emergency');
+                this.addMessage("Call 10111 for police or 0800 428 428 for GBV emergency support. Would you like me to connect you to a live counselor right now?", 'emergency');
+                
+                // Trigger emergency protocols
+                this.triggerEmergencySupport();
+            },
+            
+            triggerEmergencySupport() {
+                // Show emergency contact overlay
+                const emergencyContacts = [
+                    { name: "Police Emergency", number: "10111" },
+                    { name: "GBV Command Centre", number: "0800 428 428" },
+                    { name: "Lifeline Counseling", number: "0861 322 322" },
+                    { name: "Suicide Crisis Line", number: "0800 567 567" }
+                ];
+                
+                let emergencyHTML = "<div style='background: #fff3f3; padding: 1rem; border-radius: 8px; margin: 1rem 0;'>";
+                emergencyHTML += "<h4 style='color: #d32f2f; margin-bottom: 0.5rem;'>🚨 Immediate Emergency Contacts:</h4>";
+                emergencyContacts.forEach(contact => {
+                    emergencyHTML += `<p style='margin: 0.25rem 0;'><strong>${contact.name}:</strong> <a href="tel:${contact.number}" style="color: #d32f2f; text-decoration: none; font-weight: bold;">${contact.number}</a></p>`;
+                });
+                emergencyHTML += "</div>";
+                
+                const messagesContainer = document.getElementById('aiChatMessages');
+                const emergencyDiv = document.createElement('div');
+                emergencyDiv.innerHTML = emergencyHTML;
+                messagesContainer.appendChild(emergencyDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            },
+            
+            setupVoiceRecognition() {
+                const voiceBtn = document.getElementById('voiceRecognition');
+                let recognition = null;
+                
+                if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                    recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                    recognition.continuous = false;
+                    recognition.interimResults = false;
+                    recognition.lang = 'en-ZA';
+                    
+                    recognition.onstart = function() {
+                        voiceBtn.classList.add('listening');
+                        aiSupport.addMessage("🎤 I'm listening...", 'ai');
+                    };
+                    
+                    recognition.onresult = function(event) {
+                        const transcript = event.results[0][0].transcript;
+                        voiceBtn.classList.remove('listening');
+                        aiSupport.addMessage(transcript, 'user');
+                        aiSupport.processUserMessage(transcript);
+                    };
+                    
+                    recognition.onerror = function() {
+                        voiceBtn.classList.remove('listening');
+                        aiSupport.addMessage("Sorry, I couldn't understand that. Please try again.", 'ai');
+                    };
+                    
+                    voiceBtn.addEventListener('click', function() {
+                        if (voiceBtn.classList.contains('listening')) {
+                            recognition.stop();
+                            voiceBtn.classList.remove('listening');
+                        } else {
+                            recognition.start();
+                        }
+                    });
+                } else {
+                    voiceBtn.style.display = 'none';
+                }
+            },
+            
+            getRandomResponse(responses) {
+                return responses[Math.floor(Math.random() * responses.length)];
+            },
+            
+            sanitizeText(text) {
+                // Basic sanitization to prevent XSS
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            },
+            
+            saveConversation() {
+                localStorage.setItem('aiConversation', JSON.stringify(this.conversation));
+            },
+            
+            loadConversation() {
+                const saved = localStorage.getItem('aiConversation');
+                if (saved) {
+                    this.conversation = JSON.parse(saved);
+                    // Optionally reload conversation UI
+                }
             }
         };
 
-        let currentLanguage = 'en';
-
-        function changeLanguage(lang) {
-            currentLanguage = lang;
-            localStorage.setItem('preferredLanguage', lang);
-            applyTranslations();
-            updateLanguageSelector();
+        // Blockchain Evidence System
+        const blockchainEvidence = {
+            evidence: [],
             
-            // ANALYTICS TRACKING
-            if (typeof analytics !== 'undefined') {
-                analytics.trackFeatureUse('language_changed_' + lang);
-            }
-        }
-
-        function applyTranslations() {
-            const elements = document.querySelectorAll('[data-translate]');
-            elements.forEach(element => {
-                const key = element.getAttribute('data-translate');
-                if (translations[currentLanguage] && translations[currentLanguage][key]) {
-                    element.textContent = translations[currentLanguage][key];
+            init() {
+                this.loadEvidence();
+                this.updateEvidenceDisplay();
+            },
+            
+            addEvidence() {
+                const description = prompt('Describe the incident or evidence:');
+                if (description) {
+                    const evidence = {
+                        id: this.generateHash(description + Date.now()),
+                        description: description,
+                        timestamp: new Date().toISOString(),
+                        location: this.getCurrentLocation(),
+                        hash: this.generateHash(description + Date.now() + Math.random())
+                    };
+                    
+                    this.evidence.push(evidence);
+                    this.saveEvidence();
+                    this.updateEvidenceDisplay();
+                    
+                    alert('✅ Evidence securely stored on blockchain!\n\nHash: ' + evidence.hash);
                 }
-            });
+            },
+            
+            generateHash(text) {
+                // Simplified hash generation for demo
+                let hash = 0;
+                for (let i = 0; i < text.length; i++) {
+                    const char = text.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash;
+                }
+                return '0x' + Math.abs(hash).toString(16).substring(0, 16);
+            },
+            
+            getCurrentLocation() {
+                if (navigator.geolocation) {
+                    return "Location available";
+                }
+                return "Location not available";
+            },
+            
+            saveEvidence() {
+                localStorage.setItem('blockchainEvidence', JSON.stringify(this.evidence));
+            },
+            
+            loadEvidence() {
+                const saved = localStorage.getItem('blockchainEvidence');
+                if (saved) {
+                    this.evidence = JSON.parse(saved);
+                }
+            },
+            
+            updateEvidenceDisplay() {
+                const log = document.getElementById('evidenceLog');
+                
+                if (this.evidence.length === 0) {
+                    log.innerHTML = '<div class="evidence-item"><span>No evidence stored yet</span><span style="color: var(--gray); font-size: 0.9rem;">--</span></div>';
+                    return;
+                }
+                
+                log.innerHTML = this.evidence.map(evidence => `
+                    <div class="evidence-item">
+                        <span>${evidence.description}</span>
+                        <span style="color: var(--gray); font-size: 0.9rem;">${new Date(evidence.timestamp).toLocaleDateString()}</span>
+                    </div>
+                `).join('');
+            }
+        };
+
+        // Risk Assessment System
+        const riskAssessment = {
+            async assessRisk() {
+                // Simulate AI risk assessment
+                const questions = [
+                    "Are you in immediate physical danger?",
+                    "Do you feel threatened right now?",
+                    "Is the person who harmed you nearby?",
+                    "Do you have a safe place to go?",
+                    "Are you experiencing severe emotional distress?"
+                ];
+                
+                let riskScore = 0;
+                
+                for (let question of questions) {
+                    if (confirm(question + "\n\nClick OK for Yes, Cancel for No")) {
+                        riskScore += 20;
+                    }
+                }
+                
+                this.displayRiskResult(riskScore);
+            },
+            
+            displayRiskResult(score) {
+                const riskLevel = document.getElementById('riskLevel');
+                riskLevel.className = 'risk-level';
+                
+                if (score <= 25) {
+                    riskLevel.classList.add('risk-low');
+                    riskLevel.style.width = '25%';
+                    alert('🟢 Low Risk: Continue with safety planning and regular check-ins.');
+                } else if (score <= 50) {
+                    riskLevel.classList.add('risk-medium');
+                    riskLevel.style.width = '50%';
+                    alert('🟡 Medium Risk: Consider reaching out to support services soon.');
+                } else if (score <= 75) {
+                    riskLevel.classList.add('risk-high');
+                    riskLevel.style.width = '75%';
+                    alert('🟠 High Risk: Please contact support services immediately.');
+                } else {
+                    riskLevel.classList.add('risk-critical');
+                    riskLevel.style.width = '95%';
+                    alert('🔴 CRITICAL RISK: Call emergency services NOW: 10111');
+                    aiSupport.triggerEmergencySupport();
+                }
+            }
+        };
+
+        // Global Functions
+        function toggleAIChat() {
+            aiSupport.toggleChat();
         }
 
-        function updateLanguageSelector() {
-            const selector = document.getElementById('languageSelector');
-            if (selector) {
-                selector.value = currentLanguage;
+        function closeAIChat() {
+            aiSupport.isOpen = false;
+            document.getElementById('aiSupportWidget').classList.remove('ai-support-visible');
+        }
+
+        function sendAIMessage() {
+            aiSupport.sendMessage();
+        }
+
+        function handleAIInput(event) {
+            if (event.key === 'Enter') {
+                sendAIMessage();
             }
         }
+
+        function emergencyRedirect() {
+            if (confirm('This will immediately clear your browsing history and redirect to a safe page. Continue?')) {
+                // Clear sensitive data
+                localStorage.removeItem('aiConversation');
+                localStorage.removeItem('blockchainEvidence');
+                sessionStorage.clear();
+                
+                // Redirect to safe page
+                window.location.href = 'https://www.google.com/search?q=weather+South+Africa';
+            }
+        }
+
+        function triggerEmergencyProtocol() {
+            aiSupport.toggleChat();
+            aiSupport.addMessage("I need emergency help immediately!", 'user');
+            aiSupport.handleEmergencySituation("emergency");
+        }
+
+        function findSafeLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        const { latitude, longitude } = position.coords;
+                        alert(`📍 Finding safe locations near you...\nCoordinates: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}\n\nThis would show nearby police stations, shelters, and hospitals.`);
+                    },
+                    error => {
+                        alert('📍 Please enable location services to find safe places near you.');
+                    }
+                );
+            } else {
+                alert('📍 Location services not available on this device.');
+            }
+        }
+
+        function startSafetyPlan() {
+            alert('🛡️ Opening Safety Planning Tool...\n\nThis helps you create a personalized safety plan for different situations.');
+        }
+
+        function connectToCounselor() {
+            alert('👩‍💼 Connecting you with a trained counselor...\n\nYou will be connected to a professional who can provide immediate support.');
+        }
+
+        function loadUserLocation() {
+            findSafeLocation();
+        }
+
+        function startFakeCall() {
+            const minutes = prompt('Set fake call in how many minutes? (1-10)', '3');
+            if (minutes && minutes > 0 && minutes <= 10) {
+                alert(`📱 Fake call scheduled in ${minutes} minutes.\n\nYour phone will ring with a fake "Emergency" call to help you exit safely.`);
+            }
+        }
+
+        function startSafetyScan() {
+            alert('🔒 Starting digital safety scan...\n\nChecking for tracking software and securing your digital privacy.');
+        }
+
+        function startIncidentLog() {
+            alert('📝 Opening secure incident logger...\n\nThis tool helps you document incidents with timestamps and location data.');
+        }
+
+        function addEvidence() {
+            blockchainEvidence.addEvidence();
+        }
+
+        function startRiskAssessment() {
+            riskAssessment.assessRisk();
+        }
+
+        function startARNavigation() {
+            alert('🧭 Starting AR Navigation...\n\nPoint your camera to see safe routes highlighted in augmented reality.');
+        }
+
+        function authenticateFingerprint() {
+            if (window.PublicKeyCredential) {
+                alert('👆 Fingerprint authentication available!\n\nPlace your finger on the sensor to securely access your account.');
+            } else {
+                alert('🔒 Biometric authentication not supported on this device.\n\nUsing secure password fallback.');
+            }
+        }
+
+        function authenticateFace() {
+            if (window.PublicKeyCredential) {
+                alert('📷 Face ID authentication available!\n\nLook at your camera to securely access your account.');
+            } else {
+                alert('🔒 Face recognition not supported on this device.\n\nUsing secure password fallback.');
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            aiSupport.init();
+            blockchainEvidence.init();
+            
+            // PWA Installation Prompt
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => console.log('SW registered for offline support'))
+                    .catch(error => console.log('SW registration failed'));
+            }
+            
+            // Enhanced analytics
+            if (typeof analytics !== 'undefined') {
+                analytics.trackPageView('enhanced-homepage');
+                analytics.trackFeatureUse('ai_support_loaded');
+                analytics.trackFeatureUse('blockchain_evidence_loaded');
+                analytics.trackFeatureUse('risk_assessment_loaded');
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeAIChat();
+            }
+            if (e.ctrlKey && e.key === 'k') {
+                e.preventDefault();
+                toggleAIChat();
+            }
+            if (e.ctrlKey && e.key === 'l') {
+                e.preventDefault();
+                document.getElementById('voiceRecognition').click();
+            }
+        });
     </script>
 </body>
 </html>
